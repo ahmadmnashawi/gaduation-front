@@ -1,26 +1,18 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduationproject/modules/profile/controller/profile_controller.dart';
-import 'package:graduationproject/modules/profile/view/profile.dart';
 
-import '../../genereted/sheard/util.dart';
+import '../../../api/ui/util.dart';
 import '../../sheard/text_feild_GP.dart';
 
 class EditProfileview extends GetResponsiveView<ProfileController> {
-  final _formfield = GlobalKey<FormState>();
-  final emailcontroller = TextEditingController();
-  final passcontroller = TextEditingController();
-  Uint8List? image;
-
   EditProfileview({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
       child: Form(
-        key: _formfield,
+        key: controller.formfield,
         child: Column(children: [
           Row(
             children: [
@@ -59,13 +51,13 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                 style: TextStyle(
                     color: Colors.grey[400], fontWeight: FontWeight.bold),
               )),
-          // Center(
-          //     child: Column(
-          //   children: [
-          //     const SizedBox(width: 170),
-          //     Material(child: Imageprofile(controller)),
-          //   ],
-          // )),
+          Center(
+              child: Column(
+            children: [
+              const SizedBox(width: 170),
+              Material(child: Imageprofile(controller)),
+            ],
+          )),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: SizedBox(
@@ -82,10 +74,10 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                     return null;
                   }
                 },
-                dufaltText: controller.user.value.Name ?? '',
+                dufaltText: controller.userprofile.value.Name ?? '',
                 prefIcon: Icons.person_outline,
                 onChanged: (val) {
-                  controller.user.value.Name = val;
+                  controller.userprofile.value.Name = val;
                 },
               ),
             ),
@@ -106,10 +98,10 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                     return null;
                   }
                 },
-                dufaltText: controller.user.value.UserName ?? '',
+                dufaltText: controller.userprofile.value.UserName ?? '',
                 prefIcon: Icons.person_outline,
                 onChanged: (val) {
-                  controller.user.value.UserName = val;
+                  controller.userprofile.value.UserName = val;
                 },
               ),
             ),
@@ -130,10 +122,10 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                     return null;
                   }
                 },
-                dufaltText: controller.user.value.Age ?? '',
+                dufaltText: controller.userprofile.value.Age ?? '',
                 prefIcon: Icons.numbers,
                 onChanged: (val) {
-                  controller.user.value.Age = val;
+                  controller.userprofile.value.Age = val;
                 },
               ),
             ),
@@ -157,10 +149,10 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                   }
                   return null;
                 },
-                dufaltText: controller.user.value.Email ?? '',
+                dufaltText: controller.userprofile.value.Email ?? '',
                 prefIcon: Icons.email,
                 onChanged: (val) {
-                  controller.user.value.Email = val;
+                  controller.userprofile.value.Email = val;
                 },
               ),
             ),
@@ -177,15 +169,16 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "EnterPassword".tr;
-                      } else if (passcontroller.text.length < 6) {
+                      } else if (controller.passcontroller.text.length < 6) {
                         return "PasswordLengthShouldBeMoreThan6Charachters".tr;
                       }
                       return null;
                     },
-                    dufaltText: controller.user.value.Password ?? '',
+                    dufaltText: controller.userprofile.value.Password ?? '',
                     prefIcon: Icons.lock,
                     onChanged: (val) {
-                      controller.user.value.Password = passcontroller.text;
+                      controller.userprofile.value.Password =
+                          controller.passcontroller.text;
                     },
                   ),
                 ),
@@ -206,10 +199,10 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                     return null;
                   }
                 },
-                dufaltText: controller.user.value.Study ?? '',
+                dufaltText: controller.userprofile.value.Study ?? '',
                 prefIcon: Icons.cast_for_education,
                 onChanged: (val) {
-                  controller.user.value.Study = val;
+                  controller.userprofile.value.Study = val;
                 },
               ),
             ),
@@ -230,10 +223,10 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                     return null;
                   }
                 },
-                dufaltText: controller.user.value.Address ?? '',
+                dufaltText: controller.userprofile.value.Address ?? '',
                 prefIcon: Icons.location_city,
                 onChanged: (val) {
-                  controller.user.value.Address = val;
+                  controller.userprofile.value.Address = val;
                 },
               ),
             ),
@@ -255,32 +248,35 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                       return null;
                     }
                   },
-                  dufaltText: controller.user.value.Paypal ?? '',
+                  dufaltText: controller.userprofile.value.Paypal ?? '',
                   prefIcon: Icons.money,
                   onChanged: (val) {
-                    controller.user.value.Paypal = val;
+                    controller.userprofile.value.Paypal = val;
                   },
                 )),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: () {
-                controller.Updateprofile();
-                Get.snackbar(
-                  'Finish'.tr,
-                  "UpdatingValues".tr,
-                  icon: const Icon(Icons.person, color: Colors.white),
-                  snackPosition: SnackPosition.BOTTOM,
-                  backgroundColor: const Color.fromARGB(255, 246, 123, 127),
-                  borderRadius: 20,
-                  margin: const EdgeInsets.all(15),
-                  colorText: Colors.white,
-                  duration: const Duration(seconds: 4),
-                  isDismissible: true,
-                  forwardAnimationCurve: Curves.easeOutBack,
-                );
-                Get.to(Profileview());
+              onPressed: () async {
+                var result = await controller.Updateprofile();
+                if (result) {
+                  Get.back();
+                  Get.snackbar(
+                    'Finish'.tr,
+                    "UpdatingValues".tr,
+                    icon: const Icon(Icons.person, color: Colors.white),
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: const Color.fromARGB(255, 246, 123, 127),
+                    borderRadius: 20,
+                    margin: const EdgeInsets.all(15),
+                    colorText: Colors.white,
+                    duration: const Duration(seconds: 4),
+                    isDismissible: true,
+                    forwardAnimationCurve: Curves.easeOutBack,
+                  );
+                }
+
                 // if (_formfield.currentState!.validate()) {
                 //   print("Data Added Successfully");
 
@@ -394,14 +390,15 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                 child: controller.stringPickImage.value.isNotEmpty
                     ? Utility.imageFromBase64String(
                         controller.stringPickImage.value, 200, 200)
-                    : controller.user.value.Image == null
+                    : controller.userprofile.value.Image == null
                         ? Image.asset(
                             'assets/images/boy.gif',
                             width: 200,
                             height: 200,
                           )
                         : Utility.imageFromBase64String(
-                            Utility.base64String(controller.user.value.Image!),
+                            Utility.base64String(
+                                controller.userprofile.value.Image!),
                             200,
                             200),
               )),
@@ -453,6 +450,7 @@ void openBottomSheet(ProfileController controller) {
                     mini: true,
                     onPressed: () {
                       controller.pickImageFun();
+                      Get.back();
                     },
                     child: const Icon(Icons.image),
                   ),

@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:graduationproject/api/ui/util.dart';
 import 'package:graduationproject/app/model/post.dart';
 import 'package:graduationproject/modules/icons/Icon.dart';
 import 'package:graduationproject/modules/menu/controller/menu.dart';
@@ -43,11 +44,10 @@ class postPage extends GetResponsiveView<HomeController> {
                 children: controller.postDto
                     .map((element) => post(
                           element.UserName.toString(),
-                          element.post!.Description.toString(),
                           element.UserImage,
-                          element.post!.Image.toString(),
                           element.GroupName,
-                          element.post!.Id!,
+                          element.GroupImage,
+                          element.GroupImageOnline,
                           element.Interaction!,
                           element.post!,
                         ))
@@ -63,8 +63,14 @@ class postPage extends GetResponsiveView<HomeController> {
     );
   }
 
-  Widget post(String title, String txt, Uint8List? url, String post,
-      String? GroupName, int idpost, bool interaction, Post posts) {
+  Widget post(
+      String title,
+      Uint8List? url,
+      String? GroupName,
+      Uint8List? groupImage,
+      String? groupImageOnline,
+      bool interaction,
+      Post posts) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
       child: Center(
@@ -83,7 +89,7 @@ class postPage extends GetResponsiveView<HomeController> {
               children: [
                 Row(
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(8.0),
                       child: GFAvatar(
                         size: 20,
@@ -113,11 +119,12 @@ class postPage extends GetResponsiveView<HomeController> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GroupName != null
-                          ? const GFAvatar(
-                              size: 20,
-                              backgroundImage:
-                                  AssetImage('assets/images/2.png'),
-                            )
+                          ? Utility.getImage(
+                              base64StringPh: groupImage,
+                              link: groupImageOnline,
+                              isStratch: false,
+                              hight: 30,
+                              width: 30)
                           : Container(),
                     ),
                     GroupName != null ? Text(GroupName) : const Text('')
@@ -126,13 +133,16 @@ class postPage extends GetResponsiveView<HomeController> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20), // Image border
                   child: SizedBox(
-                    width: 400,
+                    width: Get.width,
                     height: 150,
                     child: SizedBox.fromSize(
                       size: const Size.fromRadius(48), // Image radius
-                      child: url != null
-                          ? Image.memory(url, fit: BoxFit.cover)
-                          : Image.asset('assets/images/2.png'),
+                      child: Utility.getImage(
+                          base64StringPh: posts.Image,
+                          link: posts.imageOnline,
+                          isStratch: false,
+                          hight: Get.height / 4,
+                          width: Get.width),
                     ),
                   ),
                 ),
@@ -141,7 +151,7 @@ class postPage extends GetResponsiveView<HomeController> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        txt,
+                        posts.Description ?? '',
                         style: const TextStyle(fontSize: 16),
                       ),
                     ),
@@ -167,10 +177,10 @@ class postPage extends GetResponsiveView<HomeController> {
                       ),
                       ElevatedButton(
                         onPressed: () async {
-                          controller.IdPost != idpost;
+                          controller.IdPost != posts.Id;
                           controller.GetComments();
                           Get.dialog(CommentPageView(
-                            idPost: idpost,
+                            idPost: posts.Id,
                           ));
                         },
                         style: ElevatedButton.styleFrom(

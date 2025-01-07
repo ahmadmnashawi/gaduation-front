@@ -5,9 +5,6 @@ import '../../timer/view/timer.dart';
 import '../controller/packet_controller.dart';
 
 class PacketPageView extends GetResponsiveView<PacketController> {
-  @override
-  PacketController controller = Get.put(PacketController());
-
   PacketPageView({super.key});
   //PacketPageView({super.key});
 
@@ -33,7 +30,6 @@ class PacketPageView extends GetResponsiveView<PacketController> {
                     ),
                   ),
                 ),
-                // const SizedBox(),
                 Row(
                   children: [
                     TimerPageView(),
@@ -49,9 +45,9 @@ class PacketPageView extends GetResponsiveView<PacketController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                 Text(
+                                Text(
                                   'CorrectAnswerr'.tr,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       color: Colors.white,
                                       decoration: TextDecoration.none,
                                       fontSize: 18),
@@ -72,39 +68,41 @@ class PacketPageView extends GetResponsiveView<PacketController> {
                   ],
                 ),
                 TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (controller.cardsSucc.length ==
                           controller.listpacket.length) {
                         if (controller.numberlevel.value == 1) {
+                          await controller.saveScore(4, 1);
                           controller.secandLevel();
                           controller.numberlevel.value = 2;
                         } else if (controller.numberlevel.value == 2) {
+                          await controller.saveScore(8, 2);
                           controller.therdLevel();
                           controller.numberlevel.value = 3;
                         } else if (controller.numberlevel.value == 3) {
+                          await controller.saveScore(12, 3);
                           Get.defaultDialog(
                             title: 'Congratulations'.tr,
                             middleText: 'youpass'.tr,
                           );
                         }
                       } else {
-                        Get.defaultDialog(
-                          middleText: 'yousho'.tr,
-                        );
+                        Get.defaultDialog(middleText: 'yousho'.tr);
                       }
                     },
-                    child:  Text('NEXTLevel'.tr))
+                    child: Text('NEXTLevel'.tr))
               ],
             ),
             Obx(() => controller.isMessage.value
                 ? Container(
                     color: Colors.green.shade300,
-                    child:  Center(
+                    child: Center(
                       child: Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(8.0),
                         child: Text(
                           'Congratulations'.tr,
-                          style: TextStyle(fontSize: 16, color: Colors.white),
+                          style: const TextStyle(
+                              fontSize: 16, color: Colors.white),
                         ),
                       ),
                     ),

@@ -5,7 +5,7 @@ import 'package:graduationproject/modules/sheard/auth_service.dart';
 import 'package:graduationproject/routes/app_pages.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../genereted/sheard/util.dart';
+import '../../../api/ui/util.dart';
 import '../data/signup_repository.dart';
 
 class SignUpController extends GetxController {

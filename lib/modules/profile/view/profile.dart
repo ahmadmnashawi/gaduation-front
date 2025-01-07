@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:graduationproject/modules/profile/controller/profile_controller.dart';
-import 'package:graduationproject/modules/profile/view/editpost.dart';
 
+import '../../../api/ui/util.dart';
 import '../../../app/model/group.dart';
 import '../../../app/model/post.dart';
 import '../../../app/model/user.dart';
 import '../../../app/model/user_Group.dart';
-import '../../genereted/sheard/util.dart';
+import '../../sheard/post_page.dart';
 import 'edit_profile.dart';
 
 class Profileview extends GetResponsiveView<ProfileController> {
@@ -31,13 +31,26 @@ class Profileview extends GetResponsiveView<ProfileController> {
                     border: Border.all(color: Colors.white, width: 2)),
                 height: 150,
                 width: 150,
-                child: const Align(
-                  alignment: Alignment.topLeft,
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/boy.gif'),
-                    radius: 110,
-                  ),
-                ),
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Center(
+                        child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: controller.stringPickImage.value.isEmpty
+                          ? controller.userprofile.value.Image == null
+                              ? Image.asset(
+                                  'assets/images/boy.gif',
+                                  width: 200,
+                                  height: 200,
+                                )
+                              : Utility.imageFromBase64String(
+                                  Utility.base64String(
+                                      controller.userprofile.value.Image!),
+                                  200,
+                                  200)
+                          : Utility.imageFromBase64String(
+                              controller.stringPickImage.value, 200, 200),
+                    ))),
               ),
             ),
             Row(
@@ -70,7 +83,8 @@ class Profileview extends GetResponsiveView<ProfileController> {
                         ElevatedButton(
                           onPressed: () {
                             ///////////////////////////////Here Update profile
-                            Get.to(EditProfileview());
+                            Get.dialog(EditProfileview());
+
                             // Get.rootDelegate.toNamed(Routes.editProfile);
                           },
                           style: ElevatedButton.styleFrom(
@@ -344,11 +358,10 @@ class Profileview extends GetResponsiveView<ProfileController> {
                     child: Column(
                         children: controller.Listuserpost.map((element) => post(
                             element.UserName.toString(),
-                            element.post!.Description.toString(),
                             element.UserImage,
-                            element.post!.Image.toString(),
+                            element.GroupImage,
+                            element.GroupImageOnline,
                             element.GroupName,
-                            element.post!.Id!,
                             element.Interaction!,
                             element.post!)).toList()),
                   )),
@@ -362,8 +375,14 @@ class Profileview extends GetResponsiveView<ProfileController> {
     );
   }
 
-  Widget post(String title, String txt, Uint8List? url, String post,
-      String? GroupName, int idpost, bool interaction, Post posts) {
+  Widget post(
+      String title,
+      Uint8List? url,
+      Uint8List? groupImage,
+      String? groupImageOnline,
+      String? GroupName,
+      bool interaction,
+      Post posts) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
       child: Center(
@@ -412,11 +431,12 @@ class Profileview extends GetResponsiveView<ProfileController> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: GroupName != null
-                          ? const GFAvatar(
-                              size: 20,
-                              backgroundImage:
-                                  AssetImage('assets/images/2.png'),
-                            )
+                          ? Utility.getImage(
+                              base64StringPh: groupImage,
+                              link: groupImageOnline,
+                              isStratch: false,
+                              hight: 30,
+                              width: 30)
                           : Container(),
                     ),
                     GroupName != null ? Text(GroupName) : const Text(''),
@@ -427,6 +447,11 @@ class Profileview extends GetResponsiveView<ProfileController> {
                           IconButton(
                               onPressed: () {
                                 controller.postidnew.value = posts;
+                                controller.selectContent.value =
+                                    controller.Contents.where((e) =>
+                                        e.Id ==
+                                        controller
+                                            .postidnew.value.IdContent).first;
                                 Get.dialog(Align(
                                   alignment: Alignment.center,
                                   child: Container(
@@ -459,7 +484,20 @@ class Profileview extends GetResponsiveView<ProfileController> {
                                             ),
                                           )),
                                           Container(
-                                            child: EditPostview(),
+                                            child: PostPage(
+                                              contents: controller.Contents,
+                                              selectContent:
+                                                  controller.selectContent,
+                                              stringPickImage:
+                                                  controller.stringPickImage,
+                                              post: controller.postidnew,
+                                              onSave: () async {
+                                                await controller.UpdatePost();
+                                              },
+                                              pickImage: () {
+                                                controller.pickImage();
+                                              },
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -474,51 +512,55 @@ class Profileview extends GetResponsiveView<ProfileController> {
                               )),
                           IconButton(
                               onPressed: () {
-                                Get.dialog(Align(
-                                  child: Container(
-                                    height: 200,
-                                    width: 200,
-                                    color: Colors.white,
-                                    // decoration: BoxDecoration(
-                                    //     borderRadius: BorderRadius.circular(12),
-                                    //     border: Border.all(
-                                    //         color: const Color.fromARGB(
-                                    //             255, 42, 42, 114),
-                                    //         width: 2)),
-                                    child: Column(
-                                      children: [
-                                        Center(
-                                          child: Text(
-                                            'AreSureToRemove?'.tr,
-                                            style: const TextStyle(
-                                              color: Color.fromARGB(
-                                                  255, 42, 42, 114),
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
+                                Get.dialog(Material(
+                                  child: Align(
+                                    child: Container(
+                                      height: 200,
+                                      width: 200,
+                                      color: Colors.white,
+                                      // decoration: BoxDecoration(
+                                      //     borderRadius: BorderRadius.circular(12),
+                                      //     border: Border.all(
+                                      //         color: const Color.fromARGB(
+                                      //             255, 42, 42, 114),
+                                      //         width: 2)),
+                                      child: Column(
+                                        children: [
+                                          Center(
+                                            child: Text(
+                                              'AreSureToRemove?'.tr,
+                                              style: const TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 42, 42, 114),
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            TextButton(
-                                                onPressed: () {
-                                                  controller.DeletPost(posts);
-                                                },
-                                                child: Text(
-                                                  'Yes'.tr,
-                                                )),
-                                            TextButton(
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
-                                                child: Text(
-                                                  'No'.tr,
-                                                ))
-                                          ],
-                                        )
-                                      ],
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              TextButton(
+                                                  onPressed: () async {
+                                                    await controller.DeletPost(
+                                                        posts.Id!);
+                                                    Get.back();
+                                                  },
+                                                  child: Text(
+                                                    'Yes'.tr,
+                                                  )),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Get.back();
+                                                  },
+                                                  child: Text(
+                                                    'No'.tr,
+                                                  ))
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ));
@@ -539,17 +581,19 @@ class Profileview extends GetResponsiveView<ProfileController> {
                     width: 400,
                     height: 150,
                     child: SizedBox.fromSize(
-                      size: const Size.fromRadius(48), // Image radius
-                      child: url != null
-                          ? Image.memory(url, fit: BoxFit.cover)
-                          : Image.asset('assets/images/2.png'),
-                    ),
+                        size: const Size.fromRadius(48), // Image radius
+                        child: Utility.getImage(
+                            base64StringPh: posts.Image,
+                            link: posts.imageOnline,
+                            isStratch: false,
+                            hight: Get.height / 4,
+                            width: Get.width)),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    txt,
+                    posts.Description ?? '',
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
@@ -657,8 +701,8 @@ class Profileview extends GetResponsiveView<ProfileController> {
                   child: GFButton(
                     onPressed: () async {
                       await controller.DelefolloewdGroup(UserGroup(
-                          IdUser: controller.user.value.Id, IdGroup: group.Id));
-                      await controller.GetuserGroup();
+                          IdUser: controller.userprofile.value.Id,
+                          IdGroup: group.Id));
                     },
                     text: "remove".tr,
                     textStyle: const TextStyle(color: Colors.black54),

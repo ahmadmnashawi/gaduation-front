@@ -6,30 +6,54 @@ import '../../../../../sheard/auth_service.dart';
 import '../../../../controller/menu_game_controller.dart';
 
 class LetterController extends GetxController {
-  var resulting = 4.obs;
-  var resulting3 = 3.obs;
-  var resulting1 = 5.obs;
-  var resulting2 = 4.obs;
-  var resulting5 = 5.obs;
-  var resulting33 = 4.obs;
-  var resulting9 = 9.obs;
-  var resulting55 = 4.obs;
-  var resulting8 = 8.obs;
-  var correct = 0.obs;
-  var score = 0.obs;
-  final text =
-      'In this game a group of letters will appear and all the words that can be formed from these letters must be found';
   Timer? _timer;
-  int remanningsecond = 1;
+  int remainingSecond = 1;
   final widget = MenuGameController();
   final time = '00.00'.obs;
   var letters = <String>[''].obs;
+  final game1Level = 1.obs;
+  final empty = [].obs;
   final auth = Get.find<AuthService>();
-  @override
-  void onInit() {
-    super.onInit();
-    score.value = 0;
-  }
+  final wordLevel1 = [
+    ["شبع", "بشع", "عشب", "شعب"],
+    ['قالب', "قلاب", "اقبل", 'قابل'],
+    ['ملح', "لحم", "حمل", "حلم", "محل"],
+  ].obs;
+  final wordLevel2 = [
+    ["عاقب", "عقاب", "بقاع"],
+    ["مودع", "موعد", "عمود", "دموع"],
+    ["مرج", "رجم", "جمر", "جرم"],
+  ].obs;
+  final wordLevel3 = [
+    ["مضغ", "غرض", "غمر", "مرض", "ضمر"],
+    [
+      "بحر",
+      "حرم",
+      "حرب",
+      "حبر",
+      "رحم",
+      "رحب",
+      "مربح",
+      "رمح",
+      "ربح",
+    ],
+    ["روح", "حور", "حرج", "جوارح", "جوار", "جرح", "حجر"],
+  ].obs;
+  final letterLevel1 = [
+    ['ع', 'ب', 'ش'],
+    ['ل', 'ب', 'ا', 'ق'],
+    ['ل', 'ح', 'م']
+  ].obs;
+  final letterLevel2 = [
+    ['ع', 'ق', 'ا', 'ب'],
+    ['ع', 'و', 'د', 'م'],
+    ['ج', 'م', 'ر']
+  ].obs;
+  final letterLevel3 = [
+    ['ر', 'ض', 'غ', 'م'],
+    ['ر', 'ح', 'ب', 'م'],
+    ['ر', 'ح', 'و', 'ج', 'ا']
+  ].obs;
 
   @override
   void onClose() {
@@ -37,30 +61,46 @@ class LetterController extends GetxController {
       _timer!.cancel();
     }
     super.onClose();
+    // var guser =
+    //     auth.getGameUser()!.where((element) => element.IdGame == 1).first;
+    // guser.Score = score.value;
+    // auth.updateUserGame(guser);
+  }
+
+  Future<void> saveScore(int score, int level) async {
     var guser =
         auth.getGameUser()!.where((element) => element.IdGame == 1).first;
-    guser.Score = score.value;
-    auth.updateUserGame(guser);
+
+    guser.Score = score;
+    guser.userLevel = level.toString();
+    var result = await auth.updateUserGame(guser);
+    if (result) {
+      await Get.find<MenuGameController>().getAllGame();
+    }
   }
 
-  @override
-  void onReady() {
-    _startimer(50);
-    super.onReady();
+  void initTime() {
+    _starTimer(50);
   }
 
-  void _startimer(int seconds) {
+  void initLetter() {
+    initTime();
+    letters.clear();
+    empty.clear();
+  }
+
+  void _starTimer(int seconds) {
     const duration = Duration(seconds: 1);
-    remanningsecond = seconds;
+    remainingSecond = seconds;
     _timer = Timer.periodic(duration, (Timer timer) {
-      if (remanningsecond == 0) {
+      if (remainingSecond == 0) {
         timer.cancel();
       } else {
-        int minutes = (remanningsecond ~/ 60);
-        int seconds = (remanningsecond % 60);
+        int minutes = (remainingSecond ~/ 60);
+        int seconds = (remainingSecond % 60);
         time.value =
             '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
-        remanningsecond--;
+        remainingSecond--;
       }
     });
   }

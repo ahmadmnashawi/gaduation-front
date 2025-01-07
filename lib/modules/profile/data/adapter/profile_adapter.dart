@@ -14,10 +14,10 @@ abstract class IProfileRepository {
   Future<bool> AddComment(Comments comments);
   Future<List<Content>> GetContent();
   Future<bool> UpdatePost(int idpost, Post post);
-  Future<bool> DeletePost(Post post);
+  Future<bool> DeletePost(int idPost);
   Future<List<User>> GetFollow(int iduser);
   Future<List<User>> GetFollowed(int iduser);
-  Future<bool>DelFollowed(int iduser,int iddelete);
+  Future<bool> DelFollowed(int iduser, int iddelete);
   Future<List<Group>> GetUserGroups(int iduser);
   Future<bool> UpdateProfile(User user, int iduser);
 

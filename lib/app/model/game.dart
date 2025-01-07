@@ -5,10 +5,12 @@ class Game {
   String? GameName;
   String? GameLevel;
   Uint8List? Image;
-  Game({this.Id, this.GameName, this.GameLevel, this.Image});
+  String? imageOnline;
+  Game({this.Id, this.GameName, this.imageOnline, this.GameLevel, this.Image});
 
   Game.fromJson(Map<String, dynamic> json) {
     Id = json['id'];
+    imageOnline = json['imageOnline'];
     GameName = json['gameName'];
     GameLevel = json['gameLevel'];
     Image = json['Image'];

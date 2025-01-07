@@ -15,14 +15,22 @@ import '../view/all_games/word_game/view/define_word.dart';
 
 class MenuGameController extends GetxController
     with GetSingleTickerProviderStateMixin {
-  late AnimationController ancontroller;
+  late AnimationController animationController;
+  final textMath =
+      'In this game, a set of arithmetic operations will appear, and you must choose the correct answer';
+  final textWordGame =
+      'In this game a picture will appear and you must find out all the words that can apply to the picture';
+  final textLetter =
+      'In this game a group of letters will appear and all the words that can be formed from these letters must be found';
+  final textFoucs =
+      'In this game, a picture appears with a question that needs to be focused before answering';
   final text =
       'In this interface, you will display all the existing games, where each game has three levels, and each level has three stages';
   late Animation<double> animation;
   static MenuGameController get find => Get.find();
   var level = ''.obs;
   var numberlevel = 0.obs;
-  final ListGameUser = <GameDto>[].obs;
+  final listGameUser = <GameDto>[].obs;
   final gamRepo = GameRepository();
   RxBool animate = false.obs;
   final auth = Get.find<AuthService>();
@@ -30,13 +38,15 @@ class MenuGameController extends GetxController
   final updateUserGame = GameUser().obs;
   final selectedgame = Game().obs;
   final idnowGameuser = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
-    ancontroller =
+    animationController =
         AnimationController(duration: const Duration(seconds: 5), vsync: this);
-    animation = CurvedAnimation(parent: ancontroller, curve: Curves.linear);
-    ancontroller.repeat();
+    animation =
+        CurvedAnimation(parent: animationController, curve: Curves.linear);
+    animationController.repeat();
     GetUser();
     getAllGame();
   }
@@ -52,6 +62,7 @@ class MenuGameController extends GetxController
         if (int.parse(levaeGame!) > 1) {
           Get.dialog(Material(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(8.0),
@@ -89,33 +100,36 @@ class MenuGameController extends GetxController
         break;
       case 'Second Level':
         if (int.parse(levaeGame!) > 2) {
-          Get.dialog(Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('You Passed Level12 Want to rePaly?'),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          numberlevel.value = 2;
-                          updateUserGame.value.userLevel = 'Second Level';
-                          Get.back();
-                          Get.to(getGamenow(id: selectedgame.value.Id!));
-                        },
-                        child: Text('Yes'.tr)),
-                    TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: Text('No'.tr)),
-                  ],
+          Get.dialog(Material(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('You Passed Level12 Want to rePaly?'),
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            numberlevel.value = 2;
+                            updateUserGame.value.userLevel = 'Second Level';
+                            Get.back();
+                            Get.to(getGamenow(id: selectedgame.value.Id!));
+                          },
+                          child: Text('Yes'.tr)),
+                      TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: Text('No'.tr)),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ));
         } else {
           numberlevel.value = 2;
@@ -127,34 +141,37 @@ class MenuGameController extends GetxController
         break;
       default:
         if (int.parse(levaeGame!) > 3) {
-          Get.dialog(Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('You Passed Level3 Want to rePaly?'),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          numberlevel.value = 3;
-                          updateUserGame.value.userLevel = 'Final Level';
-
-                          Get.to(getGamenow(id: selectedgame.value.Id!));
-                          Get.back();
-                        },
-                        child: Text('Yes'.tr)),
-                    TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: Text('No'.tr)),
-                  ],
+          Get.dialog(Material(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('You Passed Level3 Want to rePaly?'),
                 ),
-              )
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      TextButton(
+                          onPressed: () {
+                            numberlevel.value = 3;
+                            updateUserGame.value.userLevel = 'Final Level';
+
+                            Get.to(getGamenow(id: selectedgame.value.Id!));
+                            Get.back();
+                          },
+                          child: Text('Yes'.tr)),
+                      TextButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          child: Text('No'.tr)),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ));
         } else {
           numberlevel.value = 3;
@@ -170,9 +187,14 @@ class MenuGameController extends GetxController
     updateUserGame.value.user = user.value;
   }
 
+  Future<GameDto> getUserLevel(int gameId) async {
+    final result = await gamRepo.getUserGameLevels(user.value.Id!, gameId);
+    return result;
+  }
+
   Future<void> getAllGame() async {
     var data = await gamRepo.Getgame(user.value.Id!);
-    ListGameUser.assignAll(data);
+    listGameUser.assignAll(data);
   }
 
   Future<void> UpdateGame() async {

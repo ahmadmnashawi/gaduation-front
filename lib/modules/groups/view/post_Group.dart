@@ -129,7 +129,7 @@ class PostGrpoup extends GetResponsiveView<GroupController> {
                                               ),
                                             )),
                                       ),
-                                   Padding(
+                                      Padding(
                                         padding:
                                             EdgeInsets.fromLTRB(10, 8, 10, 10),
                                         child: Column(

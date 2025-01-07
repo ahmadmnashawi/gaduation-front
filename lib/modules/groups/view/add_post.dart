@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../genereted/sheard/util.dart';
+import '../../../api/ui/util.dart';
 import '../controller/group_controller.dart';
 
 class Addpostviewas extends GetResponsiveView<GroupController> {

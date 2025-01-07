@@ -9,18 +9,21 @@ class Group {
   int? IdContent;
   Content? content;
   Uint8List? Image;
+  String? imageOnline;
   bool? isDeleted;
   Group(
       {this.Id,
       this.Description,
       this.groupName,
       this.IdContent,
+      this.imageOnline,
       this.content,
       this.isDeleted,
       this.Image});
 
   Group.fromJson(Map<String, dynamic> json) {
     Id = json['id'];
+    imageOnline = json['imageOnline'];
     isDeleted = json['isDeleted'];
     groupName = json['groupName'];
     Description = json['description'];

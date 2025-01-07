@@ -65,11 +65,11 @@ class SplashGame extends GetResponsiveView<MenuGameController> {
                 child: Center(
                   child: GestureDetector(
                     onTap: () {
-                      controller.ancontroller.repeat();
+                      controller.animationController.repeat();
                     },
                     child: GFAnimation(
                       scaleAnimation: controller.animation,
-                      controller: controller.ancontroller,
+                      controller: controller.animationController,
                       type: GFAnimationType.scaleTransition,
                       child: Image.asset(
                         'assets/images/circ.png',

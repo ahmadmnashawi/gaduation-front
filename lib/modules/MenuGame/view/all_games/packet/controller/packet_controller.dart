@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:get/get.dart';
 
 import '../../../../../sheard/auth_service.dart';
+import '../../../../controller/menu_game_controller.dart';
 
 class PacketController extends GetxController {
   var reminning = 0.obs;
@@ -77,6 +78,18 @@ class PacketController extends GetxController {
       }
     }
     listpacket.shuffle(Random(10));
+  }
+
+  Future<void> saveScore(int score, int level) async {
+    var guser =
+        auth.getGameUser()!.where((element) => element.IdGame == 5).first;
+
+    guser.Score = score;
+    guser.userLevel = level.toString();
+    var result = await auth.updateUserGame(guser);
+    if (result) {
+      await Get.find<MenuGameController>().getAllGame();
+    }
   }
 }
 

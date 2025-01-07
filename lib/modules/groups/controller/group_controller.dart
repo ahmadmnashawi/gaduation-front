@@ -5,6 +5,7 @@ import 'package:graduationproject/app/model/user_Group.dart';
 import 'package:graduationproject/modules/profile/data/profile_repositry.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../api/ui/util.dart';
 import '../../../app/model/accessiblity_logIn.dart';
 import '../../../app/model/comment.dart';
 import '../../../app/model/content.dart';
@@ -12,7 +13,7 @@ import '../../../app/model/group.dart';
 import '../../../app/model/post.dart';
 import '../../../app/model/postdto.dart';
 import '../../../app/model/userPost.dart';
-import '../../genereted/sheard/util.dart';
+
 import '../../sheard/auth_service.dart';
 import '../data/group_repository.dart';
 

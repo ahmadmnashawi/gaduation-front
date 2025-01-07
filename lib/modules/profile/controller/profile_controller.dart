@@ -1,5 +1,6 @@
-import 'dart:convert';
+import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduationproject/app/model/group.dart';
 import 'package:graduationproject/app/model/post.dart';
@@ -8,17 +9,18 @@ import 'package:graduationproject/modules/profile/data/profile_repositry.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../api/storage/storge_service.dart';
+import '../../../api/ui/util.dart';
 import '../../../app/model/comment.dart';
 import '../../../app/model/content.dart';
 import '../../../app/model/follow.dart';
 import '../../../app/model/postdto.dart';
 import '../../../app/model/user.dart';
 import '../../../app/model/userPost.dart';
-import '../../genereted/sheard/util.dart';
 import '../../sheard/auth_service.dart';
 
 class ProfileController extends GetxController {
   var click = false.obs;
+  final selectContent = Content().obs;
   var passtoggle = true.obs;
   final newcontent = Content().obs;
   final editpost = Post().obs;
@@ -30,7 +32,7 @@ class ProfileController extends GetxController {
   final UpdateUser = User().obs;
   final auth = Get.find<AuthService>();
   final followdelete = Follow().obs;
-  final user = User().obs;
+  // final user = User().obs;
   final ImagePicker imagepicker = ImagePicker();
   PickedFile? imagefile;
   var valuechoice = ''.obs;
@@ -55,6 +57,11 @@ class ProfileController extends GetxController {
   final interActive = [
     {0: true}
   ].obs;
+
+  final formfield = GlobalKey<FormState>();
+  final emailcontroller = TextEditingController();
+  final passcontroller = TextEditingController();
+  Uint8List? image;
   @override
   void onInit() {
     super.onInit();
@@ -64,7 +71,6 @@ class ProfileController extends GetxController {
   }
 
   Future<void> GetUser() async {
-    user.value = auth.getDataFromStorage()!;
     userprofile.value = auth.getDataFromStorage()!;
   }
 
@@ -84,9 +90,19 @@ class ProfileController extends GetxController {
   }
 
   Future<void> GetPostUser() async {
-    var data = await profileRepo.GetUserPost(user.value.Id!);
+    var data = await profileRepo.GetUserPost(userprofile.value.Id!);
 
     Listuserpost.assignAll(data);
+  }
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      stringPickImage.value = Utility.base64String(await image.readAsBytes());
+    } catch (e) {
+      print('Failed to pick image: $e');
+    }
   }
 
   // Future <void>UpduteUserInfo()async{
@@ -126,6 +142,7 @@ class ProfileController extends GetxController {
   //   }
   Future<void> GetInterActionUser(int idpost) async {
     var data = await profileRepo.InteractionUser(userpost.value, idpost);
+    print(data);
   }
 
   Future<void> GetAllComments(int idpost) async {
@@ -135,62 +152,90 @@ class ProfileController extends GetxController {
 
   Future<void> AddComment(int idpost) async {
     var data = await profileRepo.GetComments(idpost);
+    print(data);
   }
 
   Future<void> GetAllContent() async {
     var data = await profileRepo.GetContent();
     Contents.assignAll(data);
+    selectContent.value = Contents.first;
   }
 
   Future<void> UpdatePost() async {
-    await profileRepo.UpdatePost(postidnew.value.Id!, postidnew.value);
-    Get.back();
-    GetUser();
-    GetAllContent();
-    GetPostUser();
+    if (stringPickImage.value.isNotEmpty) {
+      postidnew.value.Image =
+          Utility.dataFromBase64String(stringPickImage.value);
+    }
+    var result =
+        await profileRepo.UpdatePost(postidnew.value.Id!, postidnew.value);
+    if (result) {
+      stringPickImage.value = '';
+      Get.back();
+      await GetUser();
+      await GetAllContent();
+      await GetPostUser();
+    }
   }
 
-  Future<void> DeletPost(Post post) async {
-    var data = await profileRepo.DeletePost(post);
-    GetUser();
-    GetAllContent();
-    GetPostUser();
+  Future<void> DeletPost(int idPost) async {
+    var data = await profileRepo.DeletePost(idPost);
+    if (data) {
+      await GetUser();
+      await GetAllContent();
+      await GetPostUser();
+    }
   }
 
   Future<void> Delefolloewd(int id) async {
-    var data = await profileRepo.DelFollowed(user.value.Id!, id);
-    GetUserFollow();
+    var data = await profileRepo.DelFollowed(userprofile.value.Id!, id);
+    if (data) {
+      GetUserFollow();
+    }
   }
 
-  Future<void> DelefolloewdGroup(UserGroup group) async {
+  Future<bool> DelefolloewdGroup(UserGroup group) async {
     var data = await profileRepo.DelFollowedGroup(group);
-    GetUserFollow();
+    if (data) {
+      await GetUserFollow();
+      await GetuserGroup();
+      Get.back();
+      return data;
+    }
+    return false;
   }
 
-  Future<void> Updateprofile() async {
-    var data = await profileRepo.UpdateProfile(user.value, user.value.Id!);
-    auth.stroge.deleteDataByKey(KeyData);
-    auth.stroge.saveData(KeyData, jsonDecode(user.toJson()));
-    user.value = auth.getDataFromStorage()!;
+  Future<bool> Updateprofile() async {
+    if (stringPickImage.value.isNotEmpty) {
+      userprofile.value.Image =
+          Utility.dataFromBase64String(stringPickImage.value);
+    }
+
+    var data = await profileRepo.UpdateProfile(
+        userprofile.value, userprofile.value.Id!);
+    if (data) {
+      auth.stroge.deleteDataByKey(KeyData);
+      await auth.logIn(userprofile.value.Email!, userprofile.value.Password!);
+    }
+    return data;
   }
 
   Future<void> GetUserFollow() async {
-    var data = await profileRepo.GetFollow(user.value.Id!);
+    var data = await profileRepo.GetFollow(userprofile.value.Id!);
     UserFollow.assignAll(data);
   }
 
   Future<void> GetFollowuser() async {
-    var data = await profileRepo.GetFollow(user.value.Id!);
+    var data = await profileRepo.GetFollow(userprofile.value.Id!);
     FollowUser.assignAll(data);
   }
 
   Future<void> GetuserGroup() async {
-    var data = await profileRepo.GetUserGroups(user.value.Id!);
+    var data = await profileRepo.GetUserGroups(userprofile.value.Id!);
     userfollowGroups.assignAll(data);
   }
 
   Future<void> Getusepost() async {
-    var data = await profileRepo.GetUserPost(user.value.Id!);
+    var data = await profileRepo.GetUserPost(userprofile.value.Id!);
     listpost.assignAll(data);
   }
 }

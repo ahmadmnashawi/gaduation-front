@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduationproject/api/ui/help_page.dart';
 import 'package:graduationproject/modules/groups/controller/group_controller.dart';
 import 'package:graduationproject/modules/groups/view/group.dart';
 
 import '../../../api/ui/search_textfeild.dart';
+import '../../../api/ui/util.dart';
 import '../../../app/model/group.dart';
-import '../../genereted/sheard/util.dart';
 
 class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
   ShowGroupPageView({super.key});
@@ -29,9 +30,9 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
                 ),
               ),
             ),
-             Text(
-              " al ".tr,
-              style: TextStyle(
+            Text(
+              "al".tr,
+              style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontFamily: "Pacifico",
@@ -41,7 +42,7 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
             const SizedBox(
               height: 8,
             ),
-             Padding(
+            Padding(
               padding: EdgeInsets.all(8.0),
               child: SizedBox(
                   width: 500,
@@ -61,84 +62,7 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
                         controller.allGroups.map((e) => cardgroup(e)).toList(),
                   ),
                 )),
-            Material(
-              child: Tooltip(
-                message: 'hl'.tr,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: IconButton(
-                        onPressed: () {
-                          Get.dialog(Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                    border:
-                                        Border.all(color: Colors.blueAccent)),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                       Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "el".tr,
-                                                style: TextStyle(
-                                                    fontSize: 25,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: "Pacifico",
-                                                    color: Color.fromARGB(
-                                                        255, 42, 42, 114),
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                            )),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10, 8, 10, 10),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              controller.textshowgroup,
-                                              textAlign: TextAlign.left,
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  decoration:
-                                                      TextDecoration.none,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black87),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ));
-                        },
-                        icon: const Icon(
-                          Icons.help_outline_outlined,
-                          size: 30,
-                          color: Color.fromARGB(255, 246, 123, 127),
-                        )),
-                  ),
-                ),
-              ),
-            )
+            HelpPage(title: controller.textshowgroup),
           ],
         ),
       ),
@@ -194,7 +118,7 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
                                             child: SingleChildScrollView(
                                                 child: Column(
                                               children: [
-                                                 Text(
+                                                Text(
                                                   "aresure".tr,
                                                   style: TextStyle(
                                                       fontSize: 20,
@@ -220,7 +144,7 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
                                                                   .delGroup(
                                                                       g.Id!);
                                                             },
-                                                            child:  Text(
+                                                            child: Text(
                                                               'mm'.tr,
                                                               style: TextStyle(
                                                                   color: Color
@@ -234,7 +158,7 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
                                                             onPressed: () {
                                                               Get.back();
                                                             },
-                                                            child:  Text(
+                                                            child: Text(
                                                               'nn'.tr,
                                                               style: TextStyle(
                                                                   color: Color

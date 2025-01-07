@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../genereted/sheard/util.dart';
+import '../../../api/ui/util.dart';
 import '../controller/signup.dart';
 
 class signupage extends GetResponsiveView<SignUpController> {

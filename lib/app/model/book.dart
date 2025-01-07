@@ -7,6 +7,7 @@ class Book {
   String? bookName;
   bool? IsDeleted;
   Uint8List? bookImage;
+  String? imageOnline;
   int? bookPrice;
   int? idBookType;
   BookType? bookType;
@@ -15,12 +16,14 @@ class Book {
       this.bookName,
       this.bookImage,
       this.bookPrice,
+      this.imageOnline,
       this.idBookType,
       this.bookType,
       this.IsDeleted});
 
   Book.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    imageOnline = json['imageOnline'];
     IsDeleted = json['IsDeleted'];
     bookName = json['bookName'];
     bookImage = json['bookImage'] == null

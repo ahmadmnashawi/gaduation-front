@@ -11,17 +11,12 @@ import 'package:graduationproject/modules/groups/controller/group_controller.dar
 import 'package:graduationproject/modules/libraryy/view/library.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../genereted/sheard/util.dart';
+import '../../../api/ui/util.dart';
+
 class EditPostgroupview extends GetResponsiveView<GroupController> {
-GroupController controller = Get.put(GroupController());
- Uint8List? image;
-  List<String> Contents = [
-    'hi'.tr,
-    'ma'.tr,
-    'ar'.tr,
-    'eng'.tr,
-    'div'.tr
-  ];
+  GroupController controller = Get.put(GroupController());
+  Uint8List? image;
+  List<String> Contents = ['hi'.tr, 'ma'.tr, 'ar'.tr, 'eng'.tr, 'div'.tr];
 
   // var dropdownvalue;
   @override
@@ -56,64 +51,64 @@ GroupController controller = Get.put(GroupController());
       //         }),
       //   ),
       // )),
-       Material(
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: const Color.fromARGB(255, 194, 192, 192)),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: GFAccordion(
-                      title: "PostType".tr,
-                      textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 246, 123, 127),
-                          decoration: TextDecoration.none),
-                      contentChild: Column(
-                        children: controller.contents
-                            .map((element) => TextButton(
-                                onPressed: () {
-                              // controller.editpost.
-                                },
-                                child: Text(element.typeName.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black54,
-                                        decoration: TextDecoration.none))))
-                            .toList(),
-                      ),
-                    ),
-                  ),
-                ),
+      Material(
+        child: Padding(
+          padding: const EdgeInsets.all(6),
+          child: Container(
+            decoration: BoxDecoration(
+                border:
+                    Border.all(color: const Color.fromARGB(255, 194, 192, 192)),
+                borderRadius: BorderRadius.circular(10)),
+            child: GFAccordion(
+              title: "PostType".tr,
+              textStyle: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Color.fromARGB(255, 246, 123, 127),
+                  decoration: TextDecoration.none),
+              contentChild: Column(
+                children: controller.contents
+                    .map((element) => TextButton(
+                        onPressed: () {
+                          // controller.editpost.
+                        },
+                        child: Text(element.typeName.toString(),
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black54,
+                                decoration: TextDecoration.none))))
+                    .toList(),
               ),
+            ),
+          ),
+        ),
+      ),
       Center(
           child: Column(
         children: [
           SizedBox(width: 170),
-            Material(child: Imageprofile()),
+          Material(child: Imageprofile()),
         ],
       )),
       Material(
           child: Container(
         width: 300,
         child: TextField(
-         // controller: _controller,
-            decoration: InputDecoration(
-          labelText: 'des'.tr,
-          labelStyle:
-              TextStyle(color: Colors.black45, fontWeight: FontWeight.bold),
-          hintText: 'des'.tr,
-          prefixIcon: Icon(
-            Icons.text_fields,
-            color: Color.fromARGB(255, 245, 146, 149),
+          // controller: _controller,
+          decoration: InputDecoration(
+            labelText: 'des'.tr,
+            labelStyle:
+                TextStyle(color: Colors.black45, fontWeight: FontWeight.bold),
+            hintText: 'des'.tr,
+            prefixIcon: Icon(
+              Icons.text_fields,
+              color: Color.fromARGB(255, 245, 146, 149),
+            ),
           ),
-        ),
-        onChanged: (value) {
-         controller.editpost.value.Description=value;
-        },
+          onChanged: (value) {
+            controller.editpost.value.Description = value;
+          },
         ),
       )),
       Padding(
@@ -123,10 +118,10 @@ GroupController controller = Get.put(GroupController());
               shadowColor: Color.fromARGB(255, 42, 42, 114),
               // padding:
               //         const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-              backgroundColor:Color.fromARGB(255, 42, 42, 114)),
+              backgroundColor: Color.fromARGB(255, 42, 42, 114)),
           onPressed: () {
-           // controller.updatepost();
-         //  controller.UpdatePostUser(controller.editpost.value.Id!);
+            // controller.updatepost();
+            //  controller.UpdatePostUser(controller.editpost.value.Id!);
           },
           child: Text(
             'Save'.tr,
@@ -141,28 +136,27 @@ GroupController controller = Get.put(GroupController());
     return Center(
       child: Stack(
         children: <Widget>[
-           Obx(() =>  CircleAvatar(
-            radius: 80.0,
-                    //  borderRadius: BorderRadius.circular(100),
-                      child: controller.stringPickImage.value.isNotEmpty
-                          ? Utility.imageFromBase64String(
-                              controller.stringPickImage.value, 200, 200)
-                          : image == null
-                              ? Image.asset(
-                                  'assets/images/boy.gif',
-                                  width: 200,
-                                  height: 200,
-                                )
-                              : Utility.imageFromBase64String(
-                                  Utility.base64String(image!), 200, 200),
-                    )
-                    ),
+          Obx(() => CircleAvatar(
+                radius: 80.0,
+                //  borderRadius: BorderRadius.circular(100),
+                child: controller.stringPickImage.value.isNotEmpty
+                    ? Utility.imageFromBase64String(
+                        controller.stringPickImage.value, 200, 200)
+                    : image == null
+                        ? Image.asset(
+                            'assets/images/boy.gif',
+                            width: 200,
+                            height: 200,
+                          )
+                        : Utility.imageFromBase64String(
+                            Utility.base64String(image!), 200, 200),
+              )),
           Positioned(
               bottom: 20.0,
               right: 20.0,
               child: InkWell(
-                onTap: ()async {
-             openBottomSheet();
+                onTap: () async {
+                  openBottomSheet();
                 },
                 child: Icon(
                   Icons.camera_alt,
@@ -175,24 +169,23 @@ GroupController controller = Get.put(GroupController());
     );
   }
 }
-void openBottomSheet( ) {
+
+void openBottomSheet() {
   Get.bottomSheet(
-    Container(height: 120.0,
-    width: 500,
-    margin: EdgeInsets.symmetric(
-      vertical: 20,
-      horizontal: 20
-    ),
+    Container(
+      height: 120.0,
+      width: 500,
+      margin: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: Column(
         children: [
           const SizedBox(height: 20),
-           Center(
+          Center(
             child: Text(
               'Choose'.tr,
               style: TextStyle(fontSize: 18),
             ),
           ),
-           SizedBox(
+          SizedBox(
             height: 20,
           ),
           Row(
@@ -200,35 +193,33 @@ void openBottomSheet( ) {
             children: <Widget>[
               Row(
                 children: [
-               FloatingActionButton(
-                backgroundColor: Color.fromARGB(255, 246, 123, 127),
-                foregroundColor: Colors.white,
-                mini: true,
-                onPressed: () {
-           
-                },
-                child: Icon(Icons.camera),
-              ),
-              Text(' Camera'.tr),
+                  FloatingActionButton(
+                    backgroundColor: Color.fromARGB(255, 246, 123, 127),
+                    foregroundColor: Colors.white,
+                    mini: true,
+                    onPressed: () {},
+                    child: Icon(Icons.camera),
+                  ),
+                  Text(' Camera'.tr),
                 ],
               ),
-             
-                SizedBox(
-            width: 10,
-          ),
-          Row(children: [
-               FloatingActionButton(
-                backgroundColor: Color.fromARGB(255, 246, 123, 127),
-                foregroundColor: Colors.white,
-                mini: true,
-                onPressed: () {
-               //    controller.pickImageFun();
-                },
-                child: Icon(Icons.image),
+              SizedBox(
+                width: 10,
               ),
-                 Text('  Galleryy'.tr),
-          ],)
-              
+              Row(
+                children: [
+                  FloatingActionButton(
+                    backgroundColor: Color.fromARGB(255, 246, 123, 127),
+                    foregroundColor: Colors.white,
+                    mini: true,
+                    onPressed: () {
+                      //    controller.pickImageFun();
+                    },
+                    child: Icon(Icons.image),
+                  ),
+                  Text('  Galleryy'.tr),
+                ],
+              )
             ],
           ),
         ],

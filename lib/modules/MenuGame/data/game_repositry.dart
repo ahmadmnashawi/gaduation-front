@@ -33,4 +33,13 @@ class GameRepository implements IGameRepository {
     }
     return list;
   }
+
+  @override
+  Future<GameDto> getUserGameLevels(int idUser, idGame) async {
+    var result = await _dio.get(
+        'https://localhost:7252/api/Game/GetUserGameLevels?IdUser=$idUser&IdGame=$idGame');
+    print(result);
+
+    return GameDto.fromJson(result.data);
+  }
 }

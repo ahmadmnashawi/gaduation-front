@@ -21,6 +21,7 @@ class Post {
       this.Image,
       this.dateTime,
       this.IdContent,
+      this.imageOnline,
       this.IdGroup,
       this.group,
       this.user});
@@ -29,6 +30,7 @@ class Post {
   String? Description;
   DateTime? dateTime;
   Uint8List? Image;
+  String? imageOnline;
   int? IdUser;
   int? IdContent;
   Content? content;
@@ -37,6 +39,7 @@ class Post {
   User? user;
   factory Post.fromJson(Map<String, dynamic> json) => Post(
         Id: json["id"],
+        imageOnline: json['imageOnline'],
         content: json['content'],
         IdContent: json['idContent'],
         IdGroup: json['idGroup'],

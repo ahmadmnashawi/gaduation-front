@@ -2,22 +2,21 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/app/model/game_user.dart';
+import 'package:graduationproject/app/model/GameDto.dart';
 import 'package:graduationproject/modules/menu/view/HomePage.dart';
 
-import '../../app/model/game.dart';
-import '../genereted/sheard/util.dart';
+import '../../api/ui/help_page.dart';
+import '../../api/ui/util.dart';
 import 'controller/menu_game_controller.dart';
 import 'levels.dart';
 
+// ignore: must_be_immutable
 class MenuGamePageView extends GetResponsiveView<MenuGameController> {
-  @override
-  MenuGameController controller = Get.put(MenuGameController());
   MenuGamePageView({super.key});
   @override
   Widget builder() {
     final random = Random();
-    // final random1=Random();
+
     return SizedBox(
         height: screen.height,
         child: SingleChildScrollView(
@@ -54,142 +53,26 @@ class MenuGamePageView extends GetResponsiveView<MenuGameController> {
                 height: 15,
               ),
               Obx(() => Column(
-                  children: controller.ListGameUser.map((e) => cardshape(
-                      e.gameUser!,
-                      random,
-                      e.game!.GameName.toString(),
-                      e.game!)).toList())),
-              // Column(children:
-              // controller.ListGameUser.map((element) => cardshape(
-              //   element.Id!,random ,element.game!.GameName.toString()
-              // ,element.userLevel.toString(),element.Score.toString(),element.game!)).toList()
-              // ),
-              // cardshape(
-              //     random,
-              //     'Letter Test',
-              //     'In This Test You Need To Be Speed This Test Increse Information ang experaince',
-              //     'assets/images/letter.png',
-              //      splashscreenLetter()),
-              // cardshape(
-              //     random,
-              //     'Word Test',
-              //     '  This Test Have Three Level   Make Inderstanding Very Good and  Increase Yor Word ',
-              //     'assets/images/4.png',
-              //     Splashscrren()),
-              // cardshape(
-              //     random,
-              //     'Math Test',
-              //     ' In This Test You Need To Be Speed This Test Increse Information ',
-              //     'assets/images/cubes.png',
-              //     DefineMath()),
-              // cardshape(
-              //     random,
-              //     'Foucs Test',
-              //     'In This Test You Need To Be Speed This Test Increse Information ang experaince',
-              //     'assets/images/15.png',
-              //    FoucsGameView ()),
-              // cardshape(
-              //     random,
-              //     'Packet Test',
-              //     'In This Test You Need To Be Speed This Test Increse Information ang experaince',
-              //     'assets/images/15.png',
-              //     PacketPageView()),
-              Material(
-                child: Tooltip(
-                  message: 'Help About Page',
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: IconButton(
-                          onPressed: () {
-                            Get.dialog(Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                      border:
-                                          Border.all(color: Colors.blueAccent)),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        const Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Align(
-                                              alignment: Alignment.center,
-                                              child: Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "Help",
-                                                  style: TextStyle(
-                                                      fontSize: 25,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: "Pacifico",
-                                                      color: Color.fromARGB(
-                                                          255, 42, 42, 114),
-                                                      decoration:
-                                                          TextDecoration.none),
-                                                ),
-                                              )),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              10, 8, 10, 10),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                controller.text,
-                                                textAlign: TextAlign.left,
-                                                style: const TextStyle(
-                                                    fontSize: 18,
-                                                    decoration:
-                                                        TextDecoration.none,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black87),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ));
-                          },
-                          icon: const Icon(
-                            Icons.help_outline_outlined,
-                            size: 30,
-                            color: Color.fromARGB(255, 246, 123, 127),
-                          )),
-                    ),
-                  ),
-                ),
-              )
+                  children: controller.listGameUser
+                      .map((e) => cardShape(e, random))
+                      .toList())),
+              HelpPage()
             ],
           ),
         ));
   }
 
-  Widget cardshape(
-      List<GameUser> gamesUser, Random random, String nameplay, Game game) {
+  Widget cardShape(GameDto game, Random random) {
     return Material(
         child: InkWell(
             onTap: () {
               final id = controller.auth.getDataFromStorage()!.Id;
-              if (gamesUser.any((element) => element.IdUser == id)) {
-                controller.auth.SaveGameUser(gamesUser
+              if (game.gameUser!.any((element) => element.IdUser == id)) {
+                controller.auth.SaveGameUser(game.gameUser!
                     .where((element) => element.IdUser == id)
                     .toList());
               }
-              controller.selectedgame.value = game;
+              controller.selectedgame.value = game.game!;
               Get.dialog(Align(
                 alignment: Alignment.center,
                 child: Container(
@@ -199,13 +82,7 @@ class MenuGamePageView extends GetResponsiveView<MenuGameController> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(color: Colors.blueAccent)),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(child: LevelPageView()),
-                      ],
-                    ),
-                  ),
+                  child: LevelPageView(),
                 ),
               ));
             },
@@ -220,66 +97,61 @@ class MenuGamePageView extends GetResponsiveView<MenuGameController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              game.Image == null
-                                  ? Image.asset(
-                                      'assets/images/10.png',
-                                      width: 150,
-                                      height: 150,
-                                      fit: BoxFit.fill,
-                                    )
-                                  : Utility.imageFromBase64String(
-                                      Utility.base64String(game.Image!),
-                                      40,
-                                      40),
-                              // Padding(
-                              //   padding: const EdgeInsets.all(8.0),
-                              //   child: SizedBox(
-                              //       height: 40,
-                              //       width: 40,
-                              //       child: Image.asset(url)),
-                              // ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  nameplay,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      fontSize: 20),
-                                ),
+                              Utility.getImage(
+                                  base64StringPh: game.game!.Image,
+                                  link: game.game!.imageOnline,
+                                  hight: 150,
+                                  width: 150),
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      game.game!.GameName!,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 20),
+                                    ),
+                                  ),
+                                  Column(
+                                    children: game.gameUser!
+                                        .map((e) => Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  child: Text(
+                                                    '${'g6'.tr} :${e.userLevel}',
+                                                    style: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 230, 219, 219),
+                                                      fontSize: 15,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(4),
+                                                  child: Text(
+                                                      '${'g7'.tr}${e.Score}',
+                                                      style: const TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 230, 219, 219),
+                                                        fontSize: 15,
+                                                      )),
+                                                ),
+                                              ],
+                                            ))
+                                        .toList(),
+                                  ),
+                                ],
                               ),
+                              const SizedBox()
                             ],
-                          ),
-                          Column(
-                            children: gamesUser
-                                .map((e) => Column(
-                                      children: [
-                                        // Padding(
-                                        //   padding: const EdgeInsets.all(8.0),
-                                        //   child: Text(
-                                        //     '${'g6'.tr} :${e.userLevel}',
-                                        //     style: const TextStyle(
-                                        //         color: Color.fromARGB(
-                                        //             255, 230, 219, 219),
-                                        //         fontSize: 18,
-                                        //         fontWeight: FontWeight.bold),
-                                        //   ),
-                                        // ),
-                                        // Padding(
-                                        //   padding: const EdgeInsets.all(8.0),
-                                        //   child: Text(
-                                        //     '${'g7'.tr}:${e.Score}',
-                                        //     style: const TextStyle(
-                                        //         color: Color.fromARGB(
-                                        //             255, 230, 219, 219),
-                                        //         fontSize: 18,
-                                        //         fontWeight: FontWeight.bold),
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ))
-                                .toList(),
                           ),
                         ])))));
   }

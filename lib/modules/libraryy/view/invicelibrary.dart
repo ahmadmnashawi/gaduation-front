@@ -5,9 +5,9 @@ import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/components/image/gf_image_overlay.dart';
 import 'package:getwidget/shape/gf_button_shape.dart';
 
+import '../../../api/ui/util.dart';
 import '../../../app/model/buybookDetailsDto.dart';
 import '../../../app/model/buybookDto.dart';
-import '../../genereted/sheard/util.dart';
 import '../controller/library_controller.dart';
 
 class InvoicLibraryepage extends GetResponsiveView<LibraryContrller> {
@@ -55,73 +55,82 @@ class InvoicLibraryepage extends GetResponsiveView<LibraryContrller> {
                       .map((element) => CardInvoic(
                           element.user!.Name.toString(), context, element))
                       .toList()),
-                        Tooltip(
-              message: 'HelpAboutPage'.tr,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: IconButton(onPressed: (){
-              Get.dialog(Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(color: Colors.blueAccent)),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child:  Align(
-                                          alignment: Alignment.center,
-                                          child: Padding(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "Help".tr,
+              Tooltip(
+                message: 'HelpAboutPage'.tr,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: IconButton(
+                        onPressed: () {
+                          Get.dialog(Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border:
+                                        Border.all(color: Colors.blueAccent)),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Align(
+                                            alignment: Alignment.center,
+                                            child: Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Text(
+                                                "Help".tr,
+                                                style: TextStyle(
+                                                    fontSize: 25,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: "Pacifico",
+                                                    color: Color.fromARGB(
+                                                        255, 42, 42, 114),
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            )),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            10, 8, 10, 10),
+                                        child: Column(
+                                          children: <Widget>[
+                                            new Text(
+                                              controller.fatouralibrary,
+                                              textAlign: TextAlign.left,
                                               style: TextStyle(
-                                                  fontSize: 25,
+                                                  fontSize: 18,
+                                                  decoration:
+                                                      TextDecoration.none,
                                                   fontWeight: FontWeight.bold,
-                                                  fontFamily: "Pacifico",
-                                                  color: Color.fromARGB(255, 42, 42, 114),
-                                                  decoration: TextDecoration.none),
+                                                  color: Colors.black87),
                                             ),
-                                          )),
-                                    ),
-                                             Padding(
-                                               padding: const EdgeInsets.fromLTRB(10, 8, 10, 10),
-                                               child: Column(
-                                                           children: <Widget>[
-                                                             new Text(
-                                                               controller.fatouralibrary,
-                                                               textAlign: TextAlign.left,
-                                                               style: TextStyle(
-                                                                   fontSize: 18,
-                                                                   decoration: TextDecoration.none,
-                                                                   fontWeight: FontWeight.bold,
-                                                                   color: Colors.black87),
-                                                             ),
-                                                           ],
-                                                         ),
-                                             ),
-                                  ],
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-              ));
-                  }, icon: Icon(Icons.help_outline_outlined,
-                  size: 30,
-                  color:Color.fromARGB(255, 246, 123, 127) ,)),
+                          ));
+                        },
+                        icon: Icon(
+                          Icons.help_outline_outlined,
+                          size: 30,
+                          color: Color.fromARGB(255, 246, 123, 127),
+                        )),
+                  ),
                 ),
-              ),
-            )
+              )
               // CardInvoic('Asia Badnjki', context),
               //    CardInvoic('Hadel Dabbas', context),
               //       CardInvoic('Haya Yosofi', context),
@@ -169,8 +178,7 @@ class InvoicLibraryepage extends GetResponsiveView<LibraryContrller> {
                                 : Utility.imageFromBase64String(
                                     Utility.base64String(d.user!.Image!),
                                     40,
-                                    40,
-                                  ),
+                                    40),
                             // Padding(
                             //     padding: const EdgeInsets.all(8.0),
                             //     child: GFImageOverlay(
@@ -346,7 +354,13 @@ class InvoicLibraryepage extends GetResponsiveView<LibraryContrller> {
                                 decoration: TextDecoration.none),
                           ),
                           Text(
-                              d.buybooks!.firstWhere((element) => element.IdBookLibrary==controller.GetCountdete(d.book!.id!,controller.currentLibrary.value.Id!)).Count.toString(),
+                            d.buybooks!
+                                .firstWhere((element) =>
+                                    element.IdBookLibrary ==
+                                    controller.GetCountdete(d.book!.id!,
+                                        controller.currentLibrary.value.Id!))
+                                .Count
+                                .toString(),
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -361,7 +375,7 @@ class InvoicLibraryepage extends GetResponsiveView<LibraryContrller> {
                       child: Row(
                         children: [
                           Text(
-                            d.book!.bookPrice.toString()+'\$ to one',
+                            d.book!.bookPrice.toString() + '\$ to one',
                             style: TextStyle(
                                 fontSize: 20,
                                 fontFamily: "Pacifico",

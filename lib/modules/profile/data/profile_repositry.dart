@@ -45,6 +45,7 @@ class ProfileRepository implements IProfileRepository {
 
   @override
   Future<bool> UpdatePost(int idpost, Post post) async {
+    print(post.toJson());
     var result = await _dio.put(
       'https://localhost:7252/api/Post/UpdatePost/$idpost',
       data: post.toJson(),
@@ -116,9 +117,10 @@ class ProfileRepository implements IProfileRepository {
   }
 
   @override
-  Future<bool> DeletePost(Post post) async {
-    var result = await _dio.delete('https://localhost:7252/api/Post/Delete',
-        data: post.toJson());
+  Future<bool> DeletePost(int idPost) async {
+    var result = await _dio.delete(
+      'https://localhost:7252/api/Post/Delete/$idPost',
+    );
     if (result.statusCode == 200) {
       return true;
     } else {

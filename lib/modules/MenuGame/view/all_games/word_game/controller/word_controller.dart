@@ -6,23 +6,97 @@ import '../../../../../sheard/auth_service.dart';
 import '../../../../controller/menu_game_controller.dart';
 
 class SplashScreencontroller extends GetxController {
-  var AllWord = <String>[].obs;
+  var allWord = <String>[].obs;
   int remanningsecond = 1;
   final time = '00.00'.obs;
   Timer? _timer;
-  var count = 0.obs;
-  var count2 = 0.obs;
-  var count3 = 0.obs;
-  var count4 = 0.obs;
-  var count5 = 0.obs;
-  var count6 = 0.obs;
-  var count7 = 0.obs;
-  var count8 = 0.obs;
-  var count9 = 0.obs;
+
   var score = 0.obs;
   final auth = Get.find<AuthService>();
-  final text1 =
-      'In this game a picture will appear and you must find out all the words that can apply to the picture';
+  final word1Level = [
+    [
+      "ابنية",
+      "مدينة",
+    ],
+    [
+      "شعلة",
+      "ضوء",
+      'فكرة',
+    ],
+    [
+      'شخص',
+      "كروب",
+      "فكرة",
+      "اعضاء",
+    ]
+  ].obs;
+  final image1Level = [
+    'assets/images/7.png',
+    'assets/images/hidd.png',
+    'assets/images/group1.png',
+  ].obs;
+  final word2Level = [
+    [
+      "فريق",
+      "فن",
+      "لوحة",
+      "الوان",
+    ],
+    [
+      'مشاكل',
+      'اصلاحات',
+      'ضبط',
+      'مصلح',
+    ],
+    [
+      'متحف',
+      'ديناصور',
+      'صحفي',
+      'اثار',
+    ]
+  ].obs;
+  final image2Level = [
+    'assets/images/intro4.png',
+    'assets/images/sett.png',
+    'assets/images/history.gif',
+  ].obs;
+  final word3Level = [
+    [
+      'دماغ',
+      'ناس',
+      'معلوماتية',
+      'طاقة',
+    ],
+    [
+      'حسابات',
+      'طاقة',
+      'معادلات',
+      'تفاعلات',
+      'مخبر',
+      'استاذ',
+      'كيمياء',
+      'علوم',
+    ],
+    [
+      'علوم',
+      'فيزياء',
+      'رياضيات',
+      'عربي',
+      'معارف العلوم',
+      'موسيقا',
+      'كيمياء',
+      'رسم',
+      'تمثيل'
+    ]
+  ].obs;
+  final image3Level = [
+    'assets/images/9.png',
+    'assets/images/chm.png',
+    'assets/images/intro.png',
+  ].obs;
+  final emptyList = [].obs;
+  final indexLevel = 1.obs;
+
   List<String> letters = [
     'ح',
     'ج',
@@ -86,23 +160,35 @@ class SplashScreencontroller extends GetxController {
     });
   }
 
+  void initLetter() {
+    _startimer(50);
+    allWord.clear();
+    emptyList.clear();
+  }
+
   @override
   void onClose() {
     if (_timer != null) {
       _timer!.cancel();
     }
     super.onClose();
+    // var guser =
+    //     auth.getGameUser()!.where((element) => element.IdGame == 2).first;
+
+    // guser.Score = score.value;
+    // auth.updateUserGame(guser);
+  }
+
+  Future<void> saveScore(int score, int level) async {
     var guser =
         auth.getGameUser()!.where((element) => element.IdGame == 2).first;
 
-    guser.Score = score.value;
-    auth.updateUserGame(guser);
-  }
-
-  @override
-  void onReady() {
-    _startimer(50);
-    super.onReady();
+    guser.Score = score;
+    guser.userLevel = level.toString();
+    var result = await auth.updateUserGame(guser);
+    if (result) {
+      await Get.find<MenuGameController>().getAllGame();
+    }
   }
 
   void _startimer(int seconds) {

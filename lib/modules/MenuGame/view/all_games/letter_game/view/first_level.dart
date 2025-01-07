@@ -1,40 +1,33 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/modules/MenuGame/Menu_game.dart';
+import 'package:graduationproject/modules/MenuGame/view/all_games/letter_game/view/second_level.dart';
 
 import '../controller/letter_controller.dart';
 
-class Letter9pageview extends GetResponsiveView<LetterController> {
-  Letter9pageview({super.key});
-
+class FirstLevel extends GetView<LetterController> {
+  const FirstLevel({super.key});
   @override
   Widget build(BuildContext context) {
-    List<String> stringword = [
-      "روح",
-      "حور",
-      "حرج",
-      "جوارح",
-      "جوار",
-      "حوار",
-      "جرح",
-      "حجر"
-    ];
-    List<String> emptylist = [];
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Container(
-        height: 700,
-        decoration: const BoxDecoration(
-            gradient: LinearGradient(
-          begin: Alignment.topRight,
-          end: Alignment.bottomLeft,
-          colors: [
-            Colors.white70,
-            Color.fromARGB(255, 90, 190, 98),
-          ],
-        )),
+      backgroundColor: Colors.amber[50],
+      body: Container(
+        height: Get.height,
+        color: Colors.primaries[Random().nextInt(Colors.primaries.length)],
         child: Column(
           children: [
+            InkWell(
+              onTap: () => Get.back(),
+              child: const Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child:
+                      Icon(Icons.arrow_back_ios, size: 20, color: Colors.grey),
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -49,7 +42,7 @@ class Letter9pageview extends GetResponsiveView<LetterController> {
                       width: 120,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Colors.red[300]),
+                          color: const Color.fromARGB(255, 255, 238, 87)),
                       child: Row(
                         children: [
                           const Text('   الوقت :',
@@ -73,14 +66,14 @@ class Letter9pageview extends GetResponsiveView<LetterController> {
                       width: 120,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Colors.red[300]),
+                          color: const Color.fromARGB(255, 255, 238, 87)),
                       child: Row(
                         children: [
                           const Text('    المتبقي :',
                               style: TextStyle(color: Colors.white)),
                           Obx(() => Center(
                                 child: Text(
-                                  '  ${controller.resulting8.value}',
+                                  '  ${controller.wordLevel1[controller.game1Level.value - 1].skipWhile((item) => controller.empty.contains(item)).length}',
                                   style: const TextStyle(
                                     color: Colors.white,
                                   ),
@@ -97,14 +90,14 @@ class Letter9pageview extends GetResponsiveView<LetterController> {
                       width: 120,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          color: Colors.red[300]),
+                          color: const Color.fromARGB(255, 255, 238, 87)),
                       child: Row(
                         children: [
                           const Text('   الصحيح  :',
                               style: TextStyle(color: Colors.white)),
                           Obx(() => Center(
                                 child: Text(
-                                  '  ${controller.correct.value}',
+                                  '  ${controller.empty.length}',
                                   style: const TextStyle(
                                     color: Colors.white,
                                   ),
@@ -117,7 +110,7 @@ class Letter9pageview extends GetResponsiveView<LetterController> {
                 ],
               ),
             ),
-            Text('النتيجة :${controller.score}'),
+            const Text('المستوى الاول'),
             const SizedBox(
               height: 30,
             ),
@@ -132,27 +125,30 @@ class Letter9pageview extends GetResponsiveView<LetterController> {
                     IconButton(
                       onPressed: () {
                         if (controller.time.value.toString() != '00:01') {
-                          if (controller.resulting8 != 0) {
-                            if (stringword
-                                    .contains(controller.letters.join()) &&
-                                !emptylist
-                                    .contains(controller.letters.join())) {
-                              emptylist.add(controller.letters.join());
-                              controller.correct += 1;
-                              controller.resulting8 -= 1;
-                              controller.letters.clear();
-                            } else {
-                              diolg('خاطئة', Icons.close, Colors.red);
-                              controller.letters.clear();
+                          var singleWord = controller.letters.join();
+                          print(controller
+                              .wordLevel1[controller.game1Level.value - 1]
+                              .first);
+
+                          if (controller
+                                  .wordLevel1[controller.game1Level.value - 1]
+                                  .contains(singleWord) &&
+                              !controller.empty.contains(singleWord)) {
+                            controller.empty.add(singleWord);
+                            if (controller
+                                    .wordLevel1[controller.game1Level.value - 1]
+                                    .length ==
+                                controller.empty.length) {
+                              Result('G',
+                                  'تهانينا اجتزت هذا المستوى هل تريد الانتقال للمستوى التالي؟');
                             }
+                            controller.letters.clear();
                           } else {
-                            Result('G',
-                                "تهانينا لقد فزت ");
-                            controller.score.value += 10;
-                            controller.resulting8.value = 0;
+                            dialog('خاطئة', Icons.close, Colors.red);
+                            controller.letters.clear();
                           }
                         } else {
-                          Result('T', "انتهى الوقت مع نتيجة :" +controller.score.value.toString());
+                          Result('T', 'انتهى الوقت هل تريد اعادة اللعبة');
                         }
                       },
                       icon: const Icon(
@@ -181,7 +177,7 @@ class Letter9pageview extends GetResponsiveView<LetterController> {
                           style: const TextStyle(
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black),
+                              color: Colors.black54),
                         ),
                       ),
                     ),
@@ -192,27 +188,24 @@ class Letter9pageview extends GetResponsiveView<LetterController> {
             const SizedBox(
               height: 70,
             ),
-            Column(
-              children: [
-                createletter("ر"),
-                Row(
-                  children: [
-                    const SizedBox(
-                      width: 100,
-                    ),
-                    createletter("ح"),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    createletter("و"),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    createletter("ج"),
-                  ],
-                ),
-                createletter("ا"),
-              ],
+            SizedBox(
+              height: 250,
+              child: Center(
+                child: Obx(() => Column(
+                      children: [
+                        letterButton(controller
+                            .letterLevel1[controller.game1Level.value - 1]
+                            .first),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: controller
+                                .letterLevel1[controller.game1Level.value - 1]
+                                .skip(1)
+                                .map((e) => letterButton(e))
+                                .toList()),
+                      ],
+                    )),
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -220,28 +213,108 @@ class Letter9pageview extends GetResponsiveView<LetterController> {
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-                "  قم  بانشاء  كلمة  من الحروف",
+                "قم  بانشاء  كلمة  من الحرو ف",
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             )
           ],
         ),
       ),
-    ));
+    );
   }
 
-  Future diolg(String text, IconData icon, Color color) {
+  Future Result(String txt, String Word) {
+    return Get.dialog(Align(
+        alignment: Alignment.center,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 240, 230, 230),
+            border: Border.all(color: Colors.purple, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          width: 400,
+          height: 150,
+          child: txt == 'T'
+              ? Column(
+                  children: [
+                    Text(
+                      Word,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          decoration: TextDecoration.none,
+                          color: Color.fromARGB(255, 233, 82, 208)),
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 40,
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              Get.back();
+                              controller.initLetter();
+                            },
+                            child: const Text('نعم',
+                                style: TextStyle(color: Colors.grey))),
+                      ],
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Text(
+                      Word,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          decoration: TextDecoration.none,
+                          color: Color.fromARGB(255, 233, 82, 208)),
+                    ),
+                    Row(
+                      children: [
+                        const SizedBox(
+                          width: 40,
+                        ),
+                        TextButton(
+                            onPressed: () async {
+                              Get.back();
+                              if (controller.game1Level.value < 4) {
+                                print(controller.game1Level.value + 1);
+                                await controller.saveScore(
+                                    controller.game1Level.value, 1);
+                                controller.game1Level.value =
+                                    controller.game1Level.value + 1;
+                                controller.initLetter();
+                                print(controller.game1Level.value);
+                                if (controller.game1Level.value == 4) {
+                                  controller.game1Level.value = 1;
+                                  controller.initLetter();
+
+                                  Get.to(SecondLevel());
+                                }
+                              }
+                            },
+                            child: const Text('نعم',
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 80, 137, 212)))),
+                      ],
+                    ),
+                  ],
+                ),
+        )));
+  }
+
+  Future dialog(String text, IconData icon, Color color) {
     return Get.dialog(Center(
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 240, 230, 230),
-          border: Border.all(
-              color: const Color.fromARGB(255, 229, 115, 115), width: 1),
+          border: Border.all(color: Colors.purple, width: 1),
           borderRadius: BorderRadius.circular(10),
         ),
         width: 150,
-        height: 140,
+        height: 120,
         child: Row(
           children: [
             Icon(
@@ -260,98 +333,14 @@ class Letter9pageview extends GetResponsiveView<LetterController> {
     ));
   }
 
-  Future Result(String txt, String Word) {
-    return Get.dialog(Align(
-        alignment: Alignment.center,
-        child: Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 240, 230, 230),
-            border: Border.all(
-                color: const Color.fromARGB(255, 229, 115, 115), width: 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          width: 400,
-          height: 140,
-          // color: Colors.white,
-          child: txt == 'T'
-              ? Column(
-                  children: [
-                    Text(
-                      Word,
-                      style: TextStyle(
-                        fontSize: 20,
-                        decoration: TextDecoration.none,
-                        color: Colors.red[300],
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 40,
-                        ),
-                        TextButton(
-                            onPressed: () {
-                           Get.to(MenuGamePageView());
-                            },
-                            child: Text('نعم',
-                                style: TextStyle(color: Colors.green[200]))),
-                        // TextButton(
-                        //     onPressed: () {
-                        //       Get.to(MenuGamePageView());
-
-                        //       controller.onClose();
-                        //     },
-                        //     child: Text('لا',
-                        //         style: TextStyle(color: Colors.green[200]))),
-                      ],
-                    ),
-                  ],
-                )
-              : Column(
-                  children: [
-                    Text(
-                      Word,
-                      style: TextStyle(
-                        fontSize: 20,
-                        decoration: TextDecoration.none,
-                        color: Colors.red[300],
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 40,
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              Get.to(MenuGamePageView());
-                              controller.onReady();
-                            },
-                            child: Text('نعم',
-                                style: TextStyle(color: Colors.green[200]))),
-                        TextButton(
-                            onPressed: () {
-                              Get.to(MenuGamePageView());
-                              controller.onClose();
-                            },
-                            child: Text('لا',
-                                style: TextStyle(color: Colors.green[200]))),
-                      ],
-                    ),
-                  ],
-                ),
-        )));
-  }
-
-  Widget createletter(String letter) {
+  Widget letterButton(String letter) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red[300],
+              backgroundColor: const Color.fromARGB(255, 255, 238, 87),
               shape: const CircleBorder(),
               padding: const EdgeInsets.all(28),
             ),

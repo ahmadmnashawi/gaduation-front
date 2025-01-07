@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
 
-import '../../genereted/sheard/util.dart';
+import '../../../api/ui/util.dart';
 import '../controller/group_controller.dart';
 
+// ignore: must_be_immutable
 class EditGrpoup extends GetResponsiveView<GroupController> {
   final _formfield = GlobalKey<FormState>();
   Uint8List? image;
@@ -107,7 +108,7 @@ class EditGrpoup extends GetResponsiveView<GroupController> {
                   width: 450,
                   child: TextFormField(
                     initialValue: controller.currentGroup.value.groupName,
-                    decoration:  InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'EditNameGroup'.tr,
                       labelStyle: TextStyle(
                           color: Colors.black45, fontWeight: FontWeight.bold),
@@ -136,7 +137,7 @@ class EditGrpoup extends GetResponsiveView<GroupController> {
                 width: 450,
                 child: TextFormField(
                   initialValue: controller.currentGroup.value.Description,
-                  decoration:  InputDecoration(
+                  decoration: InputDecoration(
                     labelText: ' EditDescrintiona'.tr,
                     labelStyle: TextStyle(
                         color: Colors.black45, fontWeight: FontWeight.bold),
@@ -211,7 +212,7 @@ class EditGrpoup extends GetResponsiveView<GroupController> {
                                         const SizedBox(
                                           height: 10,
                                         ),
-                                         Padding(
+                                        Padding(
                                           padding: EdgeInsets.all(8.0),
                                           child: Align(
                                               alignment: Alignment.center,
@@ -330,7 +331,7 @@ void openBottomSheet(GroupController controller) {
       child: Column(
         children: [
           const SizedBox(height: 20),
-           Center(
+          Center(
             child: Text(
               'ChoosePostt'.tr,
               style: TextStyle(fontSize: 18),
@@ -353,7 +354,7 @@ void openBottomSheet(GroupController controller) {
                     },
                     child: const Icon(Icons.camera),
                   ),
-                   Text('Camera'.tr),
+                  Text('Camera'.tr),
                 ],
               ),
               const SizedBox(
@@ -370,7 +371,7 @@ void openBottomSheet(GroupController controller) {
                     },
                     child: const Icon(Icons.image),
                   ),
-                   Text('Galleryy'.tr),
+                  Text('Galleryy'.tr),
                 ],
               )
             ],

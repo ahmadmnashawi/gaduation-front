@@ -15,6 +15,8 @@ class PostDto {
   Comments? comment;
   Uint8List? UserImage;
   Uint8List? GroupImage;
+  String? UserImageOnline;
+  String? GroupImageOnline;
   PostDto(
       {this.Id,
       this.UserName,
@@ -34,6 +36,8 @@ class PostDto {
     comment = json['comment'];
     // UserImage = json['userImage'];
     // GroupImage = json['groupImage'];
+    UserImageOnline = json['userImageOnline'];
+    GroupImageOnline = json['groupImageOnline'];
     numberLike = json['numberLike'];
     post = Post.fromJson(json['post'] as Map<String, dynamic>);
   }

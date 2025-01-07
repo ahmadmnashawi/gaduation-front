@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduationproject/modules/groups/view/edit_group.dart';
 
+import '../../../api/ui/util.dart';
 import '../../../app/model/postdto.dart';
 import '../../comment/view/comment.dart';
-import '../../genereted/sheard/util.dart';
 import '../../icons/Icon.dart';
 import '../controller/group_controller.dart';
 import 'add_group.dart';

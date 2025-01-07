@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
 
-import '../../genereted/sheard/util.dart';
+import '../../../api/ui/util.dart';
 import '../../sheard/text_feild_GP.dart';
 import '../controller/group_controller.dart';
 import 'post_Group.dart';

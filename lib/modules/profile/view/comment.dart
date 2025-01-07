@@ -1,15 +1,11 @@
-import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/modules/comment/controller/comment_controller.dart';
 
 import '../../menu/view/HomePage.dart';
 import '../controller/profile_controller.dart';
 
 class Comment extends GetResponsiveView<ProfileController> {
-ProfileController hcontroller = Get.put(ProfileController());
   final textfield = TextEditingController();
   @override
   Widget builder() {
@@ -76,8 +72,8 @@ ProfileController hcontroller = Get.put(ProfileController());
                       child: TextFormField(
                         controller: textfield,
                         onChanged: (val) {
-                   //    controller.addcomment.
-                      controller.addcomment.value.commentName=val;
+                          //    controller.addcomment.
+                          controller.addcomment.value.commentName = val;
                         },
                         autocorrect: false,
                         decoration: new InputDecoration(
@@ -89,20 +85,26 @@ ProfileController hcontroller = Get.put(ProfileController());
                           border: OutlineInputBorder(
                               // borderRadius:
                               //     BorderRadius.all(Radius.zero(5.0)),
-                              borderSide: BorderSide(color: Color.fromARGB(255, 42, 42, 114))),
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 42, 42, 114))),
                         ),
                       ),
                     ),
                   ),
                   // Second child is button
                   IconButton(
-                    icon: Icon(Icons.send,color: Color.fromARGB(255, 42, 42, 114),),
+                    icon: Icon(
+                      Icons.send,
+                      color: Color.fromARGB(255, 42, 42, 114),
+                    ),
                     iconSize: 20.0,
                     onPressed: () {
-                      controller.addcomment.value.IdPost=controller.postidnew.value.Id;
-                      controller.addcomment.value.user=controller.user.value;
-                    
-                            controller.AddComment(controller.postidnew.value.Id!);
+                      controller.addcomment.value.IdPost =
+                          controller.postidnew.value.Id;
+                      controller.addcomment.value.user =
+                          controller.userprofile.value;
+
+                      controller.AddComment(controller.postidnew.value.Id!);
                       //  controller.addComment(commentt('Asia badnjki', controller.textfieldd.value, 'assets/images/girl.gif'));
                       textfield.text = '';
                     },

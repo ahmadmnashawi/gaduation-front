@@ -5,8 +5,6 @@ import 'controller/menu_game_controller.dart';
 
 class LevelPageView extends GetResponsiveView<MenuGameController> {
   @override
-  MenuGameController controller = Get.put(MenuGameController());
-
   LevelPageView({super.key});
   @override
   Widget builder() {

@@ -5,9 +5,10 @@ import 'package:get/get.dart';
 import 'package:getwidget/components/accordion/gf_accordion.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 
-import '../../genereted/sheard/util.dart';
+import '../../../api/ui/util.dart';
 import '../controller/library_controller.dart';
 
+// ignore: must_be_immutable
 class UpdateBook extends GetResponsiveView<LibraryContrller> {
   @override
   LibraryContrller controller = Get.put(LibraryContrller());
@@ -76,7 +77,7 @@ class UpdateBook extends GetResponsiveView<LibraryContrller> {
                   }
                 },
                 initialValue: controller.currentBook.value.bookName.toString(),
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'BookName'.tr,
                   labelStyle: TextStyle(
                       color: Colors.black45, fontWeight: FontWeight.bold),
@@ -100,7 +101,7 @@ class UpdateBook extends GetResponsiveView<LibraryContrller> {
               width: 450,
               child: TextFormField(
                 initialValue: controller.currentBook.value.bookPrice.toString(),
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'BookPrice'.tr,
                   labelStyle: TextStyle(
                       color: Colors.black45, fontWeight: FontWeight.bold),
@@ -146,7 +147,7 @@ class UpdateBook extends GetResponsiveView<LibraryContrller> {
               ),
             ),
           ),
-           Text(
+          Text(
             'cw'.tr,
             style: TextStyle(
                 fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey),
@@ -246,7 +247,7 @@ class UpdateBook extends GetResponsiveView<LibraryContrller> {
                                     const SizedBox(
                                       height: 10,
                                     ),
-                                     Padding(
+                                    Padding(
                                       padding: EdgeInsets.all(8.0),
                                       child: Align(
                                           alignment: Alignment.center,
@@ -361,7 +362,7 @@ void openBottomSheet(LibraryContrller controller) {
       child: Column(
         children: [
           const SizedBox(height: 20),
-           Center(
+          Center(
             child: Text(
               'ChoosePhoto'.tr,
               style: TextStyle(fontSize: 18),
@@ -373,7 +374,6 @@ void openBottomSheet(LibraryContrller controller) {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-          
               Row(
                 children: [
                   FloatingActionButton(

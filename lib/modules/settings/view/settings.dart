@@ -17,7 +17,6 @@ import '../controller/setting_controller.dart';
 
 class SettingPageView extends GetResponsiveView<SettingController> {
   @override
-  SettingController controller = Get.put(SettingController());
   SettingPageView({super.key});
 
   @override
