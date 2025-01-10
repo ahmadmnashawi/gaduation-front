@@ -38,20 +38,19 @@ class Post {
   Group? group;
   User? user;
   factory Post.fromJson(Map<String, dynamic> json) => Post(
-        Id: json["id"],
-        imageOnline: json['imageOnline'],
-        content: json['content'],
-        IdContent: json['idContent'],
-        IdGroup: json['idGroup'],
-        group: json['group'],
-        Description: json["description"],
-        dateTime: DateTime.parse(json["dateTime"].toString()),
-        IdUser: json["idUser"],
-        // Image: json['image'] == null
-        //     ? null
-        //     : Uint8List.fromList(
-        //         List<int>.from(json['image']! as List<dynamic>))
-      );
+      Id: json["id"],
+      imageOnline: json['imageOnline'],
+      content: json['content'],
+      IdContent: json['idContent'],
+      IdGroup: json['idGroup'],
+      group: json['group'],
+      Description: json["description"],
+      dateTime: DateTime.parse(json["dateTime"].toString()),
+      IdUser: json["idUser"],
+      Image: json['image'] == null
+          ? null
+          : Uint8List.fromList(
+              List<int>.from(json['image']! as List<dynamic>)));
 
   Map<String, dynamic> toJson() => {
         "id": Id ?? 0,

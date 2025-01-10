@@ -1,28 +1,22 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getwidget/components/accordion/gf_accordion.dart';
+
+import 'package:graduationproject/api/ui/help_page.dart';
 
 import '../../../api/ui/util.dart';
+import '../../../app/model/content.dart';
 import '../../sheard/text_feild_GP.dart';
 import '../controller/group_controller.dart';
 import 'post_Group.dart';
 
-class AddGrpoup extends GetResponsiveView<GroupController> {
-  @override
-  GroupController controller = Get.put(GroupController());
-  final _formfield = GlobalKey<FormState>();
-  Uint8List? image;
-  List<String> Contents = ['hi'.tr, 'ma'.tr, 'ar'.tr, 'eng'.tr, 'div'.tr];
-
-  AddGrpoup({super.key});
+class AddGroup extends GetResponsiveView<GroupController> {
+  AddGroup({super.key});
   @override
   Widget builder() {
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
-          key: _formfield,
+          key: controller.formFieldGroup,
           child: Column(
             children: [
               Row(
@@ -47,7 +41,7 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
                       child: Text(
-                        " add ".tr,
+                        "add".tr,
                         style: const TextStyle(
                             fontSize: 26,
                             fontWeight: FontWeight.bold,
@@ -59,29 +53,20 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                   ),
                 ],
               ),
-
-              Material(
-                child: Padding(
-                  padding: const EdgeInsets.all(6),
-                  child: Container(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
                     decoration: BoxDecoration(
                         border: Border.all(
                             color: const Color.fromARGB(255, 194, 192, 192)),
                         borderRadius: BorderRadius.circular(10)),
-                    child: GFAccordion(
-                      title: "GroupType".tr,
-                      textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 246, 123, 127),
-                          decoration: TextDecoration.none),
-                      contentChild: Column(
-                        children: controller.contents
-                            .map((element) => TextButton(
-                                onPressed: () {
-                                  controller.addnewGroup.value.IdContent =
-                                      element.Id;
-                                },
+                    child: Obx(() => DropdownButton<Content>(
+                        isExpanded: true,
+                        underline: const SizedBox(),
+                        value: controller.selectContentGroup.value,
+                        items: controller.contents
+                            .map((element) => DropdownMenuItem<Content>(
+                                value: element,
                                 child: Text(element.typeName.toString(),
                                     style: const TextStyle(
                                         fontSize: 18,
@@ -89,12 +74,11 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                                         color: Colors.black54,
                                         decoration: TextDecoration.none))))
                             .toList(),
-                      ),
-                    ),
-                  ),
-                ),
+                        onChanged: (value) {
+                          controller.selectContentGroup.value = value!;
+                        }))),
               ),
-
+              imageProfile(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Material(
@@ -103,6 +87,8 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                         child: TextFieldGPWidget(
                           obscureText: false,
                           type: TextInputType.text,
+                          dufaltText:
+                              controller.addnewGroup.value.groupName ?? '',
                           label: 'NameGroup'.tr,
                           validator: (value) {
                             if (value!.isEmpty ||
@@ -119,12 +105,12 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                           },
                         ))),
               ),
-
               SizedBox(
                   width: 450,
                   child: TextFieldGPWidget(
                     obscureText: false,
                     type: TextInputType.multiline,
+                    dufaltText: controller.addnewGroup.value.Description ?? '',
                     label: 'DescrintionAbout'.tr,
                     validator: (value) {
                       if (value!.isEmpty ||
@@ -140,7 +126,6 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                       controller.addnewGroup.value.Description = value;
                     },
                   )),
-
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -188,7 +173,7 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                         ));
                       },
                       child: Text(
-                        'areyou '.tr,
+                        'areyou'.tr,
                         style: const TextStyle(
                             color: Colors.black54,
                             fontSize: 16,
@@ -196,72 +181,13 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                       )),
                 ),
               ),
-
-              // SizedBox(height: 10),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Align(
-              //     alignment: Alignment.topRight,
-              //     child: TextButton(
-              //         onPressed: () {
-              //           Get.dialog(Align(
-              //             alignment: Alignment.center,
-              //             child: Container(
-              //               width: 430,
-              //               height: 370,
-              //               decoration: BoxDecoration(
-              //                   color: Colors.white,
-              //                   borderRadius: BorderRadius.circular(10),
-              //                   border: Border.all(color: Colors.blueAccent)),
-              //               child: SingleChildScrollView(
-              //                 child: Column(
-              //                   children: [
-              //                     SizedBox(
-              //                       height: 10,
-              //                     ),
-              //                     Align(
-              //                         alignment: Alignment.center,
-              //                         child: Padding(
-              //                           //////////////////////////////////////////
-              //                           padding: const EdgeInsets.all(8.0),
-              //                           child: Text(
-              //                             "Add post : ",
-              //                             style: TextStyle(
-              //                                 fontSize: 18,
-              //                                 fontWeight: FontWeight.bold,
-              //                                 fontFamily: "Pacifico",
-              //                                 color: Colors.blueGrey,
-              //                                 decoration: TextDecoration.none),
-              //                           ),
-              //                         )),
-              //                     Container(
-              //                       child: Addpostview(),
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ),
-              //           ));
-              //           ;
-              //         },
-              //         child: Text(
-              //           'Are You Want To Add post ? ',
-              //           style: TextStyle(
-              //               color: Colors.black54,
-              //               fontSize: 16,
-              //               fontWeight: FontWeight.bold),
-              //         )),
-              //   ),
-              // ),
-
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () {
-                    if (_formfield.currentState!.validate()) {
+                  onPressed: () async {
+                    if (controller.formFieldGroup.currentState!.validate()) {
                       print("DataAdded".tr);
-
-                      controller.AddGroup();
+                      await controller.AddGroup();
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -277,82 +203,8 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                   ),
                 ),
               ),
-              Tooltip(
-                message: 'lp'.tr,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: IconButton(
-                        onPressed: () {
-                          Get.dialog(Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                    border:
-                                        Border.all(color: Colors.blueAccent)),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "el".tr,
-                                                style: const TextStyle(
-                                                    fontSize: 25,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: "Pacifico",
-                                                    color: Color.fromARGB(
-                                                        255, 42, 42, 114),
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                            )),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10, 8, 10, 10),
-                                        child: Column(
-                                          children: <Widget>[
-                                            Text(
-                                              controller.textaddgroup,
-                                              textAlign: TextAlign.left,
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  decoration:
-                                                      TextDecoration.none,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black87),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ));
-                        },
-                        icon: const Icon(
-                          Icons.help_outline_outlined,
-                          size: 30,
-                          color: Color.fromARGB(255, 246, 123, 127),
-                        )),
-                  ),
-                ),
+              HelpPage(
+                title: controller.textaddgroup,
               )
             ],
           ),
@@ -361,7 +213,7 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
     );
   }
 
-  Widget Imageprofile(GroupController controller) {
+  Widget imageProfile() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
@@ -379,15 +231,17 @@ class AddGrpoup extends GetResponsiveView<GroupController> {
                     child: controller.stringPickImage.value.isNotEmpty
                         ? Utility.imageFromBase64String(
                             controller.stringPickImage.value, 200, 200)
-                        : image == null
+                        : controller.addnewGroup.value.Image == null
                             ? Image.asset(
-                                'assets/images/d.png',
+                                'assets/images/boy.gif',
                                 width: 200,
                                 height: 200,
-                                fit: BoxFit.fill,
                               )
                             : Utility.imageFromBase64String(
-                                Utility.base64String(image!), 200, 200),
+                                Utility.base64String(
+                                    controller.addnewGroup.value.Image!),
+                                200,
+                                200),
                   ),
                 )),
             Positioned(
@@ -429,47 +283,19 @@ void openBottomSheet(GroupController controller) {
             height: 20,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                children: [
-                  FloatingActionButton(
-                    backgroundColor: const Color.fromARGB(255, 246, 123, 127),
-                    foregroundColor: Colors.white,
-                    mini: true,
-                    onPressed: () {
-                      controller.pickImageFun();
-                    },
-                    child: const Icon(Icons.camera),
-                  ),
-                  Text('Camera'.tr),
-                ],
+            children: [
+              FloatingActionButton(
+                backgroundColor: const Color.fromARGB(255, 246, 123, 127),
+                foregroundColor: Colors.white,
+                mini: true,
+                onPressed: () {
+                  controller.pickImageFun();
+                },
+                child: const Icon(Icons.image),
               ),
-              const SizedBox(
-                width: 10,
-              ),
-              Row(
-                children: [
-                  FloatingActionButton(
-                    backgroundColor: const Color.fromARGB(255, 246, 123, 127),
-                    foregroundColor: Colors.white,
-                    mini: true,
-                    onPressed: () {
-                      controller.pickImageFun();
-                    },
-                    child: const Icon(Icons.image),
-                  ),
-                  Text('Gallery'.tr),
-                ],
-              )
+              Text('Gallery'.tr),
             ],
-          ),
-          // OutlinedButton(
-          //   onPressed: () {
-          //     Get.back();
-          //   },
-          //   child: const Text('Close'),
-          // ),
+          )
         ],
       ),
     ),

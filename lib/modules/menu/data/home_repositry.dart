@@ -63,12 +63,13 @@ class HomeRepository implements IHomeRepository {
   }
 
   @override
-  Future<List<Comments>> GetComment(int idpost) async {
-    var data = await _dio
-        .get('https://localhost:7252/api/Comments/PostComment?IdPost=$idpost');
-    var list = <Comments>[];
+  Future<List<CommentsDto>> GetComment(int idpost) async {
+    var data = await _dio.get(
+        'https://localhost:7252/api/Comments/PostCommentDto?IdPost=$idpost');
+    print(data.data);
+    var list = <CommentsDto>[];
     for (var item in data.data) {
-      list.add(Comments.fromJson(item));
+      list.add(CommentsDto.fromJson(item));
     }
     return list;
   }

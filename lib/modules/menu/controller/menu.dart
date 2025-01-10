@@ -20,7 +20,7 @@ class HomeController extends GetxController
   final onepostDto = PostDto();
   final Contents = <Content>[].obs;
   final postDto = <PostDto>[].obs;
-  final listcomment = <Comments>[].obs;
+  final listComment = <CommentsDto>[].obs;
   final idcontent = 0.obs;
   final homeRepo = HomeRepository();
   final auth = Get.find<AuthService>();
@@ -28,7 +28,7 @@ class HomeController extends GetxController
     {0: true}
   ].obs;
   final user = User().obs;
-  final sta = false.obs;
+  final interaction = false.obs;
   final Iduser = 0;
   final IdPost = 0;
   final addcomment = Comments().obs;
@@ -71,7 +71,7 @@ class HomeController extends GetxController
 
   Future<void> AddComment() async {
     var data = await homeRepo.AddComment(addcomment.value, Iduser);
-    GetComments();
+
     if (data) {
       print('True');
     } else {
@@ -79,12 +79,15 @@ class HomeController extends GetxController
     }
   }
 
-  Future<void> GetComments() async {
-    var data = await homeRepo.GetComment(IdPost);
-    listcomment.assignAll(data);
+  Future<void> GetComments(int idPost) async {
+    var data = await homeRepo.GetComment(idPost);
+    listComment.assignAll(data);
   }
 
-  Future<void> GetInterActionUser() async {
+  Future<void> addInterActionUser() async {
+    userpost.value.IdUser = user.value.Id!;
     await homeRepo.InteractionUser(userpost.value);
+
+    await GetAllPosts();
   }
 }

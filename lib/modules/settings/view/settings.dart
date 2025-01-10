@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:graduationproject/app/model/group.dart';
+import 'package:graduationproject/modules/groups/controller/group_controller.dart';
 import 'package:graduationproject/modules/libraryy/view/show_librarys.dart';
 import 'package:graduationproject/modules/testwidget/view/test.dart';
 import 'package:graduationproject/routes/app_pages.dart';
@@ -61,7 +63,10 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                       ? Material(
                           child: InkWell(
                               onTap: () {
-                                Get.to(AddGrpoup());
+                                final groupController =
+                                    Get.find<GroupController>();
+                                groupController.addnewGroup.value = Group();
+                                Get.to(AddGroup());
                               },
                               child: Tooltip(
                                   message: 'add'.tr,
@@ -86,49 +91,17 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                   ),
                   Material(
                     child: InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        final groupController = Get.find<GroupController>();
+                        await groupController.getAllContent();
+                        groupController.selectContent.value =
+                            groupController.contents.first;
                         Get.dialog(Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: 500,
-                            height: 370,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.blueAccent)),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Align(
-                                      alignment: Alignment.center,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "ad".tr,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "Pacifico",
-                                              color: Color.fromARGB(
-                                                  255, 42, 42, 114),
-                                              decoration: TextDecoration.none),
-                                        ),
-                                      )),
-                                  Container(
-                                    child: PostGrpoup(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ));
+                            alignment: Alignment.center, child: PostGrpoup()));
                       },
                       child: Tooltip(
                           message: 'addp',
-                          child: CardSetting("po".tr, Icons.post_add)),
+                          child: CardSetting("ll".tr, Icons.post_add)),
                     ),
                   ),
                   Material(

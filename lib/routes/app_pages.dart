@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:graduationproject/modules/signup/view/signup1.dart';
 
 import '../modules/BookType/binding/booktype.dart';
-import '../modules/BookType/controller/booktype_controller.dart';
 import '../modules/BookType/view/booktype_view.dart';
 import '../modules/Intro/binding/intro_binding.dart';
 import '../modules/Intro/view/splash-screen.dart';
@@ -14,6 +13,7 @@ import '../modules/MenuGame/view/all_games/math/bindings/math_binding.dart';
 import '../modules/MenuGame/view/all_games/packet/binding/packet_binding.dart';
 import '../modules/MenuGame/view/all_games/timer/bindings/timer_binding.dart';
 import '../modules/MenuGame/view/all_games/word_game/bindings/word_game_binding.dart';
+import '../modules/comment/bindings/comment_binding.dart';
 import '../modules/complaints/binding/complaints_binding.dart';
 import '../modules/complaints/view/complaints.dart';
 import '../modules/complaints/view/user_complaints.dart';
@@ -33,7 +33,6 @@ import '../modules/refrence/binding/refrence_binding.dart';
 import '../modules/refrence/view/refrence.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/settings/binding/setting_binding.dart';
-import '../modules/settings/controller/setting_controller.dart';
 import '../modules/settings/view/settings.dart';
 import '../modules/signin.dart/binding/signin_binding.dart';
 import '../modules/signin.dart/view/signin.dart';
@@ -82,6 +81,7 @@ class AppPages {
       SetteingBinding(),
       ProfileBinding(),
       BooktypeBinding(),
+      CommentBinding(),
       MenuGameBinding(),
       SearchBinding(),
       TimerBinding(),

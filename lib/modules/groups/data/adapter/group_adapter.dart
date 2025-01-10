@@ -24,6 +24,6 @@ abstract class IGroupRepository {
   Future<bool> AddpostUser(Post post);
   Future<List<Content>> GetAllContent();
   Future<bool> RemoveMember(UserGroup userGroup);
-  Future<List<UserGroup>> exsitingMember();
+  Future<List<UserGroup>> existingMember();
   Future<bool> UpdatePost(int idpost, Post post);
 }

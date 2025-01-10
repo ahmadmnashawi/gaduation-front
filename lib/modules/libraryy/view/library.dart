@@ -215,7 +215,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                             shape: const CircleBorder(),
                             backgroundColor:
                                 const Color.fromARGB(255, 245, 146, 149)),
-                        onPressed:   controller.user.value.Name=='Asia Badenjki'
+                        onPressed: controller.user.value.Name == 'Asia Badenjki'
                             ? () {
                                 Get.dialog(Align(
                                   alignment: Alignment.center,
@@ -260,12 +260,13 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                   ),
                                 ));
                               }
-                                 : () {
-                            Get.showSnackbar(const GetSnackBar(
-                              duration: Duration(seconds: 2),
-                              title: 'Access',
-                              message: 'You Dont Have Permission',
-                            ));},    
+                            : () {
+                                Get.showSnackbar(const GetSnackBar(
+                                  duration: Duration(seconds: 2),
+                                  title: 'Access',
+                                  message: 'You Dont Have Permission',
+                                ));
+                              },
                         child: const Icon(
                           Icons.bookmark_add,
                           color: Colors.white,
@@ -419,7 +420,6 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
 
   //  }
   Widget shapCard(Book d) {
-  
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
       child: InkWell(
@@ -761,10 +761,10 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                       /////Update book info
                       Material(
                           child: IconButton(
-                              onPressed: 
-                             controller.auth.isAdmin() ||
-                           controller.user.value.Name=='Asia Badenjki'
-                        ? () {
+                              onPressed: controller.auth.isAdmin() ||
+                                      controller.user.value.Name ==
+                                          'Asia Badenjki'
+                                  ? () {
                                       controller.currentBook.value = d;
                                       controller.getIdBookWritter(
                                           controller.currentBook.value.id!);
@@ -813,22 +813,22 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                         ),
                                       ));
                                     }
-                                            : () {
-                            Get.showSnackbar(const GetSnackBar(
-                              duration: Duration(seconds: 2),
-                              title: 'Access',
-                              message: 'You Dont Have Permission',
-                            ));
-                          },
+                                  : () {
+                                      Get.showSnackbar(const GetSnackBar(
+                                        duration: Duration(seconds: 2),
+                                        title: 'Access',
+                                        message: 'You Dont Have Permission',
+                                      ));
+                                    },
                               icon: const Icon(
                                 Icons.edit,
                                 color: Color.fromARGB(255, 42, 42, 114),
                               ))),
                       Material(
                           child: IconButton(
-                              onPressed:
-                                     controller.auth.isAdmin() ||
-                           controller.user.value.Name=='Asia Badenjki'
+                              onPressed: controller.auth.isAdmin() ||
+                                      controller.user.value.Name ==
+                                          'Asia Badenjki'
                                   ? () {
                                       Get.dialog(Align(
                                           alignment: Alignment.center,
@@ -870,7 +870,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                     children: [
                                                       GFButton(
                                                         color: const Color
-                                                                .fromARGB(
+                                                            .fromARGB(
                                                             255, 246, 123, 127),
                                                         onPressed: () {
                                                           controller
@@ -889,7 +889,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                       ),
                                                       GFButton(
                                                         color: const Color
-                                                                .fromARGB(
+                                                            .fromARGB(
                                                             255, 246, 123, 127),
                                                         onPressed: () {
                                                           Get.back();
@@ -903,13 +903,13 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                 ],
                                               ))));
                                     }
-                                           : () {
-                            Get.showSnackbar(const GetSnackBar(
-                              duration: Duration(seconds: 2),
-                              title: 'Access',
-                              message: 'You Dont Have Permission',
-                            ));
-                          },
+                                  : () {
+                                      Get.showSnackbar(const GetSnackBar(
+                                        duration: Duration(seconds: 2),
+                                        title: 'Access',
+                                        message: 'You Dont Have Permission',
+                                      ));
+                                    },
                               icon: const Icon(
                                 Icons.delete,
                                 color: Colors.red,
@@ -1027,7 +1027,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                                 child: Padding(
                                                                   padding:
                                                                       const EdgeInsets
-                                                                              .all(
+                                                                          .all(
                                                                           8.0),
                                                                   child: Text(
                                                                     'UpdateCount'
@@ -1053,7 +1053,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                            .all(
+                                                                        .all(
                                                                         8.0),
                                                                 child: Text(
                                                                   "${'p'.tr}  $count",
@@ -1073,7 +1073,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                               Padding(
                                                                 padding:
                                                                     const EdgeInsets
-                                                                            .all(
+                                                                        .all(
                                                                         8.0),
                                                                 child: Text(
                                                                   'NewCount'.tr,
@@ -1170,7 +1170,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                                 children: [
                                                                   GFButton(
                                                                     color: const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         255,
                                                                         246,
                                                                         123,
@@ -1267,7 +1267,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                                 children: [
                                                                   GFButton(
                                                                     color: const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         255,
                                                                         246,
                                                                         123,
@@ -1290,7 +1290,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                                   ),
                                                                   GFButton(
                                                                     color: const Color
-                                                                            .fromARGB(
+                                                                        .fromARGB(
                                                                         255,
                                                                         246,
                                                                         123,

@@ -8,7 +8,6 @@ import 'package:graduationproject/app/model/user_Group.dart';
 import 'package:graduationproject/modules/profile/data/profile_repositry.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../api/storage/storge_service.dart';
 import '../../../api/ui/util.dart';
 import '../../../app/model/comment.dart';
 import '../../../app/model/content.dart';
@@ -21,22 +20,12 @@ import '../../sheard/auth_service.dart';
 class ProfileController extends GetxController {
   var click = false.obs;
   final selectContent = Content().obs;
-  var passtoggle = true.obs;
-  final newcontent = Content().obs;
-  final editpost = Post().obs;
-  final stroge = Get.find<StorageService>();
+
   final profileRepo = ProfileRepository();
-  static const String KeyData = "AuthData";
   final userprofile = User().obs;
   final Listuserpost = <PostDto>[].obs;
-  final UpdateUser = User().obs;
   final auth = Get.find<AuthService>();
   final followdelete = Follow().obs;
-  // final user = User().obs;
-  final ImagePicker imagepicker = ImagePicker();
-  PickedFile? imagefile;
-  var valuechoice = ''.obs;
-  var dropdownvalue = 'History'.obs;
   final Contents = <Content>[].obs;
   final stringPickImage = ''.obs;
   final userpost = UserPost().obs;
@@ -72,11 +61,6 @@ class ProfileController extends GetxController {
 
   Future<void> GetUser() async {
     userprofile.value = auth.getDataFromStorage()!;
-  }
-
-  Future takePhoto(ImageSource source) async {
-    final PiickedFile = await imagepicker.getImage(source: source);
-    imagefile = PiickedFile;
   }
 
   Future pickImageFun() async {
@@ -166,6 +150,7 @@ class ProfileController extends GetxController {
       postidnew.value.Image =
           Utility.dataFromBase64String(stringPickImage.value);
     }
+    postidnew.value.IdContent = selectContent.value.Id;
     var result =
         await profileRepo.UpdatePost(postidnew.value.Id!, postidnew.value);
     if (result) {

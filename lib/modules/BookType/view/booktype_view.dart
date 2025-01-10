@@ -4,6 +4,7 @@ import 'package:getwidget/components/border/gf_border.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/types/gf_border_type.dart';
+import 'package:graduationproject/api/ui/help_page.dart';
 
 import '../../../app/model/book_type.dart';
 import '../../settings/view/settings.dart';
@@ -24,16 +25,22 @@ class BookTypePageView extends GetResponsiveView<BookTypeController> {
           child: Column(
             children: [
               Material(
-                child: InkWell(
-                  onTap: () => Get.to(SettingPageView()),
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(Icons.arrow_back_ios,
-                          size: 20, color: Colors.grey),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () => Get.to(SettingPageView()),
+                      child: const Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(Icons.arrow_back_ios,
+                              size: 20, color: Colors.grey),
+                        ),
+                      ),
                     ),
-                  ),
+                    HelpPage(title: controller.text)
+                  ],
                 ),
               ),
               Align(
@@ -63,13 +70,6 @@ class BookTypePageView extends GetResponsiveView<BookTypeController> {
                           decoration: TextDecoration.none),
                     ),
                   )),
-
-              // CardBookType('history', context, 9),
-              // CardBookType('Medicine', context, 9),
-              // CardBookType('Culture', context, 9),
-              // CardBookType('Arabic', context, 9),
-              // CardBookType('Love', context, 9),
-              // CardBookType('Math', context, 9),
               Obx(() => Column(
                   children: controller.AllBookType.map((element) =>
                           CardBookType(
@@ -222,86 +222,6 @@ class BookTypePageView extends GetResponsiveView<BookTypeController> {
                       ),
                     ),
                   ),
-                  Tooltip(
-                    message: 'HelpAboutPage'.tr,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: IconButton(
-                            onPressed: () {
-                              Get.dialog(Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                            color: Colors.blueAccent)),
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Align(
-                                                alignment: Alignment.center,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                    "Help".tr,
-                                                    style: const TextStyle(
-                                                        fontSize: 25,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontFamily: "Pacifico",
-                                                        color: Color.fromARGB(
-                                                            255, 42, 42, 114),
-                                                        decoration:
-                                                            TextDecoration
-                                                                .none),
-                                                  ),
-                                                )),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                10, 8, 10, 10),
-                                            child: Column(
-                                              children: <Widget>[
-                                                Text(
-                                                  controller.text,
-                                                  textAlign: TextAlign.left,
-                                                  style: const TextStyle(
-                                                      fontSize: 18,
-                                                      decoration:
-                                                          TextDecoration.none,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.black87),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ));
-                            },
-                            icon: const Icon(
-                              Icons.help_outline_outlined,
-                              size: 30,
-                              color: Color.fromARGB(255, 246, 123, 127),
-                            )),
-                      ),
-                    ),
-                  )
                 ],
               ),
             ],

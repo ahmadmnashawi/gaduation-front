@@ -6,7 +6,6 @@ import '../controller/signin_controller.dart';
 //import 'package:getwidget/getwidget.dart';
 
 class SignInViewPage extends GetView<SignIncontroller> {
-  @override
   final _formfield = GlobalKey<FormState>();
   final emailcontroller = TextEditingController();
   final passcontroller = TextEditingController();

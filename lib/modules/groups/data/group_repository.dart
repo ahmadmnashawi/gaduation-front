@@ -17,6 +17,7 @@ class GroupRepository implements IGroupRepository {
 
   @override
   Future<bool> AddGroup(Group group) async {
+    print(group.toJson());
     var result = await _dio.post('https://localhost:7252/api/Group/AddGroup',
         data: group.toJson());
     return result.statusCode == 200;
@@ -101,12 +102,6 @@ class GroupRepository implements IGroupRepository {
     }
     return list;
   }
-
-  // @override
-  // Future<bool> AddMember(int idperson, int idGroup) async {
-  //   var result = await _dio.post('', queryParameters: {'id': idperson});
-  //   return result.statusCode == 200;
-  // }
 
   @override
   Future<List<PostDto>> GetAllPost(int idgroup) async {
@@ -203,7 +198,7 @@ class GroupRepository implements IGroupRepository {
   }
 
   @override
-  Future<List<UserGroup>> exsitingMember() async {
+  Future<List<UserGroup>> existingMember() async {
     var result = await _dio.get(
       'https://localhost:7252/api/UserGroup',
     );

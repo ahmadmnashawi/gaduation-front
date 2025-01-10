@@ -1,42 +1,39 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/modules/comment/view/comment.dart';
+
+import '../../../app/model/comment.dart';
+import '../../sheard/auth_service.dart';
 
 class CommentController extends GetxController {
-  var objcomment = commentt('', '', '', 1);
-  var allcommentperson = <commentt>[].obs;
-  var textfieldd = ''.obs;
-  @override
-  void onInit() {
-    super.onInit();
-    getallcomment();
-  }
+  var allCommentPerson = <CommentsDto>[].obs;
+  var textfield = ''.obs;
+  final dio = Get.find<Dio>();
 
-  Future getallcomment() async {
-    objcomment.setcomment('Haya Ye', 'Nice ', 'assets/images/girl.gif', 1);
-    objcomment.setcomment(
-        'Asia ba', 'Good  Idea ', 'assets/images/girl.gif', 1);
-    objcomment.setcomment(
-        'Hadeel da', 'Think You for Information  ', 'assets/images/boy.gif', 1);
-    objcomment.setcomment('Asia Bi', ' I liked ', 'assets/images/girl.gif', 1);
-    objcomment.setcomment('Abd bnu', ' very good ', 'assets/images/boy.gif', 1);
-    allcommentperson.assignAll(objcomment.allcomment);
-  }
+  // Future<void> getAllCommentByPost(int idPost) async {
+  //   var result = await dio.get(
+  //       'https://localhost:7252/api/Comments/PostCommentDto?IdPost=$idPost');
 
-  Future<bool> Putcomplaints(commentt c) async {
-    final dio = Get.find<Dio>();
+  //   var list = <CommentsDto>[];
+  //   for (var item in result.data) {
+  //     list.add(CommentsDto.fromJson(item));
+  //   }
+  //   allCommentPerson.assignAll(list);
+  // }
+
+  Future<bool> putComment(int idPost) async {
+    final auth = Get.find<AuthService>().getDataFromStorage();
+    var data = Comments(
+      comment: textfield.value,
+      idPost: idPost,
+      idUser: auth!.Id!,
+    );
     var result = await dio.post(
         'https://localhost:7252/api/Comments/AddComment',
-        data: c.toJson());
+        data: data.toJson());
     if (result.statusCode == 200) {
       return true;
     } else {
       return false;
     }
-  }
-
-  Future<void> addComment(commentt comm) async {
-    objcomment.allcomment.add(comm);
-    allcommentperson.value = objcomment.allcomment;
   }
 }

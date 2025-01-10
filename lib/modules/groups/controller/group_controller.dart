@@ -14,6 +14,7 @@ import '../../../app/model/post.dart';
 import '../../../app/model/postdto.dart';
 import '../../../app/model/userPost.dart';
 
+import '../../menu/data/home_repositry.dart';
 import '../../sheard/auth_service.dart';
 import '../data/group_repository.dart';
 
@@ -23,7 +24,9 @@ class GroupController extends GetxController {
   var press = false.obs;
   final nowgroup = 0.obs;
   final newpost = Post().obs;
+  final selectContent = Content().obs;
   final contents = <Content>[].obs;
+  final selectContentGroup = Content().obs;
   var dropdownvalue = 'History'.obs;
   final ImagePicker imagepicker = ImagePicker();
   var allGroups = <Group>[].obs;
@@ -43,14 +46,15 @@ class GroupController extends GetxController {
   final addMember = UserGroup().obs;
   final removeMember = UserGroup().obs;
   final editpost = Post().obs;
-  final listcomment = <Comments>[].obs;
+  final listComment = <CommentsDto>[].obs;
   final access = <AccessiblityLogIn>[].obs;
   PickedFile? imagefile;
   final textshowgroup = 'ac'.tr;
   final textaddgroup = 'ae'.tr;
   final texteditg = 'af'.tr;
   final textgroup = 'ag'.tr;
-
+  final formfield = GlobalKey<FormState>();
+  final formFieldGroup = GlobalKey<FormState>();
   //List <String> Content=['History ','IT','Culture','Senice','Math','Medical','Global'];
 
   @override
@@ -61,7 +65,7 @@ class GroupController extends GetxController {
         .getUserLogInAccess()
         .where((element) => element.type == 'Group')
         .toList();
-    ExsistingMember();
+    existingMember();
     super.onInit();
   }
 
@@ -108,17 +112,23 @@ class GroupController extends GetxController {
   }
 
   Future<void> AddGroup() async {
-    // addnewGroup.value.Image =
-    //     Utility.dataFromBase64String(stringPickImage.value);
+    if (stringPickImage.value.isNotEmpty) {
+      addnewGroup.value.Image =
+          Utility.dataFromBase64String(stringPickImage.value);
+    }
+    addnewGroup.value.IdContent = selectContentGroup.value.Id;
     var res = await groupRepo.AddGroup(addnewGroup.value);
     if (res) {
-      getAllGroups();
+      await getAllGroups();
+      Get.back();
+      Get.back();
     }
   }
 
   Future<void> getAllContent() async {
     var data = await groupRepo.GetContent();
     contents.assignAll(data);
+    selectContentGroup.value = contents.first;
   }
 
   Future<void> UpdateGroup() async {
@@ -133,18 +143,20 @@ class GroupController extends GetxController {
 
   Future<void> UpdatePost() async {
     editpost.value.Image = Utility.dataFromBase64String(stringPickImage.value);
-    var data = await groupRepo.UpdatePost(editpost.value.Id!, editpost.value);
+    await groupRepo.UpdatePost(editpost.value.Id!, editpost.value);
   }
 
   Future<void> addUserPost() async {
     var id = auth.getDataFromStorage()!.Id;
     var allPost = await ProfileRepository().GetUserPost(id!);
-    var data = await groupRepo.addUserPost(UserPost(
+    await groupRepo.addUserPost(UserPost(
         Id: 0, Interaction: false, IdPost: allPost.last.post!.Id, IdUser: id));
   }
 
-  Future<void> GetInterActionUser() async {
-    await groupRepo.InteractionUser(userpost.value, IdPost);
+  Future<void> addInterActionUser() async {
+    userpost.value.IdUser = user.value.Id!;
+    await HomeRepository().InteractionUser(userpost.value);
+    await getPosts();
   }
 
   Future<void> GetUser() async {
@@ -152,9 +164,9 @@ class GroupController extends GetxController {
 //  print(user.value.Email);
   }
 
-  Future<void> GetComments(int IdPost) async {
-    var data = await groupRepo.GetComment(IdPost);
-    listcomment.assignAll(data);
+  Future<void> GetComments(int idPost) async {
+    var data = await HomeRepository().GetComment(idPost);
+    listComment.assignAll(data);
   }
 
   Future<void> AddComment() async {
@@ -167,19 +179,17 @@ class GroupController extends GetxController {
     }
   }
 
-  Future<void> GetContens() async {
-    var data = await groupRepo.GetAllContent();
-    contents.assignAll(data);
-  }
-
   Future<void> AddPost(bool fromGroup) async {
     if (fromGroup) {
       newpost.value.IdGroup = currentGroup.value.Id;
       newpost.value.IdContent = currentGroup.value.IdContent;
-    } else {}
+    }
 
     newpost.value.IdUser = user.value.Id;
     newpost.value.dateTime = DateTime.now();
+    if (stringPickImage.value.isNotEmpty) {
+      newpost.value.Image = Utility.dataFromBase64String(stringPickImage.value);
+    }
     var data = await groupRepo.AddpostUser(newpost.value);
     if (data) {
       Get.snackbar(
@@ -215,15 +225,11 @@ class GroupController extends GetxController {
   }
 
   Future<void> AddMember() async {
-    var res = await groupRepo.AddMember(addMember.value);
+    await groupRepo.AddMember(addMember.value);
   }
 
-  Future<void> RemoveMember() async {
-    var res = await groupRepo.RemoveMember(removeMember.value);
-  }
-
-  Future<void> ExsistingMember() async {
-    var data = await groupRepo.exsitingMember();
+  Future<void> existingMember() async {
+    var data = await groupRepo.existingMember();
     personExsisting.value = data.any((element) =>
         element.IdUser == user.value.Id &&
         element.IdGroup == currentGroup.value.Id);

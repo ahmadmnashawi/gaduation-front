@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/modules/signin.dart/view/signin.dart';
 
 import '../../../routes/app_pages.dart';
 import '../controller/splash-screen-controller.dart';

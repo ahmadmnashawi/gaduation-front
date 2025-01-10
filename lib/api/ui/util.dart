@@ -35,20 +35,28 @@ class Utility {
       bool isStratch = true}) {
     if (base64StringPh != null) {
       var image = base64String(base64StringPh);
-      return imageFromBase64String(image, width, hight);
+      return ClipRRect(
+          borderRadius: BorderRadius.circular(25),
+          child: imageFromBase64String(image, width, hight));
     } else if (link != null) {
-      return Image.network(
-        link.trimLeft(),
-        fit: isStratch ? BoxFit.cover : BoxFit.contain,
-        width: width,
-        height: hight,
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Image.network(
+          link.trimLeft(),
+          fit: isStratch ? BoxFit.cover : BoxFit.contain,
+          width: width,
+          height: hight,
+        ),
       );
     } else {
-      return Image.asset(
-        'assets/images/gabal.png',
-        fit: BoxFit.cover,
-        width: 40,
-        height: 40,
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Image.asset(
+          'assets/images/no_image.jpeg',
+          fit: BoxFit.cover,
+          width: 40,
+          height: 40,
+        ),
       );
     }
   }

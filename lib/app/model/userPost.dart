@@ -26,11 +26,11 @@ class UserPost {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
-    json[' interaction'] = Interaction;
-    json[' idUser '] = IdUser;
-    json['user'] = user;
-    json[' idPost '] = IdPost;
-    json[' post '] = post;
+    json['id'] = Id ?? 0;
+    json['interaction'] = Interaction;
+    json['idUser'] = IdUser;
+
+    json['idPost'] = IdPost;
 
     return json;
   }

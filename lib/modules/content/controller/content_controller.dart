@@ -1,7 +1,4 @@
-import 'package:flutter/animation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/modules/sheard/auth_service.dart';
 
 import '../../../api/storage/storge_service.dart';
 import '../../../app/model/content.dart';

@@ -10,7 +10,9 @@ class PostDto {
   String? GroupName;
   bool? Interaction;
   int? numberLike;
+  int? userPostId;
   Post? post;
+
   // Double? NumberLike;
   Comments? comment;
   Uint8List? UserImage;
@@ -32,9 +34,14 @@ class PostDto {
     Id = json['id'];
     UserName = json['userName'];
     GroupName = json['groupName'];
+    userPostId = json['userPostId'];
     Interaction = json['interaction'];
     comment = json['comment'];
-    // UserImage = json['userImage'];
+    UserImage = json['userImage'] == null
+        ? null
+        : Uint8List.fromList(
+            List<int>.from(json['userImage']! as List<dynamic>));
+
     // GroupImage = json['groupImage'];
     UserImageOnline = json['userImageOnline'];
     GroupImageOnline = json['groupImageOnline'];
@@ -48,6 +55,8 @@ class PostDto {
     json['userName'] = UserName;
     json['groupName'] = GroupName;
     json['interaction'] = Interaction;
+    json['userPostId'] = userPostId;
+
     //json['numberLike'] = NumberLike;
     json['comment'] = comment;
     json['userImage'] = UserImage;

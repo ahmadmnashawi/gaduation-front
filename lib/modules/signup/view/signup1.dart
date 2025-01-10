@@ -7,8 +7,8 @@ import 'package:intl/intl.dart';
 import '../../../api/ui/util.dart';
 import '../controller/signup.dart';
 
+// ignore: must_be_immutable
 class signupage extends GetResponsiveView<SignUpController> {
-  @override
   final _formfield = GlobalKey<FormState>();
   final emailcontroller = TextEditingController();
   final passcontroller = TextEditingController();

@@ -14,80 +14,120 @@ class PostPage extends StatelessWidget {
       required this.post,
       required this.onSave,
       required this.pickImage,
+      required this.fromGroup,
+      required this.title,
       super.key});
-  final RxList<Content> contents;
-  final Rx<Content> selectContent;
+  final RxList<Content>? contents;
+  final Rx<Content>? selectContent;
   final Rx<String> stringPickImage;
   final Rx<Post> post;
   final VoidCallback onSave;
   final VoidCallback pickImage;
+  final bool fromGroup;
+  final String title;
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: Column(
-          children: [
-            Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 194, 192, 192)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Obx(() => DropdownButton<Content>(
-                    isExpanded: true,
-                    underline: const SizedBox(),
-                    value: selectContent.value,
-                    items: contents
-                        .map((element) => DropdownMenuItem<Content>(
-                            value: element,
-                            child: Text(element.typeName.toString(),
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black54,
-                                    decoration: TextDecoration.none))))
-                        .toList(),
-                    onChanged: (value) {
-                      selectContent.value = value!;
-                    }))),
-            imageProfile(),
-            Material(
-                child: SizedBox(
-                    width: 300,
-                    child: TextFieldGPWidget(
-                      obscureText: false,
-                      type: TextInputType.text,
-                      label: 'Description'.tr,
-                      validator: (value) {
-                        if (value!.isEmpty ||
-                            !RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/+?^_`{|}~]")
-                                .hasMatch(value)) {
-                          return "EnterCorrectText".tr;
-                        } else {
-                          return null;
-                        }
-                      },
-                      dufaltText: post.value.Description ?? "",
-                      prefIcon: Icons.text_fields,
-                      onChanged: (value) {
-                        post.value.Description = value;
-                      },
-                    ))),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    shadowColor: const Color.fromARGB(255, 42, 42, 114),
-                    backgroundColor: const Color.fromARGB(255, 42, 42, 114)),
-                onPressed: onSave,
-                child: Text(
-                  'Save'.tr,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+      child: Container(
+        width: 500,
+        height: Get.height / 2.5,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.blueAccent)),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Pacifico",
+                          color: Color.fromARGB(255, 42, 42, 114),
+                          decoration: TextDecoration.none),
+                    ),
+                  )),
+              Padding(
+                padding: const EdgeInsets.all(6),
+                child: Column(
+                  children: [
+                    fromGroup
+                        ? Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: const Color.fromARGB(
+                                        255, 194, 192, 192)),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Obx(() => DropdownButton<Content>(
+                                isExpanded: true,
+                                underline: const SizedBox(),
+                                value: selectContent!.value,
+                                items: contents!
+                                    .map((element) => DropdownMenuItem<Content>(
+                                        value: element,
+                                        child: Text(element.typeName.toString(),
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black54,
+                                                decoration:
+                                                    TextDecoration.none))))
+                                    .toList(),
+                                onChanged: (value) {
+                                  selectContent!.value = value!;
+                                })))
+                        : const SizedBox(),
+                    imageProfile(),
+                    Material(
+                        child: SizedBox(
+                            width: Get.height,
+                            child: TextFieldGPWidget(
+                              obscureText: false,
+                              type: TextInputType.text,
+                              label: 'Description'.tr,
+                              validator: (value) {
+                                if (value!.isEmpty ||
+                                    !RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/+?^_`{|}~]")
+                                        .hasMatch(value)) {
+                                  return "EnterCorrectText".tr;
+                                } else {
+                                  return null;
+                                }
+                              },
+                              dufaltText: post.value.Description ?? "",
+                              prefIcon: Icons.text_fields,
+                              onChanged: (value) {
+                                post.value.Description = value;
+                              },
+                            ))),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shadowColor: const Color.fromARGB(255, 42, 42, 114),
+                            backgroundColor:
+                                const Color.fromARGB(255, 42, 42, 114)),
+                        onPressed: onSave,
+                        child: Text(
+                          'Save'.tr,
+                          style: const TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -148,34 +188,17 @@ class PostPage extends StatelessWidget {
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Row(
-                  children: [
-                    FloatingActionButton(
-                      backgroundColor: const Color.fromARGB(255, 246, 123, 127),
-                      foregroundColor: Colors.white,
-                      mini: true,
-                      onPressed: () {},
-                      child: const Icon(Icons.camera),
-                    ),
-                    Text(' Camera'.tr),
-                  ],
+              children: [
+                FloatingActionButton(
+                  backgroundColor: const Color.fromARGB(255, 246, 123, 127),
+                  foregroundColor: Colors.white,
+                  mini: true,
+                  onPressed: pickImage,
+                  child: const Icon(Icons.image),
                 ),
-                const SizedBox(width: 10),
-                Row(
-                  children: [
-                    FloatingActionButton(
-                      backgroundColor: const Color.fromARGB(255, 246, 123, 127),
-                      foregroundColor: Colors.white,
-                      mini: true,
-                      onPressed: pickImage,
-                      child: const Icon(Icons.image),
-                    ),
-                    Text('Galleryy'.tr),
-                  ],
-                )
+                Text('Galleryy'.tr),
               ],
-            ),
+            )
           ],
         ),
       ),

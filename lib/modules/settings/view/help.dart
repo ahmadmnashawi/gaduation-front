@@ -20,7 +20,6 @@ import '../../testwidget/view/test.dart';
 import '../controller/setting_controller.dart';
 
 class HelpPageView extends GetResponsiveView<SettingController> {
-  SettingController controller = Get.put(SettingController());
   @override
   Widget builder() {
     return Container(

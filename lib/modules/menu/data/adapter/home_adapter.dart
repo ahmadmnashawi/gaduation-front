@@ -9,6 +9,6 @@ abstract class IHomeRepository {
   Future<List<PostDto>> GetAllPost();
   Future<List<PostDto>> GetByContent(int idcontent);
   Future<bool> AddComment(Comments comments, int Iduser);
-  Future<List<Comments>> GetComment(int idpost);
+  Future<List<CommentsDto>> GetComment(int idpost);
   Future<bool> InteractionUser(UserPost userPost);
 }

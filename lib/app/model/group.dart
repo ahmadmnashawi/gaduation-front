@@ -29,6 +29,9 @@ class Group {
     Description = json['description'];
     IdContent = json['idContent'];
     content = json['content'];
+    Image = json['image'] == null
+        ? null
+        : Uint8List.fromList(List<int>.from(json['image']! as List<dynamic>));
   }
 
   Map<String, dynamic> toJson() {
@@ -36,6 +39,7 @@ class Group {
     json['id'] = Id ?? 0;
     json['description'] = Description;
     json['groupName'] = groupName;
+    json['image'] = Image == null ? null : Uint8List.fromList(Image!);
     json['idContent'] = IdContent;
     return json;
   }
