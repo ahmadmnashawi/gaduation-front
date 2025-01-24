@@ -36,6 +36,7 @@ class UserAccessibility {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
+    json['id'] = Id ?? 0;
     json['idAccessibility'] = IdAccessibility;
     json['accessibility'] = accessibility;
     json['idReference'] = IdReference ?? 0;

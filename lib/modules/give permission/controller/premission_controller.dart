@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:graduationproject/app/model/accessiblity_logIn.dart';
 import 'package:graduationproject/app/model/group.dart';
 import 'package:graduationproject/app/model/refrence.dart';
 import 'package:graduationproject/app/model/test.dart';
@@ -18,6 +19,7 @@ class PermissionController extends GetxController {
     'Admain post',
     'Admain Group'
   ];
+
   final isChecked = false.obs;
   final user = User().obs;
   final perRepo = PremissionRepository();
@@ -29,14 +31,16 @@ class PermissionController extends GetxController {
   final AllRefr = <Reference>[].obs;
   final AllTest = <Test>[].obs;
   final currentUser = User().obs;
-  // final userAccssebility1=UserAccessibility().obs;
+  final currentLibrary = Library().obs;
+  final currentGroup = Group().obs;
+  final currentAccessibility = Accessibility().obs;
+  final currentReference = Reference().obs;
+  final currentTest = Test().obs;
   final userAccssebility = UserAccessibility().obs;
   final listuserAccssebility = <UserAccessibility>[].obs;
   final accssAllPram = <AllPram>[].obs;
-  final text =
-      'In this interface, the admin gives a new authority to a user he wants';
-  final textdel =
-      'Here the main admin can remove any permission he previously granted to a specific user';
+  final allUserAccssebilityForEdit = <AccessiblityLogIn>[].obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -47,6 +51,12 @@ class PermissionController extends GetxController {
     getAllLibrary();
     getAllRef();
     getAllTest();
+  }
+
+  Future<void> getPramForEdit(int idUser) async {
+    allUserAccssebilityForEdit.clear();
+    var data = await perRepo.GetUserAllWithAllPermission(idUser);
+    allUserAccssebilityForEdit.assignAll(data);
   }
 
   Future<void> GetUser() async {
@@ -74,6 +84,7 @@ class PermissionController extends GetxController {
   }
 
   Future<void> GetAllData() async {
+    accssAllPram.clear();
     var data = await perRepo.GetAllUser();
     for (var element in data) {
       var access = await auth.userAccessibilites(element.Id!);
@@ -89,8 +100,8 @@ class PermissionController extends GetxController {
                 filter.add(f.accessibility!);
               }
             }
-            alltype
-                .add(AllType('Group', filter, element1.object!.id!.toString()));
+            alltype.add(AllType(
+                'Group', filter, element1.object!.id!.toString(), true));
             break;
           case 'Library':
             var filter = <Accessibility>[];
@@ -101,8 +112,8 @@ class PermissionController extends GetxController {
                 filter.add(f.accessibility!);
               }
             }
-            alltype.add(
-                AllType('Library', filter, element1.object!.id!.toString()));
+            alltype.add(AllType(
+                'Library', filter, element1.object!.id!.toString(), true));
             break;
           case 'Test':
             var filter = <Accessibility>[];
@@ -113,8 +124,8 @@ class PermissionController extends GetxController {
                 filter.add(f.accessibility!);
               }
             }
-            alltype
-                .add(AllType('Test', filter, element1.object!.id!.toString()));
+            alltype.add(
+                AllType('Test', filter, element1.object!.id!.toString(), true));
             break;
           case 'Reference':
             var filter = <Accessibility>[];
@@ -125,54 +136,57 @@ class PermissionController extends GetxController {
                 filter.add(f.accessibility!);
               }
             }
-            alltype.add(
-                AllType('Reference', filter, element1.object!.id!.toString()));
+            alltype.add(AllType(
+                'Reference', filter, element1.object!.id!.toString(), true));
             break;
         }
       }
       accssAllPram.add(AllPram(element, alltype));
     }
   }
-  //  Future <void> getAllPremission() async{
-  //   var data = await perRepo.GetPermission();
-  //  listpermissin .assignAll(data );
 
-  // }
   Future<void> getGetUserPermission(int iduser) async {
     var data = await perRepo.GetPermission();
     for (var element in data) {
       element.AccessibilityType = GetType(element.id!);
     }
     listpermissin.assignAll(data);
+    currentAccessibility.value = listpermissin.first;
   }
 
   Future<void> getAllGroups() async {
     var data = await perRepo.GetAllGroup();
     AllGroups.assignAll(data);
+    currentGroup.value = AllGroups.first;
   }
 
   Future<void> getAllLibrary() async {
     var data = await perRepo.getAllLibrary();
     listLibrary.assignAll(data);
+    currentLibrary.value = listLibrary.first;
   }
 
   Future<void> getAllRef() async {
     var data = await perRepo.getAllRefr();
     AllRefr.assignAll(data);
+    currentReference.value = AllRefr.first;
   }
 
   Future<void> getAllTest() async {
     var data = await perRepo.getAllTest();
     AllTest.assignAll(data);
+    currentTest.value = AllTest.first;
   }
 
   Future<void> getAllUser() async {
     var data = await perRepo.GetAllUser();
     AllUser.assignAll(data);
+    currentUser.value = AllUser.first;
   }
 
-  Future<void> delUserpremission(UserAccessibility u) async {
-    var res = await perRepo.DelUserAccessibility(u);
+  Future<void> delUserpremission(
+      int idAc, int idUser, String type, int id) async {
+    var res = await perRepo.DelUserAccessibility(idAc, idUser, type, id);
     if (res) {}
   }
 
@@ -194,5 +208,6 @@ class AllType {
   String? type;
   String? title;
   List<Accessibility>? access;
-  AllType(this.type, this.access, this.title);
+  bool? check;
+  AllType(this.type, this.access, this.title, this.check);
 }

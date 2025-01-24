@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:graduationproject/api/ui/help_page.dart';
 
 import '../controller/menu.dart';
 
@@ -86,7 +85,6 @@ class ContentPage extends GetResponsiveView<HomeController> {
               ),
             ),
           ),
-          HelpPage(title: "Help".tr),
         ],
       )
     ]);

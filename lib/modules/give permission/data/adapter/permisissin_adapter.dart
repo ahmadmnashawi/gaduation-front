@@ -15,5 +15,5 @@ abstract class IPremissionRepository {
   Future<List<Group>> GetAllGroup();
   Future<List<UserAccessibility>> GetUserPermission();
   Future<bool> AddUserAccessibility(UserAccessibility user);
-  Future<bool> DelUserAccessibility(UserAccessibility user);
+  Future<bool> DelUserAccessibility(int idAc, int idUser, String type, int id);
 }

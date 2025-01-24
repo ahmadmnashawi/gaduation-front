@@ -10,10 +10,9 @@ class Answer {
 
   Answer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    CorrectAnswer = json['CorrectAnswer'];
-    answer = json['answer '];
-    IdTest = json[' IdTest '];
-    test = json['test '];
+    CorrectAnswer = json['correctAnswer'];
+    answer = json['answer'];
+    IdTest = json['idTest'];
   }
 
   Map<String, dynamic> toJson() {

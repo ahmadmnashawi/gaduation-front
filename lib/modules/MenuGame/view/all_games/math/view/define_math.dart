@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/api/ui/help_page.dart';
 import 'package:graduationproject/modules/MenuGame/controller/menu_game_controller.dart';
 import 'package:graduationproject/modules/MenuGame/view/all_games/math/controller/math_controller.dart';
 import 'package:graduationproject/modules/MenuGame/view/all_games/math/view/second_level.dart';
@@ -114,7 +113,6 @@ class DefineMath extends GetResponsiveView<MenuGameController> {
                 ),
               ],
             ),
-            HelpPage(title: controller.textMath)
           ],
         ),
       ],

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:graduationproject/api/ui/help_page.dart';
 import 'package:graduationproject/app/model/content.dart';
 
 import '../controller/content_controller.dart';
@@ -51,7 +50,6 @@ class Contentpage extends GetResponsiveView<ContentController> {
                         )),
                   ],
                 ),
-                HelpPage(title: controller.text)
               ],
             ),
             const SizedBox(
@@ -96,7 +94,6 @@ class Contentpage extends GetResponsiveView<ContentController> {
                                         ),
                                       ),
                                     ),
-                                    HelpPage(title: controller.addtext)
                                   ],
                                 ),
                                 Material(

@@ -1,38 +1,36 @@
-
-import 'dart:typed_data';
-
 import 'package:graduationproject/app/model/writter.dart';
 
 import 'book.dart';
 
-class   BookWriter{
+class BookWriter {
   int? Id;
- int? IdBook ;
+  int? IdBook;
   Book? book;
-  int ?IdWriter;
-Writer? writer;
- BookWriter( {
+  int? IdWriter;
+  Writer? writer;
+  BookWriter({
     this.Id,
-   this.IdBook,
-   this.book,
-   this.IdWriter,
-   this.writer,
+    this.IdBook,
+    this.book,
+    this.IdWriter,
+    this.writer,
   });
 
   BookWriter.fromJson(Map<String, dynamic> json) {
-   Id = json['id'];
-  IdBook =json['IdBook '];
-  book =json['book '];   
- IdWriter =json['IdWriter ']; 
-   writer =json['writer']; 
+    Id = json['id'];
+    IdBook = json['idBook'];
+    book = Book.fromJson(json['book'] as Map<String, dynamic>);
+    IdWriter = json['idWriter'];
+    writer = Writer.fromJson(json['writer'] as Map<String, dynamic>);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = new Map<String, dynamic>();
-    json['IdBook']=IdBook;
-  json[' book']= book;
-  json['IdWriter']= IdWriter;
-  json[' writer']= writer;
+    json['id'] = Id ?? 0;
+    json['idBook'] = IdBook;
+    json['idWriter'] = IdWriter;
+    json['isDeleted'] = false;
+
     return json;
   }
 }

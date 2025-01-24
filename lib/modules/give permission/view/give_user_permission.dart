@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:graduationproject/app/model/Accsessbuility.dart';
+import 'package:graduationproject/app/model/library.dart';
+import 'package:graduationproject/app/model/refrence.dart';
+import 'package:graduationproject/app/model/test.dart';
 
+import '../../../app/model/group.dart';
+import '../../../app/model/user.dart';
 import '../controller/premission_controller.dart';
 
-class GiveUserPermission extends GetResponsiveView {
-  @override
-  PermissionController controller = Get.put(PermissionController());
-
+class GiveUserPermission extends GetResponsiveView<PermissionController> {
   GiveUserPermission({super.key});
   @override
   Widget builder() {
@@ -32,111 +35,7 @@ class GiveUserPermission extends GetResponsiveView {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      typeCard(
-                        'Group',
-                        GFAccordion(
-                          title: "Group".tr,
-                          textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 246, 123, 127),
-                              decoration: TextDecoration.none),
-                          contentChild: Obx(() => Column(
-                                children: controller.AllGroups.map((element) =>
-                                    TextButton(
-                                        onPressed: () {
-                                          controller.userAccssebility.value
-                                              .IdGroup = element.Id;
-                                        },
-                                        child: Text(
-                                            element.groupName.toString(),
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.black54,
-                                                decoration: TextDecoration
-                                                    .none)))).toList(),
-                              )),
-                        ),
-                      ),
-                      typeCard(
-                          'Library',
-                          GFAccordion(
-                            title: "Library".tr,
-                            textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Color.fromARGB(255, 246, 123, 127),
-                                decoration: TextDecoration.none),
-                            contentChild: Obx(() => Column(
-                                  children: controller.listLibrary
-                                      .map((element) => TextButton(
-                                          onPressed: () {
-                                            controller.userAccssebility.value
-                                                .IdLibrary = element.Id;
-                                          },
-                                          child: Text(
-                                              element.libraryName.toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black54,
-                                                  decoration:
-                                                      TextDecoration.none))))
-                                      .toList(),
-                                )),
-                          )),
-                      typeCard(
-                          'Test',
-                          GFAccordion(
-                            title: "Test".tr,
-                            textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Color.fromARGB(255, 246, 123, 127),
-                                decoration: TextDecoration.none),
-                            contentChild: Obx(() => Column(
-                                  children: controller.AllTest.map((element) =>
-                                      TextButton(
-                                          onPressed: () {
-                                            controller.userAccssebility.value
-                                                .IdTest = element.Id;
-                                          },
-                                          child: Text(element.test.toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black54,
-                                                  decoration: TextDecoration
-                                                      .none)))).toList(),
-                                )),
-                          )),
-                      typeCard(
-                          'Reference',
-                          GFAccordion(
-                            title: "Reference".tr,
-                            textStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Color.fromARGB(255, 246, 123, 127),
-                                decoration: TextDecoration.none),
-                            contentChild: Obx(() => Column(
-                                  children: controller.AllRefr.map((element) =>
-                                      TextButton(
-                                          onPressed: () {
-                                            controller.userAccssebility.value
-                                                .IdReference = element.Id;
-                                          },
-                                          child: Text(
-                                              element.referenceName.toString(),
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black54,
-                                                  decoration: TextDecoration
-                                                      .none)))).toList(),
-                                )),
-                          ))
+                      typeCard('Give Premission'),
                     ],
                   ),
             Obx(() => SingleChildScrollView(
@@ -151,85 +50,288 @@ class GiveUserPermission extends GetResponsiveView {
     );
   }
 
-  Widget typeCard(String Type, Widget data) {
+  Widget typeCard(String Type) {
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        await controller.getAllUser();
         Get.dialog(
           Material(
-            child: Align(
-              alignment: Alignment.center,
-              child: SizedBox(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(Icons.arrow_back_ios)),
+                Column(
                   children: [
-                    IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(Icons.arrow_back_ios)),
-                    GFAccordion(
-                      title: "Premission".tr,
-                      textStyle: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 246, 123, 127),
-                          decoration: TextDecoration.none),
-                      contentChild: Obx(() => Column(
-                            children: controller.listpermissin
-                                .map((element) => TextButton(
-                                    onPressed: () {
-                                      controller.userAccssebility.value
-                                          .IdAccessibility = element.id;
-                                    },
-                                    child: Text(
-                                        element.AccessibilityType.toString(),
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black54,
-                                            decoration: TextDecoration.none))))
-                                .toList(),
-                          )),
+                    const Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Choose User'),
                     ),
-                    data,
-                    Center(
-                      child: Material(
-                        child: GFButton(
-                          color: const Color.fromARGB(255, 42, 42, 114),
-                          onPressed: () async {
-                            await controller.GetAllUserAccess();
-                            if (controller.listuserAccssebility.any((element) =>
-                                element.IdAccessibility ==
-                                    controller.userAccssebility.value
-                                        .IdAccessibility &&
-                                element.IdUser ==
-                                    controller.userAccssebility.value.IdUser)) {
-                              var userAcc = controller.listuserAccssebility
-                                  .where((element) =>
-                                      element.IdAccessibility ==
-                                          controller.userAccssebility.value
-                                              .IdAccessibility &&
-                                      element.IdUser ==
-                                          controller
-                                              .userAccssebility.value.IdUser)
-                                  .first;
-                              controller.userAccssebility.value.Id = userAcc.Id;
-                              controller.perRepo.UpdateUserAccessibility(
-                                  controller.userAccssebility.value);
-                            } else {
-                              controller.userAccssebility.value.Id = 0;
-                              controller.perRepo.AddUserAccessibility(
-                                  controller.userAccssebility.value);
-                            }
-                          },
-                          text: "Save",
-                          textStyle: const TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 194, 192, 192)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Obx(() => DropdownButton<User>(
+                              isExpanded: true,
+                              underline: const SizedBox(),
+                              value: controller.currentUser.value,
+                              items: controller.AllUser.map((element) =>
+                                  DropdownMenuItem<User>(
+                                      value: element,
+                                      child: Text(element.Name.toString(),
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54,
+                                              decoration: TextDecoration
+                                                  .none)))).toList(),
+                              onChanged: (element) {
+                                controller.userAccssebility.value.IdUser =
+                                    element!.Id!;
+                                controller.currentUser.value = element;
+                              }))),
                     ),
                   ],
                 ),
-              ),
+                Column(
+                  children: [
+                    const Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Choose Premission'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 194, 192, 192)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Obx(() => DropdownButton<Accessibility>(
+                              isExpanded: true,
+                              underline: const SizedBox(),
+                              value: controller.currentAccessibility.value,
+                              items: controller.listpermissin
+                                  .map((element) => DropdownMenuItem<
+                                          Accessibility>(
+                                      value: element,
+                                      child: Text(
+                                          element.AccessibilityType.toString(),
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54,
+                                              decoration:
+                                                  TextDecoration.none))))
+                                  .toList(),
+                              onChanged: (element) {
+                                controller.currentAccessibility.value =
+                                    element!;
+                                controller.userAccssebility.value
+                                    .IdAccessibility = element.id;
+                              }))),
+                    ),
+                  ],
+                ),
+                Divider(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'This Premission Will Give For All ',
+                    style: TextStyle(color: Colors.pinkAccent),
+                  ),
+                ),
+                Column(
+                  children: [
+                    const Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Choose Group'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 194, 192, 192)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Obx(() => DropdownButton<Group>(
+                              isExpanded: true,
+                              underline: const SizedBox(),
+                              value: controller.currentGroup.value,
+                              items: controller.AllGroups.map((element) =>
+                                  DropdownMenuItem<Group>(
+                                      value: element,
+                                      child: Text(element.groupName.toString(),
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54,
+                                              decoration: TextDecoration
+                                                  .none)))).toList(),
+                              onChanged: (element) {
+                                controller.currentGroup.value = element!;
+                                controller.userAccssebility.value.IdGroup =
+                                    element.Id;
+                              }))),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Choose Library'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 194, 192, 192)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Obx(() => DropdownButton<Library>(
+                              isExpanded: true,
+                              underline: const SizedBox(),
+                              value: controller.currentLibrary.value,
+                              items: controller.listLibrary
+                                  .map((element) => DropdownMenuItem<Library>(
+                                      value: element,
+                                      child: Text(
+                                          element.libraryName.toString(),
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54,
+                                              decoration:
+                                                  TextDecoration.none))))
+                                  .toList(),
+                              onChanged: (element) {
+                                controller.currentLibrary.value = element!;
+                                controller.userAccssebility.value.IdLibrary =
+                                    element.Id;
+                              }))),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Choose Test'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 194, 192, 192)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Obx(() => DropdownButton<Test>(
+                              isExpanded: true,
+                              underline: const SizedBox(),
+                              value: controller.currentTest.value,
+                              items: controller.AllTest.map((element) =>
+                                  DropdownMenuItem<Test>(
+                                      value: element,
+                                      child: Text(element.test.toString(),
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54,
+                                              decoration: TextDecoration
+                                                  .none)))).toList(),
+                              onChanged: (element) {
+                                controller.currentTest.value = element!;
+                                controller.userAccssebility.value.IdTest =
+                                    element.Id;
+                              }))),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Choose Reference'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color:
+                                      const Color.fromARGB(255, 194, 192, 192)),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Obx(() => DropdownButton<Reference>(
+                              isExpanded: true,
+                              underline: const SizedBox(),
+                              value: controller.currentReference.value,
+                              items: controller.AllRefr.map((element) =>
+                                  DropdownMenuItem<Reference>(
+                                      value: element,
+                                      child: Text(
+                                          element.referenceName.toString(),
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54,
+                                              decoration: TextDecoration
+                                                  .none)))).toList(),
+                              onChanged: (element) {
+                                controller.currentReference.value = element!;
+                                controller.userAccssebility.value.IdReference =
+                                    element.Id;
+                              }))),
+                    ),
+                  ],
+                ),
+                Center(
+                  child: Material(
+                    child: GFButton(
+                      color: const Color.fromARGB(255, 42, 42, 114),
+                      onPressed: () async {
+                        await controller.GetAllUserAccess();
+                        if (controller.listuserAccssebility.any((element) =>
+                            element.IdAccessibility ==
+                                controller
+                                    .userAccssebility.value.IdAccessibility &&
+                            element.IdUser ==
+                                controller.userAccssebility.value.IdUser)) {
+                          var userAcc = controller.listuserAccssebility
+                              .where((element) =>
+                                  element.IdAccessibility ==
+                                      controller.userAccssebility.value
+                                          .IdAccessibility &&
+                                  element.IdUser ==
+                                      controller.userAccssebility.value.IdUser)
+                              .first;
+                          controller.userAccssebility.value.Id = userAcc.Id;
+                          controller.perRepo.UpdateUserAccessibility(
+                              controller.userAccssebility.value);
+                        } else {
+                          controller.userAccssebility.value.Id = 0;
+                          controller.perRepo.AddUserAccessibility(
+                              controller.userAccssebility.value);
+                        }
+                        await controller.GetAllData();
+                        Get.back();
+                      },
+                      text: "Save",
+                      textStyle: const TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -249,40 +351,101 @@ class GiveUserPermission extends GetResponsiveView {
   Widget userShap(AllPram allPram) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Card(
-        child: Wrap(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(allPram.user!.Name ?? ''),
-            ),
-            Wrap(
-              children: allPram.allType!
-                  .map((e) => Column(
-                        children: [
-                          Text(e.type!),
-                          Column(
-                            children: e.access!
-                                .map(
-                                  (q) => SizedBox(
-                                    width: 200,
-                                    child: CheckboxListTile(
-                                        title: Text(q.AccessibilityType ?? ''),
-                                        subtitle:
-                                            Text('${e.type!} { ${e.title} }'),
-                                        value: true,
-                                        onChanged: (value) {}),
-                                  ),
+      child: allPram.user!.Name == 'Admin'
+          ? const SizedBox()
+          : Card(
+              child: Wrap(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(allPram.user!.Name ?? ''),
+                      ),
+                      controller.auth.isAdmin()
+                          ? IconButton(
+                              onPressed: () async {
+                                await controller
+                                    .getPramForEdit(allPram.user!.Id!);
+                                print(
+                                    '99999999999999999999999999999${controller.allUserAccssebilityForEdit.length}');
+                                Get.dialog(Material(
+                                    child: Column(
+                                  children: [
+                                    IconButton(
+                                        icon: const Icon(Icons.arrow_back_ios),
+                                        onPressed: () {
+                                          Get.back();
+                                        }),
+                                    Obx(() => Column(
+                                        children: controller
+                                            .allUserAccssebilityForEdit
+                                            .map((r) => Card(
+                                                  child: ListTile(
+                                                    title: Row(
+                                                      children: [
+                                                        Text(r.type ?? ''),
+                                                        Text(
+                                                            ' : ${r.object!.groupName}')
+                                                      ],
+                                                    ),
+                                                    subtitle: Text(r
+                                                            .accessibility!
+                                                            .AccessibilityType ??
+                                                        ''),
+                                                    trailing: IconButton(
+                                                        onPressed: () async {
+                                                          await controller.delUserpremission(
+                                                              r.accessibility!
+                                                                  .id!,
+                                                              allPram.user!.Id!,
+                                                              r.type!,
+                                                              r.object!.id!);
+                                                          Get.back();
+                                                          await controller
+                                                              .GetAllData();
+                                                        },
+                                                        icon:
+                                                            Icon(Icons.delete)),
+                                                  ),
+                                                ))
+                                            .toList())),
+                                  ],
+                                )));
+                              },
+                              icon: const Icon(Icons.edit))
+                          : const SizedBox()
+                    ],
+                  ),
+                  Wrap(
+                    children: allPram.allType!
+                        .map((e) => Column(
+                              children: [
+                                Text(e.type!),
+                                Column(
+                                  children: e.access!
+                                      .map(
+                                        (q) => SizedBox(
+                                          width: 200,
+                                          child: CheckboxListTile(
+                                              title: Text(
+                                                  q.AccessibilityType ?? ''),
+                                              subtitle: Text(
+                                                  '${e.type!} { ${e.title} }'),
+                                              value: e.check,
+                                              onChanged: (value) {}),
+                                        ),
+                                      )
+                                      .toList(),
                                 )
-                                .toList(),
-                          )
-                        ],
-                      ))
-                  .toList(),
-            )
-          ],
-        ),
-      ),
+                              ],
+                            ))
+                        .toList(),
+                  )
+                ],
+              ),
+            ),
     );
   }
 }

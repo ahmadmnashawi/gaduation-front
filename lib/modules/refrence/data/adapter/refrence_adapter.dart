@@ -5,8 +5,8 @@ import '../../../../app/model/refrenceDto.dart';
 abstract class IRefrenceRepository {
   Future<List<Reference>> GetAllRefrence();
   Future<List<Reference>> GetRefrencelink(int id);
-  Future<bool> DelRefrence(Reference reference);
+  Future<bool> DelRefrence(int idReference);
   Future<bool> AddRefrence(Reference reference);
   Future<List<RefrenceDto>> GeAllrefrenceAdmain();
-   Future<List<Content>> GetARefrenceConternt();
+  Future<List<Content>> GetARefrenceConternt();
 }

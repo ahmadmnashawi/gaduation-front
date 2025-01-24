@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../controller/test_controller.dart';
 
-class TestdBinding extends Bindings {
+class TestBinding extends Bindings {
   @override
   void dependencies() {
     Get.put(TestController());

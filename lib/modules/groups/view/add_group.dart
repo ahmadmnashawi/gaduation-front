@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'package:graduationproject/api/ui/help_page.dart';
-
 import '../../../api/ui/util.dart';
 import '../../../app/model/content.dart';
 import '../../sheard/text_feild_GP.dart';
 import '../controller/group_controller.dart';
-import 'post_Group.dart';
 
 class AddGroup extends GetResponsiveView<GroupController> {
   AddGroup({super.key});
@@ -129,60 +125,6 @@ class AddGroup extends GetResponsiveView<GroupController> {
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
-                      onPressed: () {
-                        Get.dialog(Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: 500,
-                            height: 370,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.blueAccent)),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Align(
-                                      alignment: Alignment.center,
-                                      child: Padding(
-                                        //////////////////////////////////////////
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          "Addposttt".tr,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "Pacifico",
-                                              color: Colors.blueGrey,
-                                              decoration: TextDecoration.none),
-                                        ),
-                                      )),
-                                  Container(
-                                    child: PostGrpoup(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ));
-                      },
-                      child: Text(
-                        'areyou'.tr,
-                        style: const TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      )),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () async {
                     if (controller.formFieldGroup.currentState!.validate()) {
@@ -203,9 +145,6 @@ class AddGroup extends GetResponsiveView<GroupController> {
                   ),
                 ),
               ),
-              HelpPage(
-                title: controller.textaddgroup,
-              )
             ],
           ),
         ),

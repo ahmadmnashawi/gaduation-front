@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/api/ui/help_page.dart';
 import 'package:graduationproject/modules/MenuGame/controller/menu_game_controller.dart';
 import 'package:graduationproject/modules/MenuGame/view/all_games/foucs/controller/foucs_controller.dart';
 import 'package:graduationproject/modules/MenuGame/view/all_games/foucs/view/second_level.dart';
@@ -106,9 +105,6 @@ class FoucsGameView extends GetResponsiveView {
         Container(
           height: 160,
         ),
-        HelpPage(
-          title: controller.textFoucs,
-        )
       ]),
     );
   }

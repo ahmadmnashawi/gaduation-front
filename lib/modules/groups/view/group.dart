@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/api/ui/help_page.dart';
 import 'package:graduationproject/modules/groups/view/add_group.dart';
 
 import '../../../api/ui/util.dart';
@@ -330,7 +329,6 @@ class GroupView extends GetResponsiveView<GroupController> {
                     .map((element) => postProfile(element))
                     .toList(),
               )),
-          HelpPage(title: controller.textgroup)
         ]),
       ),
     );

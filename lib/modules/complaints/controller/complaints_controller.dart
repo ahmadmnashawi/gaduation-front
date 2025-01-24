@@ -60,7 +60,7 @@ class ComplaintsController extends GetxController {
     c.IdUser = user.value.Id;
     var res = await comRepo.Updatecomplaint(c);
     if (res) {
-      getComplaints();
+      await getComplaints();
       Get.back();
     }
   }

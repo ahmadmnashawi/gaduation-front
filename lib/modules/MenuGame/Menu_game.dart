@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:graduationproject/app/model/GameDto.dart';
 import 'package:graduationproject/modules/menu/view/HomePage.dart';
 
-import '../../api/ui/help_page.dart';
 import '../../api/ui/util.dart';
 import 'controller/menu_game_controller.dart';
 import 'levels.dart';
@@ -56,7 +55,6 @@ class MenuGamePageView extends GetResponsiveView<MenuGameController> {
                   children: controller.listGameUser
                       .map((e) => cardShape(e, random))
                       .toList())),
-              HelpPage()
             ],
           ),
         ));

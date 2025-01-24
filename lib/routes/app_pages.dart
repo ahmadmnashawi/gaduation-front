@@ -19,6 +19,7 @@ import '../modules/complaints/view/complaints.dart';
 import '../modules/complaints/view/user_complaints.dart';
 import '../modules/content/binding/content_binding.dart';
 import '../modules/content/view/content.dart';
+import '../modules/give permission/binding/permission_binding.dart';
 import '../modules/groups/binding/group_binding.dart';
 import '../modules/groups/view/show_group.dart';
 import '../modules/libraryy/binding/library_Binding.dart';
@@ -37,6 +38,7 @@ import '../modules/settings/view/settings.dart';
 import '../modules/signin.dart/binding/signin_binding.dart';
 import '../modules/signin.dart/view/signin.dart';
 import '../modules/signup/binding/signup_binding.dart';
+import '../modules/testwidget/binding/test_binding.dart';
 
 part 'app_routes.dart';
 
@@ -90,6 +92,11 @@ class AppPages {
       LetterBinding(),
       PacketBinding(),
       WordGameBinding(),
+      PermissionBinding(),
+      TestBinding(),
+      RefrenceBinding(),
+      ComplainsBinding(),
+      LibraryBinding(),
       MathBinding()
     ], children: [
       GetPage(

@@ -8,7 +8,6 @@ import '../../../app/model/refrenceDto.dart';
 import '../controller/refrence_controller.dart';
 
 class UserRefrencePageView extends GetResponsiveView<RerenceController> {
-  RerenceController controller = Get.put(RerenceController());
   @override
   Widget builder() {
     return Container(
@@ -52,82 +51,6 @@ class UserRefrencePageView extends GetResponsiveView<RerenceController> {
                   .map((element) =>
                       shapeUser(element.Admin!.Name.toString(), element))
                   .toList()),
-          Tooltip(
-            message: 'HelpAboutPage'.tr,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.bottomRight,
-                child: IconButton(
-                    onPressed: () {
-                      Get.dialog(Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.blueAccent)),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Align(
-                                        alignment: Alignment.center,
-                                        child: Padding(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Help".tr,
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: "Pacifico",
-                                                color: Color.fromARGB(
-                                                    255, 42, 42, 114),
-                                                decoration:
-                                                    TextDecoration.none),
-                                          ),
-                                        )),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        10, 8, 10, 10),
-                                    child: Column(
-                                      children: <Widget>[
-                                        new Text(
-                                          controller.textallrefrence,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              decoration: TextDecoration.none,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black87),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ));
-                    },
-                    icon: Icon(
-                      Icons.help_outline_outlined,
-                      size: 30,
-                      color: Color.fromARGB(255, 246, 123, 127),
-                    )),
-              ),
-            ),
-          )
-          // shapeUser('Aya Ahmad',),
-          //       shapeUser('Randa  Ahjkdw',)
         ]),
       ),
     );
@@ -269,7 +192,8 @@ class UserRefrencePageView extends GetResponsiveView<RerenceController> {
                                                                           .typeName = e.toString();
 
                                                                       controller
-                                                                          .DeleRefrence();
+                                                                          .DeleRefrence(
+                                                                              0);
                                                                     },
                                                                     child: Text(
                                                                       'Yes'.tr,

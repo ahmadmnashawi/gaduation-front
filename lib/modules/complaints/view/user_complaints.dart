@@ -5,8 +5,6 @@ import '../../../app/model/complaints.dart';
 import '../controller/complaints_controller.dart';
 
 class UserComplaintspageView extends GetResponsiveView<ComplaintsController> {
-  @override
-  ComplaintsController controller = Get.put(ComplaintsController());
   final myController = TextEditingController();
   final _formfield = GlobalKey<FormState>();
 
@@ -75,7 +73,10 @@ class UserComplaintspageView extends GetResponsiveView<ComplaintsController> {
                           vertical: 0, horizontal: 0)),
                   child: Text(
                     'Send'.tr,
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 42, 42, 114),
+                    ),
                   ),
                 ),
               ),
@@ -180,7 +181,7 @@ class UserComplaintspageView extends GetResponsiveView<ComplaintsController> {
   Widget gettype({required int index}) {
     Widget widget;
     switch (index) {
-      case 0:
+      case 2:
         widget = Padding(
           padding: const EdgeInsets.all(8.0),
           child: Align(

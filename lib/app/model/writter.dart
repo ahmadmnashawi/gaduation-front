@@ -8,7 +8,7 @@ class Writer {
 
   Writer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    writerName = json['writerName '];
+    writerName = json['writerName'];
   }
 
   Map<String, dynamic> toJson() {

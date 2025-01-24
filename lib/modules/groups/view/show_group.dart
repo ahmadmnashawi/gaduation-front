@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/api/ui/help_page.dart';
 import 'package:graduationproject/modules/groups/controller/group_controller.dart';
 import 'package:graduationproject/modules/groups/view/group.dart';
 
@@ -31,7 +30,6 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
                     ),
                   ),
                 ),
-                HelpPage(title: controller.textshowgroup),
               ],
             ),
             Row(

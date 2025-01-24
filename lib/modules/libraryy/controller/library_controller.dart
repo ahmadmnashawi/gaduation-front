@@ -1,4 +1,5 @@
 import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduationproject/app/model/book.dart';
 import 'package:graduationproject/app/model/book_type.dart';
@@ -22,12 +23,14 @@ import '../data/libraray_repositry.dart';
 class LibraryContrller extends GetxController {
   var valuepice = 0.obs;
   final booklibraryAdd = BookLibrary().obs;
-  final addoneBook = Book().obs;
+  final addOneBook = Book().obs;
   late AnimationController controller;
   late Animation<double> animation;
   final stroge = Get.find<StorageService>();
   final Booklist = <Book>[].obs;
   final libraryRepo = LibraryRepository();
+  final selectBookType = BookType().obs;
+  final selectWriter = Writer().obs;
   final ImagePicker imagepicker = ImagePicker();
   final stringPickImage = ''.obs;
   PickedFile? imagefile;
@@ -37,10 +40,11 @@ class LibraryContrller extends GetxController {
   final updatelibrary = Library().obs;
   final IdLibrary = 0.obs;
   final Newlibrary = Library().obs;
-  final Booktype = <BookType>[];
-  final AllAutour = <Writer>[];
+  final Booktype = <BookType>[].obs;
+  final AllAutour = <Writer>[].obs;
+  final listWriterToAdd = <BookWriter>[].obs;
   final addBook = Book().obs;
-
+  final formField = GlobalKey<FormState>();
   final idbook = 0.obs;
   final buybook = Buybook().obs;
   final writerBook = BookWriter().obs;
@@ -102,7 +106,7 @@ class LibraryContrller extends GetxController {
   Future<void> dellibrary(int idlibrary) async {
     var res = await libraryRepo.DeleteLibrary(idlibrary);
     if (res) {
-      getAllLibrary();
+      await getAllLibrary();
     }
   }
 
@@ -117,7 +121,7 @@ class LibraryContrller extends GetxController {
     var res = await libraryRepo.AddLibrary(newlibrart);
     if (res) {
       //for refresh
-      getAllLibrary();
+      await getAllLibrary();
       Get.back();
     }
   }
@@ -156,31 +160,55 @@ class LibraryContrller extends GetxController {
   Future<void> getAllBook() async {
     var data = await libraryRepo.getbookLibrary(IdLibrary.value);
     Booklist.assignAll(data);
-    getAllBookType();
+    await getAllBookType();
+    selectBookType.value = Booktype.first;
   }
 
-  Future<void> addBooktolibrary() async {
-    var res = await libraryRepo.AddBook(booklibraryAdd.value);
+  Future<void> addBooktolibrary(int idBook) async {
+    booklibraryAdd.value.IdBook = idBook;
+    booklibraryAdd.value.IdLibrary = IdLibrary.value;
+    await libraryRepo.AddBook(booklibraryAdd.value);
   }
 
-  Future<void> addBookwritter() async {
-    var res = await libraryRepo.Bookwritter(writerBook.value);
+  Future<bool> addBookwritter(int idBook) async {
+    for (var element in listWriterToAdd) {
+      element.IdBook = idBook;
+      await libraryRepo.Bookwritter(element);
+    }
+    return true;
   }
 
   Future<void> addBookone() async {
-    addoneBook.value.bookImage =
+    addOneBook.value.bookImage =
         Utility.dataFromBase64String(stringPickImage.value);
-    var res = await libraryRepo.AddBookone(addoneBook.value);
+    if (addOneBook.value.id != null) {
+      UpdateBookinfo(addOneBook.value.id!, addOneBook.value);
+    } else {
+      var res = await libraryRepo.AddBookone(addOneBook.value);
+      print('*******************$res');
+      if (res != 0) {
+        await addBookwritter(res);
+        await addBooktolibrary(res);
+        await getAllBook();
+        addOneBook.value = Book();
+        stringPickImage.value = '';
+
+        Get.back();
+      }
+    }
   }
 
   Future<void> getAllWriter() async {
     var data = await libraryRepo.GetAllAuthourlibrary(IdLibrary.value);
     AllAutour.assignAll(data);
+    selectWriter.value = AllAutour.first;
   }
 
   Future<void> getAllBookType() async {
     var data = await libraryRepo.GetAllTypeBooklibrary(IdLibrary.value);
-    Booktype.assignAll(data);
+    if (data.isNotEmpty) {
+      Booktype.assignAll(data);
+    }
   }
 
   Future<void> getAllBookByType(int idBooktype) async {
@@ -208,7 +236,7 @@ class LibraryContrller extends GetxController {
   }
 
   Future<void> AddToBuyBookback(Buybook buyBook) async {
-    var data = await libraryRepo.AddToBuyBook(buyBook);
+    await libraryRepo.AddToBuyBook(buyBook);
   }
 
   Future<void> getIdBookLibrary(int idbbook, int idlibraryas) async {

@@ -1,34 +1,26 @@
-
-import 'dart:typed_data';
-
-import 'package:graduationproject/app/model/post.dart';
 import 'package:graduationproject/app/model/test.dart';
 
 import 'Answer.dart';
-import 'comment.dart';
-import 'content.dart';
 
-class  TestDto {
- 
-   Test? test;
-   List<Answer>? answers;
-TestDto(
-      {
-      this.test,
-   
-      });
+class TestDto {
+  Test? test;
+  List<Answer>? answers = [];
+  TestDto({this.test, this.answers});
 
-TestDto.fromJson(Map<String, dynamic> json) {
-   test = json['test'];
-    answers = json['answers'];
- 
+  TestDto.fromJson(Map<String, dynamic> json) {
+    test = Test.fromJson(json['test'] as Map<String, dynamic>);
+
+    for (var item in (json['answers'] as List)) {
+      var value = Answer.fromJson(item as Map<String, dynamic>);
+      answers!.add(value);
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = new Map<String, dynamic>();
     json['test'] = test;
-    json['answers'] =answers;
-   
+    json['answers'] = answers;
+
     return json;
   }
 }

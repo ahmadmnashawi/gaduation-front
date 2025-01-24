@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/api/ui/help_page.dart';
 
 import '../../../../controller/menu_game_controller.dart';
 import '../controller/word_controller.dart';
@@ -69,7 +68,6 @@ class Splashscrren extends GetView<MenuGameController> {
             ),
           ),
           Container(height: 160),
-          HelpPage(title: controller.textWordGame)
         ],
       ),
     );

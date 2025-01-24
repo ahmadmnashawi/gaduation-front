@@ -14,7 +14,7 @@ abstract class ILibraryRepository {
   Future<List<Book>> getbookLibrary(int idlibrary);
   Future<List<Library>> getAllLibrary();
   Future<bool> AddBook(BookLibrary library);
-  Future<bool> AddBookone(Book book);
+  Future<int> AddBookone(Book book);
   Future<bool> DeleteBook(int idlibrary, int idbook);
   Future<bool> BascketBook(Buybook buybook);
   Future<bool> AddLibrary(Library library);

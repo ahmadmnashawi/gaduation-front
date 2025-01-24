@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getwidget/components/button/gf_button.dart';
-import 'package:getwidget/components/image/gf_image_overlay.dart';
 import 'package:getwidget/shape/gf_button_shape.dart';
 
 import '../../../api/ui/util.dart';
@@ -42,7 +41,7 @@ class InvoicLibraryepage extends GetResponsiveView<LibraryContrller> {
                       "Invoce".tr +
                           controller.currentLibrary.value.libraryName
                               .toString(),
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                           fontFamily: "Pacifico",
@@ -55,86 +54,6 @@ class InvoicLibraryepage extends GetResponsiveView<LibraryContrller> {
                       .map((element) => CardInvoic(
                           element.user!.Name.toString(), context, element))
                       .toList()),
-              Tooltip(
-                message: 'HelpAboutPage'.tr,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: IconButton(
-                        onPressed: () {
-                          Get.dialog(Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                    border:
-                                        Border.all(color: Colors.blueAccent)),
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Text(
-                                                "Help".tr,
-                                                style: TextStyle(
-                                                    fontSize: 25,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily: "Pacifico",
-                                                    color: Color.fromARGB(
-                                                        255, 42, 42, 114),
-                                                    decoration:
-                                                        TextDecoration.none),
-                                              ),
-                                            )),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            10, 8, 10, 10),
-                                        child: Column(
-                                          children: <Widget>[
-                                            new Text(
-                                              controller.fatouralibrary,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  decoration:
-                                                      TextDecoration.none,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black87),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ));
-                        },
-                        icon: Icon(
-                          Icons.help_outline_outlined,
-                          size: 30,
-                          color: Color.fromARGB(255, 246, 123, 127),
-                        )),
-                  ),
-                ),
-              )
-              // CardInvoic('Asia Badnjki', context),
-              //    CardInvoic('Hadel Dabbas', context),
-              //       CardInvoic('Haya Yosofi', context),
-              //          CardInvoic('Asia Badnjki', context)
             ],
           ),
         ),
@@ -151,7 +70,7 @@ class InvoicLibraryepage extends GetResponsiveView<LibraryContrller> {
           child: Container(
             width: MediaQuery.of(context).size.width / 1.1,
             decoration: BoxDecoration(
-                color: Color.fromARGB(255, 248, 251, 253),
+                color: const Color.fromARGB(255, 248, 251, 253),
                 border: Border.all(
                   color: Colors.grey,
                   width: 1.3,

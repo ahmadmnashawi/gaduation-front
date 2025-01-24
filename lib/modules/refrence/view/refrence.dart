@@ -8,8 +8,6 @@ import '../../../app/model/content.dart';
 import '../controller/refrence_controller.dart';
 
 class RefrencePageView extends GetResponsiveView<RerenceController> {
-  @override
-  RerenceController controller = Get.put(RerenceController());
   final _formfield = GlobalKey<FormState>();
 
   RefrencePageView({super.key});
@@ -89,144 +87,143 @@ class RefrencePageView extends GetResponsiveView<RerenceController> {
                                   width: 400,
                                   height: 350,
                                   child: SingleChildScrollView(
-                                    child: Column(children: [
-                                      Text(
-                                        'AddNewRefrence'.tr,
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "Pacifico",
-                                            color: Color.fromARGB(
-                                                255, 42, 42, 114),
-                                            decoration: TextDecoration.none),
-                                      ),
-                                      Material(
-                                        child: GFAccordion(
-                                          title: "GroupType".tr,
-                                          textStyle: const TextStyle(
-                                              fontWeight: FontWeight.bold,
+                                    child: Material(
+                                      child: Column(children: [
+                                        Text(
+                                          'AddNewRefrence'.tr,
+                                          style: const TextStyle(
                                               fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "Pacifico",
                                               color: Color.fromARGB(
-                                                  255, 246, 123, 127),
+                                                  255, 42, 42, 114),
                                               decoration: TextDecoration.none),
-                                          contentChild: Column(
-                                            children: controller.contenst
-                                                .map((element) => TextButton(
-                                                    onPressed: () {
-                                                      controller.Addrefrence
-                                                              .value.IdContent =
-                                                          element.Id;
-                                                    },
-                                                    child: Text(
-                                                        element.typeName
-                                                            .toString(),
-                                                        style: const TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            color:
-                                                                Colors.black54,
-                                                            decoration:
-                                                                TextDecoration
-                                                                    .none))))
-                                                .toList(),
-                                          ),
                                         ),
-                                      ),
-                                      Material(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: 350,
-                                            height: 60,
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                labelText: 'AddRefrence'.tr,
-                                                labelStyle: const TextStyle(
-                                                    color: Color.fromARGB(
-                                                        255, 246, 123, 127),
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                        Padding(
+                                          padding: const EdgeInsets.all(4),
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: const Color.fromARGB(
+                                                          255, 194, 192, 192)),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10)),
+                                              child: Obx(() => DropdownButton<
+                                                      Content>(
+                                                  isExpanded: true,
+                                                  underline: const SizedBox(),
+                                                  value: controller
+                                                      .selectContent.value,
+                                                  items: controller.contenst
+                                                      .map((element) =>
+                                                          DropdownMenuItem<Content>(
+                                                              value: element,
+                                                              child: Text(element.typeName.toString(), style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black54, decoration: TextDecoration.none))))
+                                                      .toList(),
+                                                  onChanged: (value) {
+                                                    controller.selectContent
+                                                        .value = value!;
+                                                    controller.Addrefrence.value
+                                                        .IdContent = value.Id;
+                                                  }))),
+                                        ),
+                                        Material(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: 350,
+                                              height: 60,
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText: 'AddRefrence'.tr,
+                                                  labelStyle: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 246, 123, 127),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                onChanged: (value) {
+                                                  controller.valuetext.value =
+                                                      value;
+                                                  // controller.addBookType.value.bookType =
+                                                  //     value;
+                                                },
                                               ),
-                                              onChanged: (value) {
-                                                controller.valuetext.value =
-                                                    value;
-                                                // controller.addBookType.value.bookType =
-                                                //     value;
-                                              },
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      Material(
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: SizedBox(
-                                            width: 350,
-                                            height: 60,
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                labelText: 'Name Refreanc'.tr,
-                                                labelStyle: const TextStyle(
-                                                    color: Color.fromARGB(
-                                                        255, 246, 123, 127),
-                                                    fontWeight:
-                                                        FontWeight.bold),
+                                        Material(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                              width: 350,
+                                              height: 60,
+                                              child: TextFormField(
+                                                decoration: InputDecoration(
+                                                  labelText: 'Name Refreanc'.tr,
+                                                  labelStyle: const TextStyle(
+                                                      color: Color.fromARGB(
+                                                          255, 246, 123, 127),
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                onChanged: (value) {
+                                                  controller.Addrefrence.value
+                                                      .referenceName = value;
+                                                  // controller.addBookType.value.bookType =
+                                                  //     value;
+                                                },
                                               ),
-                                              onChanged: (value) {
+                                            ),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: GFButton(
+                                            onPressed: () async {
+                                              if (controller
+                                                  .valuetext.value.isEmpty) {
+                                                Get.snackbar(
+                                                  'Error'.tr,
+                                                  "PleaseInputValue".tr,
+                                                  icon: const Icon(Icons.person,
+                                                      color: Colors.white),
+                                                  snackPosition:
+                                                      SnackPosition.BOTTOM,
+                                                  backgroundColor:
+                                                      const Color.fromARGB(
+                                                          255, 246, 123, 127),
+                                                  borderRadius: 20,
+                                                  margin:
+                                                      const EdgeInsets.all(15),
+                                                  colorText: Colors.white,
+                                                  duration: const Duration(
+                                                      seconds: 4),
+                                                  isDismissible: true,
+                                                  forwardAnimationCurve:
+                                                      Curves.easeOutBack,
+                                                );
+                                              } else {
                                                 controller.Addrefrence.value
-                                                    .referenceName = value;
-                                                // controller.addBookType.value.bookType =
-                                                //     value;
-                                              },
-                                            ),
+                                                        .Link =
+                                                    controller.valuetext.value;
+                                                await controller.AddRefrence();
+                                                Get.back();
+                                                await controller
+                                                    .getAllRefrence();
+                                              }
+
+                                              // controller.AddBookType(
+                                              //     controller.addBookType.value);
+                                            },
+                                            text: "Added".tr,
+                                            color: const Color.fromARGB(
+                                                255, 42, 42, 114),
+                                            shape: GFButtonShape.pills,
                                           ),
                                         ),
-                                      ),
-                                      Center(
-                                        child: GFButton(
-                                          onPressed: () {
-                                            if (controller
-                                                .valuetext.value.isEmpty) {
-                                              Get.snackbar(
-                                                'Error'.tr,
-                                                "PleaseInputValue".tr,
-                                                icon: const Icon(Icons.person,
-                                                    color: Colors.white),
-                                                snackPosition:
-                                                    SnackPosition.BOTTOM,
-                                                backgroundColor:
-                                                    const Color.fromARGB(
-                                                        255, 246, 123, 127),
-                                                borderRadius: 20,
-                                                margin:
-                                                    const EdgeInsets.all(15),
-                                                colorText: Colors.white,
-                                                duration:
-                                                    const Duration(seconds: 4),
-                                                isDismissible: true,
-                                                forwardAnimationCurve:
-                                                    Curves.easeOutBack,
-                                              );
-                                            } else {
-                                              controller
-                                                      .Addrefrence.value.Link =
-                                                  controller.valuetext.value;
-                                              controller.AddRefrence();
-                                              Get.back();
-                                              controller.getAllRefrence();
-                                            }
-
-                                            // controller.AddBookType(
-                                            //     controller.addBookType.value);
-                                          },
-                                          text: "Added".tr,
-                                          color: const Color.fromARGB(
-                                              255, 42, 42, 114),
-                                          shape: GFButtonShape.pills,
-                                        ),
-                                      ),
-                                    ]),
+                                      ]),
+                                    ),
                                   ),
                                 )));
                           },
@@ -237,86 +234,6 @@ class RefrencePageView extends GetResponsiveView<RerenceController> {
                   )
                 ],
               ),
-              Material(
-                child: Tooltip(
-                  message: 'HelpAboutPage'.tr,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: IconButton(
-                          onPressed: () {
-                            Get.dialog(Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(20),
-                                      border:
-                                          Border.all(color: Colors.blueAccent)),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Align(
-                                              alignment: Alignment.center,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "Help".tr,
-                                                  style: const TextStyle(
-                                                      fontSize: 25,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontFamily: "Pacifico",
-                                                      color: Color.fromARGB(
-                                                          255, 42, 42, 114),
-                                                      decoration:
-                                                          TextDecoration.none),
-                                                ),
-                                              )),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              10, 8, 10, 10),
-                                          child: Column(
-                                            children: <Widget>[
-                                              Text(
-                                                controller.textallrefrence,
-                                                textAlign: TextAlign.left,
-                                                style: const TextStyle(
-                                                    fontSize: 18,
-                                                    decoration:
-                                                        TextDecoration.none,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.black87),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ));
-                          },
-                          icon: const Icon(
-                            Icons.help_outline_outlined,
-                            size: 30,
-                            color: Color.fromARGB(255, 246, 123, 127),
-                          )),
-                    ),
-                  ),
-                ),
-              )
             ],
           ),
         )));
@@ -344,47 +261,142 @@ class RefrencePageView extends GetResponsiveView<RerenceController> {
                     color: Color.fromARGB(255, 246, 123, 127),
                     decoration: TextDecoration.none),
                 contentChild: Obx(() => Column(
-                    children: controller.ListRefrence.where(
-                            (p0) => p0.IdContent == r.Id)
-                        .map((element) => Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.topLeft,
+                    children:
+                        controller.ListRefrence.where(
+                                (p0) => p0.IdContent == r.Id)
+                            .map(
+                              (element) => Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          element.referenceName.toString(),
+                                          softWrap: true,
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black54),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: InkWell(
+                                      onTap: () {
+                                        js.context.callMethod(
+                                            'openn'.tr, [element.Link!]);
+                                      },
                                       child: Text(
-                                        element.referenceName.toString(),
-                                        softWrap: true,
+                                        element.Link.toString(),
                                         style: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black54),
+                                            color: Colors.blue,
+                                            decoration: TextDecoration.none,
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                  ],
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: InkWell(
-                                    onTap: () {
-                                      js.context.callMethod(
-                                          'openn'.tr, [element.Link!]);
-                                    },
-                                    child: Text(
-                                      element.Link.toString(),
-                                      style: const TextStyle(
-                                          color: Colors.blue,
-                                          decoration: TextDecoration.none,
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.bold),
-                                    ),
                                   ),
-                                )
-                              ],
-                            ))
-                        .toList())),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      const SizedBox(),
+                                      controller.auth.isAdmin()
+                                          ? IconButton(
+                                              onPressed: () {
+                                                Get.dialog(Align(
+                                                    alignment: Alignment.center,
+                                                    child: Container(
+                                                        width: 220,
+                                                        height: 120,
+                                                        decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            border: Border.all(
+                                                                color: Colors
+                                                                    .blueAccent)),
+                                                        child:
+                                                            SingleChildScrollView(
+                                                                child: Column(
+                                                          children: [
+                                                            Text(
+                                                              "AreSureToRemove?"
+                                                                  .tr,
+                                                              style: TextStyle(
+                                                                  fontSize: 18,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontFamily:
+                                                                      "Pacifico",
+                                                                  color: Color
+                                                                      .fromARGB(
+                                                                          255,
+                                                                          42,
+                                                                          42,
+                                                                          114),
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
+                                                              child: Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    TextButton(
+                                                                        onPressed:
+                                                                            () async {
+                                                                          await controller.DeleRefrence(
+                                                                              element.Id!);
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          'Yes'
+                                                                              .tr,
+                                                                          style:
+                                                                              TextStyle(color: Color.fromARGB(255, 245, 146, 149)),
+                                                                        )),
+                                                                    TextButton(
+                                                                        onPressed:
+                                                                            () {
+                                                                          Get.back();
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          'No'.tr,
+                                                                          style:
+                                                                              TextStyle(color: Color.fromARGB(255, 245, 146, 149)),
+                                                                        )),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        )))));
+                                              },
+                                              icon: Icon(
+                                                Icons.delete,
+                                                color: Color.fromARGB(
+                                                    255, 184, 183, 183),
+                                              ))
+                                          : SizedBox(),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                            .toList())),
               ),
             ),
           ),

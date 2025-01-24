@@ -31,7 +31,8 @@ class LibraryRepository implements ILibraryRepository {
 //
   @override
   Future<bool> AddBook(BookLibrary library) async {
-    var result = await _dio.post("https://localhost:7192/api/BookLibrary",
+    var result = await _dio.post(
+        'https://localhost:7252/api/BookLibrary/AddBookLibrary',
         data: library.toJson());
     if (result.statusCode == 200) {
       return true;
@@ -64,7 +65,8 @@ class LibraryRepository implements ILibraryRepository {
 
   @override
   Future<bool> AddLibrary(Library library) async {
-    var result = await _dio.post('https://localhost:7252/api/Library',
+    var result = await _dio.post(
+        'https://localhost:7252/api/Library/AddLibrary',
         data: library.toJson());
     if (result.statusCode == 200) {
       return true;
@@ -76,7 +78,7 @@ class LibraryRepository implements ILibraryRepository {
   @override
   Future<bool> DeleteLibrary(int idlibrary) async {
     var result = await _dio.delete(
-      "https://localhost:7252/api/Library?id=$idlibrary",
+      "https://localhost:7252/api/Library/Delete/IdLibrary?IdLibrary=$idlibrary",
     );
     if (result.statusCode == 200) {
       return true;
@@ -97,7 +99,8 @@ class LibraryRepository implements ILibraryRepository {
 
   @override
   Future<bool> UpdateLibrary(int idlibrsry, Library library) async {
-    var result = await _dio.put('https://localhost:7252/api/Library/$idlibrsry',
+    var result = await _dio.put(
+        'https://localhost:7252/api/Library/Put/$idlibrsry',
         data: library.toJson());
     if (result.statusCode == 200) {
       return true;
@@ -120,7 +123,7 @@ class LibraryRepository implements ILibraryRepository {
 
   @override
   Future<List<Writer>> GetAllAuthourlibrary(int idlibrary) async {
-    var result = await _dio.get('https://localhost:7252/api/BookWriter');
+    var result = await _dio.get('https://localhost:7252/api/Writer');
 
     print(result);
     var list = <Writer>[];
@@ -132,13 +135,17 @@ class LibraryRepository implements ILibraryRepository {
 
   @override
   Future<List<BookType>> GetAllTypeBooklibrary(int library) async {
+    print('////////////////////$library');
     var result = await _dio.get(
         'https://localhost:7252/api/Library/GetLibraryBookType?IdLibrary=$library');
     print(result);
     var list = <BookType>[];
-    for (var item in result.data) {
-      list.add(BookType.fromJson(item));
+    if (result.statusCode == 200) {
+      for (var item in result.data) {
+        list.add(BookType.fromJson(item));
+      }
     }
+
     return list;
   }
 
@@ -171,13 +178,14 @@ class LibraryRepository implements ILibraryRepository {
   }
 
   @override
-  Future<bool> AddBookone(Book book) async {
+  Future<int> AddBookone(Book book) async {
     var result = await _dio.post('https://localhost:7252/api/Book/AddBook',
         data: book.toJson());
+    print(result.data);
     if (result.statusCode == 200) {
-      return true;
+      return int.parse(result.data.toString());
     } else {
-      return false;
+      return 0;
     }
   }
 
@@ -191,7 +199,7 @@ class LibraryRepository implements ILibraryRepository {
 
   @override
   Future<bool> Bookwritter(BookWriter book) async {
-    var result = await _dio.post('https://localhost:7252/api/BookWritter',
+    var result = await _dio.post('https://localhost:7252/api/BookWriter',
         data: book.toJson());
     if (result.statusCode == 200) {
       return true;

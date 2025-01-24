@@ -35,12 +35,13 @@ class Book {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
-    json['IsDeleted'] = IsDeleted;
+    json['id'] = id ?? 0;
+    json['isDeleted'] = IsDeleted ?? false;
     json['bookName'] = bookName;
-    json['image'] = bookImage == null ? null : Uint8List.fromList(bookImage!);
-    json[' bookPrice'] = bookPrice;
+    json['bookImage'] =
+        bookImage == null ? null : Uint8List.fromList(bookImage!);
+    json['bookPrice'] = bookPrice;
     json['idBookType'] = idBookType;
-    json[' bookType'] = bookType;
     return json;
   }
 }

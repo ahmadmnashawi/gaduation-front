@@ -13,15 +13,15 @@ class TestController extends GetxController {
   var object = Question('', '', '', '', '');
   var AllQustion = <Question>[].obs;
   var correctvalue = ''.obs;
+  final selectContent = Content().obs;
   var result = 0.obs;
   final idtest = 0.obs;
-  final textadd = 'yyy'.tr;
-  final text = 'zzz'.tr;
+
   final testRepo = TestRepository();
   final Addtest = Test().obs;
   final ListTestContent = <Content>[];
-  final contents = <Content>[];
-  final ListTestByContent = <TestDto>[];
+  final contents = <Content>[].obs;
+  final ListTestByContent = <TestDto>[].obs;
   final ListCorrectvalue = <String>[];
   final nowTest = Test().obs;
   final numberQustion = 4.obs;
@@ -36,7 +36,12 @@ class TestController extends GetxController {
   var SportList = <Question>[].obs;
   var EnglishList = <Question>[].obs;
   var scienceList = <Question>[].obs;
-  final Listtsst = ['It Test ', 'Scenice Test', 'English Test', 'Sport Test'];
+  final Listtsst = [
+    TestDto(test: Test(test: 'It Test ')),
+    TestDto(test: Test(test: 'Scenice Test')),
+    TestDto(test: Test(test: 'English Test')),
+    TestDto(test: Test(test: 'Sport Test')),
+  ].obs;
   @override
   void onInit() {
     super.onInit();
@@ -66,13 +71,14 @@ class TestController extends GetxController {
         Get.to(QuestionPageView());
         break;
       default:
+        Get.to(QuestionPageView());
         break;
     }
   }
 
   void fullInfo() {
     AllQustion.add(
-      Question('which Mwmory is the basic in java ?', "Heap", "Immortal", "LTM",
+      Question('which Memory is the basic in java ?', "Heap", "Immortal", "LTM",
           "Heap"),
     );
     AllQustion.add(
@@ -148,18 +154,7 @@ class TestController extends GetxController {
   Future<void> getContent() async {
     var data = await GroupRepository().GetAllContent();
     contents.assignAll(data);
-  }
-
-  void onChangevalue(var select, var correct) {
-    selectedvalue.value = select;
-    // if (correctvalue.value == true) {
-    //   result.value++;
-    //   print('succses');
-    // }
-    if (select == correct) {
-      result.value++;
-      print('succses');
-    }
+    selectContent.value = contents.first;
   }
 
   Future<void> getAllTestKind() async {
@@ -182,8 +177,29 @@ class TestController extends GetxController {
     }
   }
 
+  Future<void> addAllQution() async {
+    // await addQution(nowTest.value);
+
+    // var idTest = await GetId(nowTest.value.test!);
+
+    // answer1.value.IdTest = idTest;
+    // await addAnswer(answer1.value);
+    // answer2.value.IdTest = idTest;
+    // await addAnswer(answer2.value);
+    // answer3.value.IdTest = idTest;
+    // await addAnswer(answer3.value);
+    // answer4.value.IdTest = idTest;
+    // await addAnswer(answer4.value);
+
+    print("DataAdded".tr);
+    //  await getData();
+    Get.back();
+    AllQustion.add(Question(nowTest.value.test!, answer1.value.answer!,
+        answer2.value.answer!, answer3.value.answer!, answer4.value.answer!));
+  }
+
   Future<void> addAnswer(Answer a) async {
-    var res = await testRepo.AddAnswer(a);
+    await testRepo.AddAnswer(a);
   }
 
   Future<int> GetId(String test) async {

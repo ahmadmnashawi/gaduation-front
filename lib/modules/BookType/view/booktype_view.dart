@@ -4,7 +4,6 @@ import 'package:getwidget/components/border/gf_border.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/types/gf_border_type.dart';
-import 'package:graduationproject/api/ui/help_page.dart';
 
 import '../../../app/model/book_type.dart';
 import '../../settings/view/settings.dart';
@@ -39,13 +38,13 @@ class BookTypePageView extends GetResponsiveView<BookTypeController> {
                         ),
                       ),
                     ),
-                    HelpPage(title: controller.text)
                   ],
                 ),
               ),
-              Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       "bts".tr,
@@ -56,27 +55,7 @@ class BookTypePageView extends GetResponsiveView<BookTypeController> {
                           color: Color.fromARGB(255, 42, 42, 114),
                           decoration: TextDecoration.none),
                     ),
-                  )),
-              Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "albt".tr,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontFamily: "Pacifico",
-                          color: Colors.grey,
-                          decoration: TextDecoration.none),
-                    ),
-                  )),
-              Obx(() => Column(
-                  children: controller.AllBookType.map((element) =>
-                          CardBookType(
-                              element.bookType.toString(), context, element))
-                      .toList())),
-              Row(
-                children: [
+                  ),
                   Tooltip(
                     message: 'and'.tr,
                     child: Padding(
@@ -224,6 +203,25 @@ class BookTypePageView extends GetResponsiveView<BookTypeController> {
                   ),
                 ],
               ),
+              Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "albt".tr,
+                      style: const TextStyle(
+                          fontSize: 20,
+                          fontFamily: "Pacifico",
+                          color: Colors.grey,
+                          decoration: TextDecoration.none),
+                    ),
+                  )),
+              Obx(() => SingleChildScrollView(
+                    child: Column(
+                        children: controller.AllBookType.map((element) =>
+                            CardBookType(element.bookType.toString(), context,
+                                element)).toList()),
+                  )),
             ],
           ),
         ),
@@ -249,7 +247,7 @@ class BookTypePageView extends GetResponsiveView<BookTypeController> {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              height: 21,
+              //  height: 21,
               color: const Color.fromARGB(255, 252, 253, 252),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

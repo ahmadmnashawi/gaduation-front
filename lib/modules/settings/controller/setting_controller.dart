@@ -59,6 +59,6 @@ class SettingController extends GetxController {
   }
 
   Future<void> DelUser() async {
-    await setRepo.Deluser(user.value);
+    await setRepo.Deluser(user.value.Id!);
   }
 }

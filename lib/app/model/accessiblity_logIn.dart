@@ -46,7 +46,24 @@ class Object {
 
   Object.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    groupName = json['groupName'];
+    if (json['groupName'] == null) {
+      if (json['libraryName'] == null) {
+        if (json['referenceName'] == null) {
+          if (json['test'] == null) {
+            groupName = '';
+          } else {
+            groupName = json['test'];
+          }
+        } else {
+          groupName = json['referenceName'];
+        }
+      } else {
+        groupName = json['libraryName'];
+      }
+    } else {
+      groupName = json['groupName'];
+    }
+
     description = json['description'];
     isDeleted = json['isDeleted'];
     idContent = json['idContent'];

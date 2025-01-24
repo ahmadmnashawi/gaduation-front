@@ -347,7 +347,8 @@ class AppTranslation extends Translations {
           "yousho": "you should Flip All Card",
           "NEXTLevel": "NEXT Level",
           ":Timer": ": Timer",
-          "WelcomtoWordPlay": "Welcom to Word Play"
+          "WelcomtoWordPlay": "Welcom to Word Play",
+          "delete_account": "Delete Account"
         },
         "ar": {
           "yes": "نعم",
@@ -682,7 +683,8 @@ class AppTranslation extends Translations {
           "yousho": "يجب عليك قلب جميع البطاقات",
           "NEXTLevel": "المرحلة التالية",
           ":Timer": ": مؤقت",
-          "WelcomtoWordPlay": "مرحباً بك في لعبة الكلمات"
+          "WelcomtoWordPlay": "مرحباً بك في لعبة الكلمات",
+          "delete_account": "حذف الحساب"
         }
       };
 }

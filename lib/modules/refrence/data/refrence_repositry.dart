@@ -34,9 +34,10 @@ class RefrenceRepository implements IRefrenceRepository {
   }
 
   @override
-  Future<bool> DelRefrence(Reference reference) async {
-    var result = await _dio.delete('https://localhost:7192/api/Reference',
-        data: reference.toJson());
+  Future<bool> DelRefrence(int idReference) async {
+    var result = await _dio.delete(
+      'https://localhost:7252/api/Reference/Delete/$idReference',
+    );
     return result.statusCode == 200;
   }
 

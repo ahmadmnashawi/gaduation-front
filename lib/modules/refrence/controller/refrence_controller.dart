@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:graduationproject/modules/sheard/auth_service.dart';
 
 import '../../../app/model/content.dart';
 import '../../../app/model/refrence.dart';
@@ -17,6 +18,8 @@ class RerenceController extends GetxController {
   final valuetext = ''.obs;
   final textallrefrence = 'refrencehelp'.tr;
   final contenst = <Content>[].obs;
+  final selectContent = Content().obs;
+  final auth = Get.find<AuthService>();
   final refrences = [
     'it'.tr, 'ara'.tr,
     // 'Math Reference',
@@ -32,6 +35,7 @@ class RerenceController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     getAllRefrence();
+    getAllrefreneAdmi();
   }
 
   Future<void> getcontent() async {
@@ -43,6 +47,7 @@ class RerenceController extends GetxController {
     var data = await refrenceRepo.GetAllRefrence();
     var dataContent = await GroupRepository().GetContent();
     contenst.assignAll(dataContent);
+    selectContent.value = contenst.first;
     for (var element in data) {
       element.content = dataContent
           .where((element1) => element1.Id == element.IdContent)
@@ -56,12 +61,14 @@ class RerenceController extends GetxController {
     ListRefrenceLink.assignAll(data);
   }
 
-  Future<void> DeleRefrence() async {
-    var data = await refrenceRepo.DelRefrence(DelRefrence.value);
+  Future<void> DeleRefrence(int id) async {
+    await refrenceRepo.DelRefrence(id);
+    Get.back();
+    await getAllRefrence();
   }
 
   Future<void> AddRefrence() async {
-    var data = await refrenceRepo.AddRefrence(Addrefrence.value);
+    await refrenceRepo.AddRefrence(Addrefrence.value);
   }
 
   Future<void> getAllrefreneAdmi() async {

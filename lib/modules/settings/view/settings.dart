@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:graduationproject/app/model/group.dart';
+import 'package:graduationproject/modules/complaints/controller/complaints_controller.dart';
 import 'package:graduationproject/modules/groups/controller/group_controller.dart';
 import 'package:graduationproject/modules/libraryy/view/show_librarys.dart';
 import 'package:graduationproject/modules/testwidget/view/test.dart';
@@ -24,15 +26,16 @@ class SettingPageView extends GetResponsiveView<SettingController> {
   @override
   Widget builder() {
     final auth = Get.find<AuthService>();
-    return Container(
+    return Material(
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                const SizedBox(),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(85, 8, 8, 8),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
                   child: Center(
                     child: Text('Settings'.tr,
                         style: const TextStyle(
@@ -43,14 +46,11 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                             fontFamily: "Pacifico")),
                   ),
                 ),
-                const SizedBox(
-                  width: 20,
-                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
                       width: 250,
-                      height: 100,
+                      height: 75,
                       child: Image.asset('assets/images/setting.gif')),
                 ),
               ],
@@ -60,23 +60,20 @@ class SettingPageView extends GetResponsiveView<SettingController> {
               child: Wrap(
                 children: [
                   auth.isAdmin()
-                      ? Material(
-                          child: InkWell(
-                              onTap: () {
-                                final groupController =
-                                    Get.find<GroupController>();
-                                groupController.addnewGroup.value = Group();
-                                Get.to(AddGroup());
-                              },
-                              child: Tooltip(
-                                  message: 'add'.tr,
-                                  child: CardSetting(
-                                    "Group".tr,
-                                    Icons.group_add,
-                                  ))),
+                      ? InkWell(
+                          onTap: () {
+                            final groupController = Get.find<GroupController>();
+                            groupController.addnewGroup.value = Group();
+                            Get.to(AddGroup());
+                          },
+                          child: Tooltip(
+                              message: 'add'.tr,
+                              child: CardSetting(
+                                "Group".tr,
+                                Icons.group_add,
+                              )),
                         )
                       : const SizedBox.shrink(),
-
                   Material(
                     child: InkWell(
                         onTap: () {
@@ -138,12 +135,14 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                   auth.isAdmin()
                       ? Material(
                           child: InkWell(
-                            onTap: () {
+                            onTap: () async {
+                              await Get.find<ComplaintsController>()
+                                  .getComplaints();
                               Get.to(ComplaintspageView());
                             },
                             child: Tooltip(
                                 message: 'AddComplaints'.tr,
-                                child: CardSetting("com".tr,
+                                child: CardSetting("Com".tr,
                                     Icons.account_balance_wallet_rounded)),
                           ),
                         )
@@ -156,12 +155,13 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                       child: Tooltip(
                           message: 'ShowRefrences'.tr,
                           child:
-                              CardSetting(" Refrences".tr, Icons.location_on)),
+                              CardSetting("Refrences".tr, Icons.location_on)),
                     ),
                   ),
                   Material(
                     child: InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        await Get.find<ComplaintsController>().getRefrence();
                         Get.dialog(Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -200,110 +200,6 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                                                       TextDecoration.none),
                                             ),
                                           )),
-                                      Material(
-                                        child: Tooltip(
-                                          message: 'lp'.tr,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Align(
-                                              alignment: Alignment.bottomRight,
-                                              child: IconButton(
-                                                  onPressed: () {
-                                                    Get.dialog(Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: Align(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20),
-                                                              border: Border.all(
-                                                                  color: Colors
-                                                                      .blueAccent)),
-                                                          child:
-                                                              SingleChildScrollView(
-                                                            child: Column(
-                                                              children: [
-                                                                const SizedBox(
-                                                                  height: 10,
-                                                                ),
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          8.0),
-                                                                  child: Align(
-                                                                      alignment:
-                                                                          Alignment
-                                                                              .center,
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .all(
-                                                                            8.0),
-                                                                        child:
-                                                                            Text(
-                                                                          "el".tr,
-                                                                          style: const TextStyle(
-                                                                              fontSize: 25,
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontFamily: "Pacifico",
-                                                                              color: Color.fromARGB(255, 42, 42, 114),
-                                                                              decoration: TextDecoration.none),
-                                                                        ),
-                                                                      )),
-                                                                ),
-                                                                const Padding(
-                                                                  padding: EdgeInsets
-                                                                      .fromLTRB(
-                                                                          10,
-                                                                          8,
-                                                                          10,
-                                                                          10),
-                                                                  child: Column(
-                                                                    children: <Widget>[
-                                                                      Text(
-                                                                        ''
-                                                                        // controller
-                                                                        //     .textcuser1
-                                                                        ,
-                                                                        textAlign:
-                                                                            TextAlign.left,
-                                                                        style: TextStyle(
-                                                                            fontSize:
-                                                                                18,
-                                                                            decoration:
-                                                                                TextDecoration.none,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            color: Colors.black87),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ));
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.help_outline_outlined,
-                                                    size: 30,
-                                                    color: Color.fromARGB(
-                                                        255, 246, 123, 127),
-                                                  )),
-                                            ),
-                                          ),
-                                        ),
-                                      )
                                     ],
                                   ),
                                   Container(child: UserComplaintspageView()),
@@ -329,13 +225,69 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                               child: CardSetting("Quiz".tr, Icons.check_box)))),
                   Material(
                     child: InkWell(
-                        onTap: () {
-                          controller.DelUser();
-                          controller.auth.stroge.deleteAllKeys();
-                          Get.to(IntroPageView());
+                        onTap: () async {
+                          Get.dialog(Align(
+                              alignment: Alignment.center,
+                              child: Container(
+                                  width: 280,
+                                  height: 120,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border:
+                                          Border.all(color: Colors.blueAccent)),
+                                  child: Column(
+                                    children: [
+                                      Center(
+                                        child: Text(
+                                          'AreYouSureRemove'.tr,
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "Pacifico",
+                                              color: Color.fromARGB(
+                                                  255, 42, 42, 114),
+                                              decoration: TextDecoration.none),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          GFButton(
+                                            color: const Color.fromARGB(
+                                                255, 246, 123, 127),
+                                            onPressed: () async {
+                                              await controller.DelUser();
+                                              controller.auth.stroge
+                                                  .deleteAllKeys();
+                                              Get.to(IntroPageView());
+                                            },
+                                            text: "Delete".tr,
+                                            shape: GFButtonShape.pills,
+                                          ),
+                                          const SizedBox(
+                                            width: 2,
+                                          ),
+                                          GFButton(
+                                            color: const Color.fromARGB(
+                                                255, 246, 123, 127),
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            text: "Cancle".tr,
+                                            shape: GFButtonShape.pills,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ))));
                         },
-                        child: CardSetting(
-                            "Delete Account", Icons.delete_forever_outlined)),
+                        child: CardSetting("delete_account".tr,
+                            Icons.delete_forever_outlined)),
                   ),
                   Material(
                       child: InkWell(
@@ -347,48 +299,19 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                               controller.test.value = false;
                               Get.updateLocale(const Locale("en"));
                             }
-
-                            // Get.dialog(Container(
-                            //   child: Column(
-                            //     children: [
-                            //       IconButton(
-                            //           onPressed: () {}, icon: Icon(Icons.abc))
-                            //     ],
-                            //   ),
-                            // ));
                           },
                           child: Tooltip(
                               message: 'ChangeLanguage'.tr,
                               child:
                                   CardSetting("Language".tr, Icons.language)))),
-                  // Material(child: InkWell(
-                  //   onTap: () {
-                  //      print('trjjkkkk');
-                  //   },
-                  //   child:
-                  //    CardSetting("Language", Icons.language))),
-                  Material(
-                    child: InkWell(
-                        onTap: () {
-                          controller.auth.stroge.deleteAllKeys();
-                          Get.to(IntroPageView());
-                        },
-                        child: CardSetting("el".tr, Icons.question_mark)),
-                  ),
                   InkWell(
                     onTap: () {
                       controller.auth.stroge.deleteAllKeys();
                       Get.rootDelegate.history.clear();
-                      Get.rootDelegate.offAndToNamed(Routes.SignIn);
+                      Get.rootDelegate.offAndToNamed(Routes.signup);
                     },
                     child: CardSetting("Logout".tr, Icons.exit_to_app),
                   ),
-
-                  const SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: Card(),
-                  )
                 ],
               ),
             ),
@@ -400,29 +323,26 @@ class SettingPageView extends GetResponsiveView<SettingController> {
 
   Widget CardSetting(String name, IconData data) {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(60, 8, 10, 8),
-        child: Container(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            side: const BorderSide(color: Color.fromARGB(255, 42, 42, 114))),
+        child: SizedBox(
           height: 120,
-          width: 150,
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromARGB(255, 42, 42, 114),
-                width: 1.3,
-              ),
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(3)),
-          child: Card(
-            child: Column(children: [
-              const SizedBox(
-                height: 30,
-              ),
-              Icon(data, color: const Color.fromARGB(255, 246, 123, 127)),
-              Text(
-                name,
-                style: const TextStyle(color: Color.fromARGB(255, 42, 42, 114)),
-              ),
-            ]),
-          ),
-        ));
+          width: Get.width / 2.3,
+          child: Column(children: [
+            const SizedBox(
+              height: 30,
+            ),
+            Icon(data, color: const Color.fromARGB(255, 246, 123, 127)),
+            Text(
+              name,
+              style: const TextStyle(color: Color.fromARGB(255, 42, 42, 114)),
+            ),
+          ]),
+        ),
+      ),
+    );
   }
 }

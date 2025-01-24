@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graduationproject/api/ui/help_page.dart';
 import 'package:graduationproject/modules/MenuGame/view/all_games/letter_game/controller/letter_controller.dart';
 import 'package:graduationproject/modules/MenuGame/view/all_games/letter_game/view/second_level.dart';
 import 'package:graduationproject/modules/MenuGame/view/all_games/letter_game/view/third_level.dart';
@@ -69,7 +68,6 @@ class splashscreenLetter extends GetResponsiveView<MenuGameController> {
               ),
             ],
           ),
-          HelpPage(title: controller.textLetter)
         ],
       ),
     );

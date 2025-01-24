@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:graduationproject/app/model/accessiblity_logIn.dart';
 import 'package:graduationproject/app/model/content.dart';
 import 'package:graduationproject/app/model/refrence.dart';
 import 'package:graduationproject/app/model/user.dart';
@@ -106,15 +107,14 @@ class PremissionRepository implements IPremissionRepository {
     return list;
   }
 
-  Future<List<UserAccessibility>> GetUserAllWithAllPermission(
+  Future<List<AccessiblityLogIn>> GetUserAllWithAllPermission(
       int iduser) async {
     var result = await _dio.get(
-        'https://localhost:7252/api/UserAccessibility/GetUserAccessibilities',
-        queryParameters: {'iduser': iduser});
+        'https://localhost:7252/api/UserAccessibility/GetUserAccessibilites?IdUser=$iduser');
     print(result);
-    var list = <UserAccessibility>[];
+    var list = <AccessiblityLogIn>[];
     for (var item in result.data) {
-      list.add(UserAccessibility.fromJson(item));
+      list.add(AccessiblityLogIn.fromJson(item));
     }
     return list;
   }
@@ -139,17 +139,19 @@ class PremissionRepository implements IPremissionRepository {
   }
 
   Future<bool> UpdateUserAccessibility(UserAccessibility user) async {
-    var result = await _dio.post(
+    var result = await _dio.put(
         'https://localhost:7252/api/UserAccessibility/Put/${user.Id}',
         data: user.toJson());
     return result.statusCode == 200;
   }
 
   @override
-  Future<bool> DelUserAccessibility(UserAccessibility user) async {
-    var result = await _dio.post(
-        'https://localhost:7252/api/UserAccessibility/Delete',
-        data: user.toJson());
+  Future<bool> DelUserAccessibility(
+      int idAc, int idUser, String type, int id) async {
+    print('88888888888888888888888888888888$idAc 777777777777777$idUser');
+    var result = await _dio.delete(
+      'https://localhost:7252/api/UserAccessibility/Delete?idAc=$idAc&idUser=$idUser&type=$type&id=$id',
+    );
     return result.statusCode == 200;
   }
 }
