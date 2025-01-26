@@ -10,7 +10,6 @@ class ComplaintsRepository implements IComplaintsRepository {
 
   @override
   Future<List<Complaint>> GetAllComplaint() async {
-    print('wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww');
     var result =
         await _dio.get('https://localhost:7252/api/Complaint/GetComplaints');
     var list = <Complaint>[];

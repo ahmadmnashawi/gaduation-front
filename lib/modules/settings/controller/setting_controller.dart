@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:graduationproject/app/model/booklibrary.dart';
 import 'package:graduationproject/app/model/buy_book.dart';
+import 'package:graduationproject/app/model/buybookUser.dart';
 import 'package:graduationproject/app/model/user.dart';
+import 'package:graduationproject/modules/libraryy/data/libraray_repositry.dart';
 
 import '../../../api/storage/storge_service.dart';
 import '../../sheard/auth_service.dart';
@@ -12,8 +14,9 @@ class SettingController extends GetxController {
   final userSingn = User().obs;
   static const String KeyData = "AuthData";
   final stroge = Get.find<StorageService>();
-  final text = 'settingHelp'.tr;
+
   final setRepo = SettingRepository();
+  final listBasket = <BuyBookUserDto>[].obs;
   final allBuyBook = <Buybook>[].obs;
   final auth = Get.find<AuthService>();
   final _dio = Get.find<Dio>();
@@ -46,6 +49,11 @@ class SettingController extends GetxController {
       list.add(BookLibrary.fromJson(element));
     }
     return list;
+  }
+
+  Future<void> getBasket() async {
+    var data = await LibraryRepository().GetUserBuyBook(user.value.Id!);
+    listBasket.assignAll(data);
   }
 
   Future<void> GetUser() async {

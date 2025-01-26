@@ -1,10 +1,12 @@
 import 'book.dart';
+import 'buy_book.dart';
 import 'library.dart';
 
 class BuyBookUserDto {
   int? Id;
   Library? library;
   Book? book;
+  List<Buybook>? buybooks;
   BuyBookUserDto({
     this.Id,
     this.library,
@@ -13,8 +15,14 @@ class BuyBookUserDto {
 
   BuyBookUserDto.fromJson(Map<String, dynamic> json) {
     Id = json['id'];
-    library = json['library '];
-    book = json['book '];
+    buybooks = <Buybook>[];
+    if (json['userBuyBook'] != null) {
+      for (var item in json['userBuyBook']) {
+        buybooks!.add(Buybook.fromJson(item));
+      }
+    }
+    book = Book.fromJson(json['book'] as Map<String, dynamic>);
+    library = Library.fromJson(json['library'] as Map<String, dynamic>);
   }
 
   Map<String, dynamic> toJson() {

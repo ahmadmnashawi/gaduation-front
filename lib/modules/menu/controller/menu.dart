@@ -33,7 +33,7 @@ class HomeController extends GetxController
   final IdPost = 0;
   final addcomment = Comments().obs;
   final userpost = UserPost().obs;
-  final text = 'th'.tr;
+
 //  @override
 // dispose() {
 //  ancontroller.dispose(); // you need this

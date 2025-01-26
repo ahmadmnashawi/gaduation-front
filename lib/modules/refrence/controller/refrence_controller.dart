@@ -16,7 +16,6 @@ class RerenceController extends GetxController {
   final listAdmainrefrence = <RefrenceDto>[].obs;
   final textuser = '';
   final valuetext = ''.obs;
-  final textallrefrence = 'refrencehelp'.tr;
   final contenst = <Content>[].obs;
   final selectContent = Content().obs;
   final auth = Get.find<AuthService>();

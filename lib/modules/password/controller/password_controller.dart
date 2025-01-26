@@ -10,7 +10,7 @@ class passwordController extends GetxController {
   RxBool hidePassword = true.obs;
   var newPassword = ''.obs;
   var confirmpassword = ''.obs;
-  final text = 'this'.tr;
+
   final pass = PasswordRepository();
   final auth = Get.find<AuthService>();
   var email = ''.obs;

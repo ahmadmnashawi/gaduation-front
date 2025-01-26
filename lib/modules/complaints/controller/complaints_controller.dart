@@ -13,9 +13,7 @@ class ComplaintsController extends GetxController {
   final auth = Get.find<AuthService>();
   final user = User().obs;
   final numtype = 0.obs;
-  final text = 'inthis'.tr;
-  final textcuser1 = 'to'.tr;
-  final txt = ''.obs;
+
   @override
   Future<void> onInit() async {
     super.onInit();

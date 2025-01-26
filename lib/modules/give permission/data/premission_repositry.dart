@@ -148,7 +148,6 @@ class PremissionRepository implements IPremissionRepository {
   @override
   Future<bool> DelUserAccessibility(
       int idAc, int idUser, String type, int id) async {
-    print('88888888888888888888888888888888$idAc 777777777777777$idUser');
     var result = await _dio.delete(
       'https://localhost:7252/api/UserAccessibility/Delete?idAc=$idAc&idUser=$idUser&type=$type&id=$id',
     );

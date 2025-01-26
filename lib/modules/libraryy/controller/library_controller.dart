@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../api/storage/storge_service.dart';
 import '../../../api/ui/util.dart';
+import '../../../app/model/BookDetalites.dart';
 import '../../../app/model/accessiblity_logIn.dart';
 import '../../../app/model/booklibrary.dart';
 import '../../../app/model/buybookDetailsDto.dart';
@@ -21,7 +22,7 @@ import '../../sheard/auth_service.dart';
 import '../data/libraray_repositry.dart';
 
 class LibraryContrller extends GetxController {
-  var valuepice = 0.obs;
+  var valuepice = 1.obs;
   final booklibraryAdd = BookLibrary().obs;
   final addOneBook = Book().obs;
   late AnimationController controller;
@@ -62,16 +63,9 @@ class LibraryContrller extends GetxController {
   final backBuyBook = Buybook().obs;
   final listBuyBookDto = <BuyBookDto>[].obs;
   final currentLibrary = Library().obs;
-  final textshowlibrary = 'tsl'.tr;
-  final textlibrary = 'tl'.tr;
-  final textbook = 'tb'.tr;
-  final addbooktext = 'abt'.tr;
-  final addlibrary = 'alx'.tr;
-  final fatorauesr = 'fa';
-  final fatouralibrary = 'fl'.tr;
-  final textupdatelibrary = 'tx'.tr;
-  final textupdatebook = 'tbx'.tr;
+
   final listDetailsBuyBook = <BuyBookDetailsDto>[].obs;
+  final bookInfo = BookDetailsDto().obs;
   final access = <AccessiblityLogIn>[].obs;
   @override
   Future<void> onInit() async {
@@ -92,6 +86,11 @@ class LibraryContrller extends GetxController {
     } catch (e) {
       print('Failed to pick image: $e');
     }
+  }
+
+  Future<void> getInfoBook(int idBook) async {
+    var data = await libraryRepo.getBookInfo(idBook);
+    bookInfo.value = data;
   }
 
   Future<void> GetUser() async {
@@ -231,12 +230,31 @@ class LibraryContrller extends GetxController {
     updatebookwritter.value = data!;
   }
 
-  Future<void> AddToBuyBooktempority(Buybook buyBook) async {
-    wishListBuyBook.add(buyBook);
+  Future<void> AddToBuyBooktempority(Book book) async {
+    buybook.value.bookLibrary = BookLibrary(
+      IdBook: book.id,
+      book: book,
+      IdLibrary: IdLibrary.value,
+    );
+    buybook.value.IdBookLibrary =
+        await libraryRepo.BackIdBookLibrary(book.id!, IdLibrary.value);
+
+    buybook.value.Count = valuepice.value;
+    buybook.value.price =
+        double.parse((book.bookPrice! * valuepice.value).toString());
+
+    wishListBuyBook.add(buybook.value);
+    valuepice.value = 1;
+    buybook.value = Buybook();
   }
 
-  Future<void> AddToBuyBookback(Buybook buyBook) async {
-    await libraryRepo.AddToBuyBook(buyBook);
+  Future<void> AddToBuyBookback(Buybook data) async {
+    data.IdBookLibrary = await libraryRepo.BackIdBookLibrary(
+        data.bookLibrary!.book!.id!, IdLibrary.value);
+    await libraryRepo.AddToBuyBook(data);
+
+    Get.back();
+    buybook.value = Buybook();
   }
 
   Future<void> getIdBookLibrary(int idbbook, int idlibraryas) async {

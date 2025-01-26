@@ -23,7 +23,7 @@ class BookLibrary {
     IdBook = json['idBook'];
     book = json['book'];
     IdLibrary = json['idLibrary'];
-    library = json['library'];
+    library = Library.fromJson(json['library']);
   }
 
   Map<String, dynamic> toJson() {

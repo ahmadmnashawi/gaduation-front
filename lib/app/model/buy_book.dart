@@ -23,17 +23,20 @@ class Buybook {
 
   Buybook.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    price = json['Price'];
+    price = json['price'];
     address = json['address'];
-    idUser = json[' idUser'];
-    user = json[' user'];
-    Count = json[' Count'];
-    IdBookLibrary = json['IdBookLibrary'];
-    bookLibrary = json['bookLibrary'];
+    idUser = json['idUser'];
+    user = json['user'] == null ? null : User.fromJson(json['user']);
+    Count = json['count'];
+    IdBookLibrary = json['idBookLibrary'];
+    bookLibrary = json['bookLibrary'] == null
+        ? null
+        : BookLibrary.fromJson(json['bookLibrary']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> json = <String, dynamic>{};
+    json['id'] = 0;
     json['price'] = price;
     json['address'] = address;
     json['count'] = Count;

@@ -10,8 +10,13 @@ class BuyBookDetailsDto {
   });
 
   BuyBookDetailsDto.fromJson(Map<String, dynamic> json) {
-    buybooks = json['buybooks '];
-    book = json['book '];
+    buybooks = <Buybook>[];
+    if (json['buybooks'] != null) {
+      for (var item in json['buybooks']) {
+        buybooks!.add(Buybook.fromJson(item));
+      }
+    }
+    book = Book.fromJson(json['book'] as Map<String, dynamic>);
   }
 
   Map<String, dynamic> toJson() {

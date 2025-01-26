@@ -10,7 +10,6 @@ import '../modules/MenuGame/binding/menu_game_binding.dart';
 import '../modules/MenuGame/view/all_games/foucs/bindings/foucs_binding.dart';
 import '../modules/MenuGame/view/all_games/letter_game/bindings/letter_game_binding.dart';
 import '../modules/MenuGame/view/all_games/math/bindings/math_binding.dart';
-import '../modules/MenuGame/view/all_games/packet/binding/packet_binding.dart';
 import '../modules/MenuGame/view/all_games/timer/bindings/timer_binding.dart';
 import '../modules/MenuGame/view/all_games/word_game/bindings/word_game_binding.dart';
 import '../modules/comment/bindings/comment_binding.dart';
@@ -90,7 +89,6 @@ class AppPages {
       GroupBinding(),
       FoucsBinding(),
       LetterBinding(),
-      PacketBinding(),
       WordGameBinding(),
       PermissionBinding(),
       TestBinding(),

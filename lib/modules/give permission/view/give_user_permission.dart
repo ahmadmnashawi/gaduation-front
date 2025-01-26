@@ -368,8 +368,6 @@ class GiveUserPermission extends GetResponsiveView<PermissionController> {
                               onPressed: () async {
                                 await controller
                                     .getPramForEdit(allPram.user!.Id!);
-                                print(
-                                    '99999999999999999999999999999${controller.allUserAccssebilityForEdit.length}');
                                 Get.dialog(Material(
                                     child: Column(
                                   children: [

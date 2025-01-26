@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:graduationproject/app/model/BookDetalites.dart';
 import 'package:graduationproject/app/model/book.dart';
 import 'package:graduationproject/app/model/book_type.dart';
 import 'package:graduationproject/app/model/bookwritter.dart';
@@ -135,7 +136,6 @@ class LibraryRepository implements ILibraryRepository {
 
   @override
   Future<List<BookType>> GetAllTypeBooklibrary(int library) async {
-    print('////////////////////$library');
     var result = await _dio.get(
         'https://localhost:7252/api/Library/GetLibraryBookType?IdLibrary=$library');
     print(result);
@@ -189,7 +189,15 @@ class LibraryRepository implements ILibraryRepository {
     }
   }
 
-  ///////
+  Future<BookDetailsDto> getBookInfo(int idBook) async {
+    var result = await _dio.get(
+      'https://localhost:7252/api/Book/GetBookDetails?IdBook=$idBook',
+    );
+    print(result.data['writers']);
+
+    return BookDetailsDto.fromJson(result.data as Map<String, dynamic>);
+  }
+
   @override
   Future<int> BackIdBook(String namebook) async {
     var result = await _dio.get('https://localhost:7252/api/Book/GetBookId',
@@ -247,10 +255,10 @@ class LibraryRepository implements ILibraryRepository {
   @override
   Future<int?> BackIdBookLibrary(idbook, idlibrary) async {
     var result = await _dio.get(
-        'https://localhost:7252/api/BookWritter/$idbook',
-        queryParameters: {"id": idbook, 'idlibrary': idlibrary});
+      'https://localhost:7252/api/BookLibrary/GetIdLibraryBook?IdBook=$idbook&IdLibrary=$idlibrary',
+    );
     if (result.statusCode == 200) {
-      return int.parse(result as String).toInt();
+      return result.data;
     }
     return null;
   }
@@ -293,8 +301,7 @@ class LibraryRepository implements ILibraryRepository {
   @override
   Future<List<BuyBookUserDto>> GetUserBuyBook(int iduser) async {
     var result = await _dio.get(
-        'https://localhost:7192/api/BuyBook/GetBuyBookUser',
-        queryParameters: {"iduser": iduser});
+        'https://localhost:7252/api/Buybook/GetBuyBookUser?IdUser=$iduser');
     print(result);
     var list = <BuyBookUserDto>[];
     for (var item in result.data) {
@@ -343,8 +350,7 @@ class LibraryRepository implements ILibraryRepository {
   Future<List<BuyBookDetailsDto>> GetDetailsBuyBook(
       int idlibrary, int iduser) async {
     var result = await _dio.get(
-        'https://localhost:7192/api/BuyBook/GetBuyBookDetails',
-        queryParameters: {'id': idlibrary, 'iduser': iduser});
+        'https://localhost:7252/api/Buybook/GetBuyBookDetails?IdLibrary=$idlibrary&IdUser=$iduser');
     var list = <BuyBookDetailsDto>[];
     for (var item in result.data) {
       list.add(BuyBookDetailsDto.fromJson(item));

@@ -5,6 +5,7 @@ import 'package:graduationproject/app/model/group.dart';
 import 'package:graduationproject/modules/complaints/controller/complaints_controller.dart';
 import 'package:graduationproject/modules/groups/controller/group_controller.dart';
 import 'package:graduationproject/modules/libraryy/view/show_librarys.dart';
+import 'package:graduationproject/modules/settings/view/buy_book_view.dart';
 import 'package:graduationproject/modules/testwidget/view/test.dart';
 import 'package:graduationproject/routes/app_pages.dart';
 
@@ -119,6 +120,17 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                       child: Tooltip(
                           message: 'sho'.tr,
                           child: CardSetting("li".tr, Icons.library_books)),
+                    ),
+                  ),
+                  Material(
+                    child: InkWell(
+                      onTap: () async {
+                        await controller.getBasket();
+                        Get.to(BuyBookView());
+                      },
+                      child: Tooltip(
+                          message: 'book you buy'.tr,
+                          child: CardSetting("Basket".tr, Icons.shopify_sharp)),
                     ),
                   ),
                   Material(

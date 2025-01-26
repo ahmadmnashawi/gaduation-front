@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'book.dart';
 
 class BookDetailsDto {
@@ -11,9 +13,17 @@ class BookDetailsDto {
   });
 
   BookDetailsDto.fromJson(Map<String, dynamic> json) {
-    book = json['book'];
-    Type = json['Type '];
-    writer = json[' writer '];
+    book = json['book'] != null
+        ? Book.fromJson(json['book'] as Map<String, dynamic>)
+        : null;
+    Type = json['type'];
+    if (json['writers'] is String) {
+      writer = List<String>.from(jsonDecode(json['writers']));
+    } else if (json['writers'] is List) {
+      writer = List<String>.from(json['writers']);
+    } else {
+      writer = []; // Handle unexpected data
+    }
   }
 
   Map<String, dynamic> toJson() {

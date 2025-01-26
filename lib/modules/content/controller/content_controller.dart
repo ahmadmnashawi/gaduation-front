@@ -11,8 +11,6 @@ class ContentController extends GetxController {
   final contents = <Content>[].obs;
   final contRepo = ContentRepository();
   final addcontent = Content().obs;
-  final text = 'te'.tr;
-  final addtext = 'at'.tr;
 
   @override
   Future<void> onInit() async {

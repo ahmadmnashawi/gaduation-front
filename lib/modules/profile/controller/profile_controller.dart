@@ -37,12 +37,7 @@ class ProfileController extends GetxController {
   final userfollowGroups = <Group>[].obs;
   final currentGroup = Group().obs;
   final listpost = <PostDto>[];
-  final texteditprofile =
-      'In this interface, you can modify any information you have';
-  final texteditpost =
-      'In this interface, it is possible to modify the information that needs to be modified, whether an image or text';
-  final textprofile =
-      'In this interface, your personal information and all the posts that you have published will appear';
+
   final interActive = [
     {0: true}
   ].obs;

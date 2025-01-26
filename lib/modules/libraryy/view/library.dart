@@ -6,7 +6,6 @@ import 'package:graduationproject/modules/icons/Icon.dart';
 import 'package:graduationproject/modules/libraryy/controller/library_controller.dart';
 
 import '../../../app/model/book.dart';
-import '../../../app/model/booklibrary.dart';
 import '../../../app/model/buy_book.dart';
 import '../../sheard/text_feild_GP.dart';
 import 'AddBook.dart';
@@ -62,143 +61,161 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                             controller.user.value.Paypal ??= '123451';
                             Get.dialog(Align(
                                 alignment: Alignment.center,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
-                                      border:
-                                          Border.all(color: Colors.blueAccent)),
-                                  width: 400,
-                                  height: 300,
-                                  child: Column(children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        "infobuy".tr,
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: "Pacifico",
-                                            color: Color.fromARGB(
-                                                255, 42, 42, 114),
-                                            decoration: TextDecoration.none),
-                                      ),
-                                    ),
-                                    Obx(() => Text(
-                                          'Item To Buy : ${controller.wishListBuyBook.length}',
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: "Pacifico",
-                                              color: Color.fromARGB(
-                                                  255, 42, 42, 114),
-                                              decoration: TextDecoration.none),
-                                        )),
-                                    Material(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                            width: 350,
-                                            height: 60,
-                                            child: TextFieldGPWidget(
-                                              obscureText: false,
-                                              type: TextInputType.text,
-                                              label: 'InputLocation'.tr,
-                                              validator: (value) {
-                                                if (value!.isEmpty ||
-                                                    !RegExp(r'^[a-z A-Z]+$')
-                                                        .hasMatch(value)) {
-                                                  return "EnterCorrectAdress"
-                                                      .tr;
-                                                } else {
-                                                  return null;
-                                                }
-                                              },
-                                              prefIcon: Icons.location_on,
-                                              onChanged: (value) {
-                                                controller.buybook.value
-                                                    .address = value;
-                                              },
+                                child: Material(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            color: Colors.blueAccent)),
+                                    width: 400,
+                                    height: 300,
+                                    child: SingleChildScrollView(
+                                      child: Column(children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "infobuy".tr,
+                                            style: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: "Pacifico",
+                                                color: Color.fromARGB(
+                                                    255, 42, 42, 114),
+                                                decoration:
+                                                    TextDecoration.none),
+                                          ),
+                                        ),
+                                        Obx(() => Text(
+                                              'Item To Buy : ${controller.wishListBuyBook.length}',
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "Pacifico",
+                                                  color: Color.fromARGB(
+                                                      255, 42, 42, 114),
+                                                  decoration:
+                                                      TextDecoration.none),
                                             )),
-                                      ),
-                                    ),
-                                    Material(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: SizedBox(
-                                            width: 350,
-                                            height: 60,
-                                            child: TextFieldGPWidget(
-                                              obscureText: false,
-                                              type: TextInputType.text,
-                                              label: 'InputPayBal'.tr,
-                                              validator: (value) {
-                                                if (value!.isEmpty ||
-                                                    !RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/+?^_`{|}~]")
-                                                        .hasMatch(value)) {
-                                                  return "EnterCorrectPaybal"
-                                                      .tr;
-                                                } else {
-                                                  return null;
-                                                }
-                                              },
-                                              prefIcon: Icons.money,
-                                              onChanged: (value) {
-                                                if (controller
-                                                        .user.value.Paypal ==
-                                                    value) {
-                                                  controller.staute.value = 'A';
-                                                } else {
-                                                  controller.staute.value = 'B';
-                                                }
-                                                value;
-                                              },
+                                        Obx(() => Wrap(
+                                              children: controller
+                                                  .wishListBuyBook
+                                                  .map((e) => Chip(
+                                                      label: Text(
+                                                          '${e.bookLibrary!.book!.bookName ?? ''} (${e.Count}) {${e.price}}')))
+                                                  .toList(),
                                             )),
-                                      ),
-                                    ),
-                                    Center(
-                                      child: GFButton(
-                                        onPressed: () {
-                                          if (_formfield.currentState!
-                                              .validate()) {
-                                            print("Data Added Successfully");
+                                        Material(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                                width: 350,
+                                                height: 60,
+                                                child: TextFieldGPWidget(
+                                                  obscureText: false,
+                                                  type: TextInputType.text,
+                                                  label: 'InputLocation'.tr,
+                                                  validator: (value) {
+                                                    if (value!.isEmpty ||
+                                                        !RegExp(r'^[a-z A-Z]+$')
+                                                            .hasMatch(value)) {
+                                                      return "EnterCorrectAdress"
+                                                          .tr;
+                                                    } else {
+                                                      return null;
+                                                    }
+                                                  },
+                                                  prefIcon: Icons.location_on,
+                                                  onChanged: (value) {
+                                                    controller.buybook.value
+                                                        .address = value;
+                                                  },
+                                                )),
+                                          ),
+                                        ),
+                                        Material(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: SizedBox(
+                                                width: 350,
+                                                height: 60,
+                                                child: TextFieldGPWidget(
+                                                  obscureText: false,
+                                                  type: TextInputType.text,
+                                                  label: 'InputPayBal'.tr,
+                                                  validator: (value) {
+                                                    if (value!.isEmpty ||
+                                                        !RegExp(r"^[a-zA-Z0-9.!#$%&'*+-/+?^_`{|}~]")
+                                                            .hasMatch(value)) {
+                                                      return "EnterCorrectPaybal"
+                                                          .tr;
+                                                    } else {
+                                                      return null;
+                                                    }
+                                                  },
+                                                  prefIcon: Icons.money,
+                                                  onChanged: (value) {
+                                                    if (controller.user.value
+                                                            .Paypal ==
+                                                        value) {
+                                                      controller.staute.value =
+                                                          'A';
+                                                    } else {
+                                                      controller.staute.value =
+                                                          'B';
+                                                    }
+                                                    value;
+                                                  },
+                                                )),
+                                          ),
+                                        ),
+                                        Center(
+                                          child: GFButton(
+                                            onPressed: () async {
+                                              if (_formfield.currentState!
+                                                  .validate()) {
+                                                if (controller.staute.value ==
+                                                    'A') {
+                                                  Get.back();
+                                                  Baket();
 
-                                            if (controller.staute.value ==
-                                                'A') {
-                                              Get.back();
-                                              Baket();
-                                            } else {
-                                              Get.snackbar(
-                                                'Error'.tr,
-                                                "SureFromPayBal".tr,
-                                                //  icon: Icon(Icons.person, color: Colors.white),
-                                                snackPosition:
-                                                    SnackPosition.BOTTOM,
-                                                backgroundColor:
-                                                    const Color.fromARGB(
-                                                        255, 246, 123, 127),
-                                                borderRadius: 20,
-                                                margin:
-                                                    const EdgeInsets.all(15),
-                                                colorText: Colors.white,
-                                                duration:
-                                                    const Duration(seconds: 4),
-                                                isDismissible: true,
-                                                //  dismissDirection: SnackDismissDirection.HORIZONTAL,
-                                                forwardAnimationCurve:
-                                                    Curves.easeOutBack,
-                                              );
-                                            }
-                                          }
-                                          //Get.back();
-                                        },
-                                        text: "Input".tr,
-                                        color: const Color.fromARGB(
-                                            255, 42, 42, 114),
-                                        shape: GFButtonShape.pills,
-                                      ),
+                                                  print(
+                                                      "Data Added Successfully");
+                                                } else {
+                                                  Get.snackbar(
+                                                    'Error'.tr,
+                                                    "SureFromPayBal".tr,
+                                                    //  icon: Icon(Icons.person, color: Colors.white),
+                                                    snackPosition:
+                                                        SnackPosition.BOTTOM,
+                                                    backgroundColor:
+                                                        const Color.fromARGB(
+                                                            255, 246, 123, 127),
+                                                    borderRadius: 20,
+                                                    margin:
+                                                        const EdgeInsets.all(
+                                                            15),
+                                                    colorText: Colors.white,
+                                                    duration: const Duration(
+                                                        seconds: 4),
+                                                    isDismissible: true,
+                                                    //  dismissDirection: SnackDismissDirection.HORIZONTAL,
+                                                    forwardAnimationCurve:
+                                                        Curves.easeOutBack,
+                                                  );
+                                                }
+                                              }
+                                              //Get.back();
+                                            },
+                                            text: "Input".tr,
+                                            color: const Color.fromARGB(
+                                                255, 42, 42, 114),
+                                            shape: GFButtonShape.pills,
+                                          ),
+                                        ),
+                                      ]),
                                     ),
-                                  ]),
+                                  ),
                                 )));
                           },
                           child: const Icon(
@@ -361,34 +378,34 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
       child: InkWell(
-        onTap: () {
-          // controller.getIdBookLibrary(d.id!, controller.IdLibrary.value);
+        onTap: () async {
+          await controller.getInfoBook(d.id!);
           Get.dialog(Align(
             alignment: Alignment.center,
-            child: Container(
-              width: 400,
-              height: 260,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.blueAccent)),
-              ////////here item book
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
+            child: Material(
+              child: Container(
+                width: 400,
+                height: Get.height / 2.5,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Colors.blueAccent)),
+                ////////here item book
+                child: SingleChildScrollView(
+                  child: Obx(
+                    () => Column(
                       children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
                         Column(
                           children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'NameBook'.tr,
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'NameBook : '.tr,
                                     style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -396,11 +413,9 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                         color: Color.fromARGB(255, 42, 42, 114),
                                         decoration: TextDecoration.none),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    d.bookName ?? '',
+                                  Text(
+                                    controller.bookInfo.value.book!.bookName ??
+                                        '',
                                     style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,
@@ -408,138 +423,179 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                         color: Colors.black54,
                                         decoration: TextDecoration.none),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Price'.tr,
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: "Pacifico",
-                                      color: Color.fromARGB(255, 42, 42, 114),
-                                      decoration: TextDecoration.none),
-                                ),
-                                Text('${d.bookPrice!}\$',
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Price'.tr,
                                     style: const TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 18,
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.black54,
-                                        decoration: TextDecoration.none)),
-                              ],
+                                        fontFamily: "Pacifico",
+                                        color: Color.fromARGB(255, 42, 42, 114),
+                                        decoration: TextDecoration.none),
+                                  ),
+                                  Text(
+                                      '${controller.bookInfo.value.book!.bookPrice!}\$',
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54,
+                                          decoration: TextDecoration.none)),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Type : '.tr,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "Pacifico",
+                                        color: Color.fromARGB(255, 42, 42, 114),
+                                        decoration: TextDecoration.none),
+                                  ),
+                                  Text(controller.bookInfo.value.Type ?? "",
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54,
+                                          decoration: TextDecoration.none)),
+                                ],
+                              ),
                             ),
                           ],
-                        )
+                        ),
+                        controller.bookInfo.value.writer!.isEmpty
+                            ? SizedBox()
+                            : Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Wrap(
+                                  children: [
+                                    Text(
+                                      'Writers :'.tr,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "Pacifico",
+                                          color:
+                                              Color.fromARGB(255, 42, 42, 114),
+                                          decoration: TextDecoration.none),
+                                    ),
+                                    Wrap(
+                                      children:
+                                          controller.bookInfo.value.writer!
+                                              .map((t) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(3),
+                                                    child: Chip(label: Text(t)),
+                                                  ))
+                                              .toList(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text('nu'.tr,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 42, 42, 114),
+                                  decoration: TextDecoration.none,
+                                  fontFamily: "Pacifico")),
+                        ),
+                        Row(
+                          children: [
+                            const SizedBox(
+                              width: 200,
+                            ),
+                            Obx(
+                              () => Center(
+                                  child: Text(
+                                // controller.buybook.value.Count.toString(),
+                                controller.valuepice.value.toString(),
+                                style: const TextStyle(
+                                  fontSize: 23,
+                                  color: Colors.black54,
+                                  decoration: TextDecoration.none,
+                                ),
+                              )),
+                            ),
+                            Text('pice'.tr,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black54,
+                                  decoration: TextDecoration.none,
+                                ))
+                          ],
+                        ),
+                        Center(
+                          child: Row(
+                            children: [
+                              const SizedBox(
+                                width: 185,
+                              ),
+                              Material(
+                                  child: IconButton(
+                                icon: const Icon(
+                                  Icons.add,
+                                  color: Color.fromARGB(255, 246, 123, 127),
+                                ),
+                                onPressed: () {
+                                  if (controller.valuepice.value < 21) {
+                                    controller.valuepice.value += 1;
+                                  }
+                                },
+                              )),
+                              Material(
+                                  child: IconButton(
+                                icon: const Icon(
+                                  Icons.remove,
+                                  color: Color.fromARGB(255, 246, 123, 127),
+                                ),
+                                onPressed: () {
+                                  if (controller.valuepice.value > 0) {
+                                    controller.valuepice.value -= 1;
+                                  }
+                                },
+                              )),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                controller.AddToBuyBooktempority(d);
+                                Get.back();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 246, 123, 127),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 20),
+                                shape: const CircleBorder(),
+                              ),
+                              child: const Icon(
+                                AppIconn.shopping_cart,
+                                size: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('nu'.tr,
-                          style: const TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 42, 42, 114),
-                              decoration: TextDecoration.none,
-                              fontFamily: "Pacifico")),
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 200,
-                        ),
-                        Obx(
-                          () => Center(
-                              child: Text(
-                            // controller.buybook.value.Count.toString(),
-                            controller.valuepice.value.toString(),
-                            style: const TextStyle(
-                              fontSize: 23,
-                              color: Colors.black54,
-                              decoration: TextDecoration.none,
-                            ),
-                          )),
-                        ),
-                        Text('pice'.tr,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.black54,
-                              decoration: TextDecoration.none,
-                            ))
-                      ],
-                    ),
-                    Center(
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 185,
-                          ),
-                          Material(
-                              child: IconButton(
-                            icon: const Icon(
-                              Icons.add,
-                              color: Color.fromARGB(255, 246, 123, 127),
-                            ),
-                            onPressed: () {
-                              if (controller.valuepice.value < 21) {
-                                controller.valuepice.value += 1;
-                              }
-                            },
-                          )),
-                          Material(
-                              child: IconButton(
-                            icon: const Icon(
-                              Icons.remove,
-                              color: Color.fromARGB(255, 246, 123, 127),
-                            ),
-                            onPressed: () {
-                              if (controller.valuepice.value > 0) {
-                                controller.valuepice.value -= 1;
-                              }
-                            },
-                          )),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Align(
-                        alignment: Alignment.bottomRight,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            var price =
-                                (d.bookPrice! * controller.valuepice.value);
-                            controller.buybook.value.Count =
-                                controller.valuepice.value;
-                            controller.buybook.value.price =
-                                double.parse(price.toString());
-                            controller.buybook.value.bookLibrary = BookLibrary(
-                              IdBook: d.id,
-                              book: d,
-                              IdLibrary: controller.IdLibrary.value,
-                            );
-                            controller.buybook.value.bookLibrary!.book!
-                                .bookName = d.bookName;
-                            controller.AddToBuyBooktempority(
-                                controller.buybook.value);
-                            Get.back();
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 246, 123, 127),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 20),
-                            shape: const CircleBorder(),
-                          ),
-                          child: const Icon(
-                            AppIconn.shopping_cart,
-                            size: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -812,405 +868,340 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        width: 400,
-        height: 120,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: const Color.fromARGB(255, 42, 42, 114))),
-        child: Column(
-          children: [
-            Row(
-                children: controller.wishListBuyBook
-                    .map((e) => Row(
+          width: 400,
+          height: 120,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              border:
+                  Border.all(color: const Color.fromARGB(255, 42, 42, 114))),
+          child: Column(
+              children: controller.wishListBuyBook
+                  .map(
+                    (e) => Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          e.bookLibrary!.book!.bookName ?? '',
+                          style: const TextStyle(
+                              fontSize: 18,
+                              decoration: TextDecoration.none,
+                              color: Color.fromARGB(255, 42, 42, 114)),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
+                            Row(
                               children: [
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Text(
-                                  e.bookLibrary!.book!.bookName ?? '',
-                                  style: const TextStyle(
-                                      fontSize: 18,
-                                      decoration: TextDecoration.none,
-                                      color: Color.fromARGB(255, 42, 42, 114)),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: [
-                                    const SizedBox(
-                                      width: 50,
-                                    ),
-                                    Text('count'.tr,
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            decoration: TextDecoration.none,
-                                            color: Color.fromARGB(
-                                                255, 42, 42, 114))),
-                                    Text(
-                                        e.Count != null
-                                            ? e.Count.toString()
-                                            : '0',
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            decoration: TextDecoration.none,
-                                            color: Colors.black54)),
-                                    const SizedBox(
-                                      width: 40,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Material(
-                                          child: Tooltip(
-                                            message: 'buythem'.tr,
-                                            child: IconButton(
-                                                onPressed: () {
-                                                  controller.sum.value += (e
-                                                              .bookLibrary!
-                                                              .book!
-                                                              .bookPrice! *
-                                                          count!)
-                                                      .toDouble();
-                                                  controller.AddToBuyBookback(
-                                                      e);
-                                                },
-                                                icon: const Icon(
-                                                  Icons.check_box,
-                                                  color: Color.fromARGB(
-                                                      255, 246, 123, 127),
-                                                )),
-                                          ),
-                                        ),
-                                        Material(
-                                          child: Tooltip(
-                                            message: 'editcount'.tr,
-                                            child: IconButton(
-                                                onPressed: () {
-                                                  Get.dialog(Align(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Container(
-                                                          width: 300,
-                                                          height: 250,
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              border: Border.all(
-                                                                  color: Colors
-                                                                      .blueAccent)),
-                                                          child: Column(
-                                                            children: [
-                                                              Center(
-                                                                child: Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .all(
-                                                                          8.0),
+                                Text('count'.tr,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        decoration: TextDecoration.none,
+                                        color:
+                                            Color.fromARGB(255, 42, 42, 114))),
+                                Text(e.Count != null ? e.Count.toString() : '0',
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        decoration: TextDecoration.none,
+                                        color: Colors.black54)),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Material(
+                                  child: Tooltip(
+                                    message: 'editcount'.tr,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          Get.dialog(Align(
+                                              alignment: Alignment.center,
+                                              child: Container(
+                                                  width: 300,
+                                                  height: 250,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      border: Border.all(
+                                                          color: Colors
+                                                              .blueAccent)),
+                                                  child: Column(
+                                                    children: [
+                                                      Center(
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8.0),
+                                                          child: Text(
+                                                            'UpdateCount'.tr,
+                                                            style: const TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    "Pacifico",
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        42,
+                                                                        42,
+                                                                        114),
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                          "${'p'.tr}  $count",
+                                                          style: const TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Colors
+                                                                  .black54,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                          'NewCount'.tr,
+                                                          style: const TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: Colors
+                                                                  .black54,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none),
+                                                        ),
+                                                      ),
+                                                      Center(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Material(
+                                                                child:
+                                                                    IconButton(
+                                                              icon: const Icon(
+                                                                Icons.add,
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        246,
+                                                                        123,
+                                                                        127),
+                                                              ),
+                                                              onPressed: () {
+                                                                controller
+                                                                    .valuepice
+                                                                    .value += 1;
+                                                              },
+                                                            )),
+                                                            Obx(
+                                                              () => Center(
                                                                   child: Text(
-                                                                    'UpdateCount'
-                                                                        .tr,
-                                                                    style: const TextStyle(
-                                                                        fontSize:
-                                                                            18,
-                                                                        fontWeight:
-                                                                            FontWeight
-                                                                                .bold,
-                                                                        fontFamily:
-                                                                            "Pacifico",
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            42,
-                                                                            42,
-                                                                            114),
-                                                                        decoration:
-                                                                            TextDecoration.none),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        8.0),
-                                                                child: Text(
-                                                                  "${'p'.tr}  $count",
-                                                                  style: const TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      color: Colors
-                                                                          .black54,
-                                                                      decoration:
-                                                                          TextDecoration
-                                                                              .none),
-                                                                ),
-                                                              ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                        8.0),
-                                                                child: Text(
-                                                                  'NewCount'.tr,
-                                                                  style: const TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      color: Colors
-                                                                          .black54,
-                                                                      decoration:
-                                                                          TextDecoration
-                                                                              .none),
-                                                                ),
-                                                              ),
-                                                              Center(
-                                                                child: Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .center,
-                                                                  children: [
-                                                                    Material(
-                                                                        child:
-                                                                            IconButton(
-                                                                      icon:
-                                                                          const Icon(
-                                                                        Icons
-                                                                            .add,
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            246,
-                                                                            123,
-                                                                            127),
-                                                                      ),
-                                                                      onPressed:
-                                                                          () {
-                                                                        controller
-                                                                            .valuepice
-                                                                            .value += 1;
-                                                                      },
-                                                                    )),
-                                                                    Obx(
-                                                                      () => Center(
-                                                                          child: Text(
-                                                                        controller
-                                                                            .valuepice
-                                                                            .value
-                                                                            .toString(),
-                                                                        style:
-                                                                            const TextStyle(
-                                                                          fontSize:
-                                                                              23,
-                                                                          color:
-                                                                              Colors.black54,
-                                                                          decoration:
-                                                                              TextDecoration.none,
-                                                                        ),
-                                                                      )),
-                                                                    ),
-                                                                    Material(
-                                                                        child:
-                                                                            IconButton(
-                                                                      icon:
-                                                                          const Icon(
-                                                                        Icons
-                                                                            .remove,
-                                                                        color: Color.fromARGB(
-                                                                            255,
-                                                                            246,
-                                                                            123,
-                                                                            127),
-                                                                      ),
-                                                                      onPressed:
-                                                                          () {
-                                                                        if (controller.valuepice.value >
-                                                                            0) {
-                                                                          controller
-                                                                              .valuepice
-                                                                              .value -= 1;
-                                                                        }
-                                                                      },
-                                                                    )),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 10,
-                                                              ),
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  GFButton(
-                                                                    color: const Color
-                                                                        .fromARGB(
-                                                                        255,
-                                                                        246,
-                                                                        123,
-                                                                        127),
-                                                                    onPressed:
-                                                                        () {
-                                                                      // contrller.sum.value -=   (e.book!.bookPrice! * count).toDouble();
-                                                                      e.Count = controller
-                                                                          .valuepice
-                                                                          .value;
-                                                                      //  contrller.sum.value +=
-                                                                      //  (e.book!.bookPrice! * count).toDouble();
-                                                                      // contrller.UpdateBuyBook(m);
-                                                                    },
-                                                                    text: "Save"
-                                                                        .tr,
-                                                                    shape: GFButtonShape
-                                                                        .pills,
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    width: 4,
-                                                                  ),
-                                                                  // GFButton(
-                                                                  //   color: const Color.fromARGB(
-                                                                  //       255, 246, 123, 127),
-                                                                  //   onPressed: () {},
-                                                                  //   text: "Cancle",
-                                                                  //   shape: GFButtonShape.pills,
-                                                                  // ),
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ))));
-                                                },
-                                                icon: const Icon(
-                                                  Icons.edit,
-                                                  color: Color.fromARGB(
-                                                      255, 42, 42, 114),
-                                                )),
-                                          ),
-                                        ),
-                                        Material(
-                                          child: Tooltip(
-                                            message: 'rd'.tr,
-                                            child: IconButton(
-                                                onPressed: () {
-                                                  Get.dialog(Align(
-                                                      alignment:
-                                                          Alignment.center,
-                                                      child: Container(
-                                                          width: 280,
-                                                          height: 120,
-                                                          decoration: BoxDecoration(
-                                                              color:
-                                                                  Colors.white,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10),
-                                                              border: Border.all(
+                                                                controller
+                                                                    .valuepice
+                                                                    .value
+                                                                    .toString(),
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontSize: 23,
                                                                   color: Colors
-                                                                      .blueAccent)),
-                                                          child: Column(
-                                                            children: [
-                                                              Center(
-                                                                child: Text(
-                                                                  'AreYouSureRemove'
-                                                                      .tr,
-                                                                  style: const TextStyle(
-                                                                      fontSize:
-                                                                          18,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontFamily:
-                                                                          "Pacifico",
-                                                                      color: Color.fromARGB(
-                                                                          255,
-                                                                          42,
-                                                                          42,
-                                                                          114),
-                                                                      decoration:
-                                                                          TextDecoration
-                                                                              .none),
+                                                                      .black54,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
                                                                 ),
-                                                              ),
-                                                              const SizedBox(
-                                                                height: 20,
-                                                              ),
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  GFButton(
-                                                                    color: const Color
-                                                                        .fromARGB(
+                                                              )),
+                                                            ),
+                                                            Material(
+                                                                child:
+                                                                    IconButton(
+                                                              icon: const Icon(
+                                                                Icons.remove,
+                                                                color: Color
+                                                                    .fromARGB(
                                                                         255,
                                                                         246,
                                                                         123,
                                                                         127),
-                                                                    onPressed:
-                                                                        () {
-                                                                      controller
-                                                                          .wishListBuyBook
-                                                                          .remove(
-                                                                              m);
-                                                                    },
-                                                                    text:
-                                                                        "Delete"
-                                                                            .tr,
-                                                                    shape: GFButtonShape
-                                                                        .pills,
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    width: 4,
-                                                                  ),
-                                                                  GFButton(
-                                                                    color: const Color
-                                                                        .fromARGB(
-                                                                        255,
-                                                                        246,
-                                                                        123,
-                                                                        127),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Get.back();
-                                                                    },
-                                                                    text:
-                                                                        "Cancle"
-                                                                            .tr,
-                                                                    shape: GFButtonShape
-                                                                        .pills,
-                                                                  ),
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ))));
-                                                },
-                                                icon: const Icon(
-                                                  Icons.delete,
-                                                  color: Colors.red,
-                                                )),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                                                              ),
+                                                              onPressed: () {
+                                                                if (controller
+                                                                        .valuepice
+                                                                        .value >
+                                                                    0) {
+                                                                  controller
+                                                                      .valuepice
+                                                                      .value -= 1;
+                                                                }
+                                                              },
+                                                            )),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 10,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          GFButton(
+                                                            color: const Color
+                                                                .fromARGB(255,
+                                                                246, 123, 127),
+                                                            onPressed: () {
+                                                              // contrller.sum.value -=   (e.book!.bookPrice! * count).toDouble();
+                                                              e.Count =
+                                                                  controller
+                                                                      .valuepice
+                                                                      .value;
+                                                              //  contrller.sum.value +=
+                                                              //  (e.book!.bookPrice! * count).toDouble();
+                                                              // contrller.UpdateBuyBook(m);
+                                                            },
+                                                            text: "Save".tr,
+                                                            shape: GFButtonShape
+                                                                .pills,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 4,
+                                                          ),
+                                                          // GFButton(
+                                                          //   color: const Color.fromARGB(
+                                                          //       255, 246, 123, 127),
+                                                          //   onPressed: () {},
+                                                          //   text: "Cancle",
+                                                          //   shape: GFButtonShape.pills,
+                                                          // ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ))));
+                                        },
+                                        icon: const Icon(
+                                          Icons.edit,
+                                          color:
+                                              Color.fromARGB(255, 42, 42, 114),
+                                        )),
+                                  ),
+                                ),
+                                Material(
+                                  child: Tooltip(
+                                    message: 'rd'.tr,
+                                    child: IconButton(
+                                        onPressed: () {
+                                          Get.dialog(Align(
+                                              alignment: Alignment.center,
+                                              child: Container(
+                                                  width: 280,
+                                                  height: 120,
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      border: Border.all(
+                                                          color: Colors
+                                                              .blueAccent)),
+                                                  child: Column(
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                          'AreYouSureRemove'.tr,
+                                                          style: const TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontFamily:
+                                                                  "Pacifico",
+                                                              color: Color
+                                                                  .fromARGB(
+                                                                      255,
+                                                                      42,
+                                                                      42,
+                                                                      114),
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .none),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 20,
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          GFButton(
+                                                            color: const Color
+                                                                .fromARGB(255,
+                                                                246, 123, 127),
+                                                            onPressed: () {
+                                                              controller
+                                                                  .wishListBuyBook
+                                                                  .remove(m);
+                                                            },
+                                                            text: "Delete".tr,
+                                                            shape: GFButtonShape
+                                                                .pills,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 4,
+                                                          ),
+                                                          GFButton(
+                                                            color: const Color
+                                                                .fromARGB(255,
+                                                                246, 123, 127),
+                                                            onPressed: () {
+                                                              Get.back();
+                                                            },
+                                                            text: "Cancle".tr,
+                                                            shape: GFButtonShape
+                                                                .pills,
+                                                          ),
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ))));
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        )),
+                                  ),
                                 )
                               ],
                             ),
                           ],
-                        ))
-                    .toList())
-          ],
-        ),
-      ),
+                        )
+                      ],
+                    ),
+                  )
+                  .toList())),
     );
   }
 
@@ -1264,10 +1255,21 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                       child: Align(
                         alignment: Alignment.bottomRight,
                         child: ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             for (var element in controller.wishListBuyBook) {
-                              controller.AddToBuyBookback(element);
+                              element.address =
+                                  controller.buybook.value.address;
+                              element.idUser =
+                                  controller.auth.getDataFromStorage()!.Id;
+                              element.IdBookLibrary = element.bookLibrary!.Id;
+                              element.price = double.tryParse(
+                                  (element.bookLibrary!.book!.bookPrice! *
+                                          element.Count!)
+                                      .toString());
+                              await controller.AddToBuyBookback(element);
                             }
+                            Get.back();
+                            controller.wishListBuyBook.clear();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:

@@ -10,22 +10,11 @@ import '../data/game_repositry.dart';
 import '../view/all_games/foucs/view/define_foucs.dart';
 import '../view/all_games/letter_game/view/define_letter.dart';
 import '../view/all_games/math/view/define_math.dart';
-import '../view/all_games/packet/view/packet.dart';
 import '../view/all_games/word_game/view/define_word.dart';
 
 class MenuGameController extends GetxController
     with GetSingleTickerProviderStateMixin {
   late AnimationController animationController;
-  final textMath =
-      'In this game, a set of arithmetic operations will appear, and you must choose the correct answer';
-  final textWordGame =
-      'In this game a picture will appear and you must find out all the words that can apply to the picture';
-  final textLetter =
-      'In this game a group of letters will appear and all the words that can be formed from these letters must be found';
-  final textFoucs =
-      'In this game, a picture appears with a question that needs to be focused before answering';
-  final text =
-      'In this interface, you will display all the existing games, where each game has three levels, and each level has three stages';
   late Animation<double> animation;
   static MenuGameController get find => Get.find();
   var level = ''.obs;
@@ -221,7 +210,7 @@ class MenuGameController extends GetxController
         widget = FoucsGameView();
         break;
       default:
-        widget = PacketPageView();
+        widget = SizedBox();
 
         break;
     }
