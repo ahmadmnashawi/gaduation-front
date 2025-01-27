@@ -287,6 +287,10 @@ class GroupView extends GetResponsiveView<GroupController> {
                                   selectContent: null,
                                   stringPickImage: controller.stringPickImage,
                                   post: controller.newpost,
+                                  generateTap: () async =>
+                                      await controller.getImage(),
+                                  listImage: controller.listImage,
+                                  textDescription: controller.textDescription,
                                   onSave: () {
                                     if (controller.formfield.currentState!
                                         .validate()) {

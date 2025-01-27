@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduationproject/app/model/user.dart';
@@ -56,7 +57,8 @@ class GroupController extends GetxController {
   final formfield = GlobalKey<FormState>();
   final formFieldGroup = GlobalKey<FormState>();
   //List <String> Content=['History ','IT','Culture','Senice','Math','Medical','Global'];
-
+  final textDescription = <String>[].obs;
+  final listImage = <String>[].obs;
   @override
   void onInit() {
     getAllGroups();
@@ -67,6 +69,35 @@ class GroupController extends GetxController {
         .toList();
     existingMember();
     super.onInit();
+  }
+
+  Future<void> getImage() async {
+    var value = newpost.value.Description ?? '';
+    var data = await fetchUnsplashImages(value);
+    listImage.assignAll(data);
+  }
+
+  Future<List<String>> fetchUnsplashImages(String query) async {
+    const apiKey = "V83HBiC1FxRJUZMq14Vp4R7TBXo99F_j6vioIfjufgI";
+
+    final response = await Get.find<Dio>().get(
+      "https://api.unsplash.com/search/photos?query=$query",
+      options: Options(headers: {
+        "Authorization": "Client-ID $apiKey",
+      }),
+    );
+    // print('///////////////////${response.data}');
+    if (response.statusCode == 200) {
+      final List<dynamic> results = response.data["results"];
+      final List<String> imageUrls =
+          results.map((item) => (item["urls"]["small"].toString())).toList();
+      var data =
+          results.map((item) => (item["description"].toString())).toList();
+      textDescription.assignAll(data);
+      return imageUrls;
+    } else {
+      throw Exception("Failed to fetch images");
+    }
   }
 
   Future pickImageFun() async {

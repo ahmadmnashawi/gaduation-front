@@ -308,9 +308,8 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
     return Center(
       child: Stack(
         children: <Widget>[
-          Obx(() => CircleAvatar(
-                radius: 80.0,
-                //  borderRadius: BorderRadius.circular(100),
+          Obx(() => ClipRRect(
+                borderRadius: BorderRadius.circular(100),
                 child: controller.stringPickImage.value.isNotEmpty
                     ? Utility.imageFromBase64String(
                         controller.stringPickImage.value, 200, 200)
@@ -338,7 +337,29 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                   color: Color.fromARGB(255, 245, 146, 149),
                   size: 28.0,
                 ),
-              ))
+              )),
+          controller.userprofile.value.Image != null
+              ? Positioned(
+                  top: 0.0,
+                  left: 20.0,
+                  child: InkWell(
+                    onTap: () async {
+                      controller.userprofile.value.Image = null;
+                      controller.stringPickImage.value = '';
+                    },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Container(
+                        color: Color.fromARGB(255, 245, 146, 149),
+                        child: const Icon(
+                          Icons.close,
+                          color: Colors.white,
+                          size: 28.0,
+                        ),
+                      ),
+                    ),
+                  ))
+              : const SizedBox()
         ],
       ),
     );

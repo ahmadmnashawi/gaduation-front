@@ -16,15 +16,22 @@ class PostPage extends StatelessWidget {
       required this.pickImage,
       required this.fromGroup,
       required this.title,
+      required this.listImage,
+      required this.textDescription,
+      required this.generateTap,
       super.key});
   final RxList<Content>? contents;
   final Rx<Content>? selectContent;
   final Rx<String> stringPickImage;
   final Rx<Post> post;
+  final RxList<String> textDescription;
+  final RxList<String> listImage;
   final VoidCallback onSave;
   final VoidCallback pickImage;
+  final VoidCallback generateTap;
   final bool fromGroup;
   final String title;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -87,8 +94,10 @@ class PostPage extends StatelessWidget {
                         : const SizedBox(),
                     imageProfile(),
                     Material(
-                        child: SizedBox(
-                            width: Get.height,
+                        child: Row(
+                      children: [
+                        Obx(() => SizedBox(
+                            width: Get.width - 50,
                             child: TextFieldGPWidget(
                               obscureText: false,
                               type: TextInputType.text,
@@ -108,6 +117,58 @@ class PostPage extends StatelessWidget {
                                 post.value.Description = value;
                               },
                             ))),
+                        InkWell(
+                          onTap: generateTap,
+                          child: const Icon(
+                            Icons.generating_tokens,
+                            color: const Color.fromARGB(255, 42, 42, 114),
+                          ),
+                        ),
+                      ],
+                    )),
+                    Obx(() => Column(
+                          children: [
+                            Wrap(
+                              children: listImage
+                                  .map((t) => Padding(
+                                        padding: const EdgeInsets.all(2),
+                                        child: InkWell(
+                                          onTap: () {
+                                            post.value.imageOnline = t;
+                                            listImage.clear();
+                                            post.refresh();
+                                          },
+                                          child: Image.network(
+                                            t,
+                                            width: 100,
+                                            height: 100,
+                                          ),
+                                        ),
+                                      ))
+                                  .toList(),
+                            ),
+                            Wrap(
+                              children: textDescription
+                                  .map((t) => t == 'null'
+                                      ? SizedBox()
+                                      : InkWell(
+                                          onTap: () {
+                                            post.value.Description = t;
+                                            post.refresh();
+                                            textDescription.clear();
+                                          },
+                                          child: Card(
+                                            child: Row(
+                                              children: [
+                                                Flexible(child: Text(t)),
+                                              ],
+                                            ),
+                                          ),
+                                        ))
+                                  .toList(),
+                            ),
+                          ],
+                        )),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton(
@@ -138,20 +199,16 @@ class PostPage extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Obx(() => CircleAvatar(
-                radius: 80.0,
-                //  borderRadius: BorderRadius.circular(100),
-                child: stringPickImage.value.isNotEmpty
-                    ? Utility.imageFromBase64String(
-                        stringPickImage.value, 200, 200)
-                    : post.value.Image == null
-                        ? Image.asset(
-                            'assets/images/boy.gif',
-                            width: 200,
-                            height: 200,
-                          )
-                        : Utility.imageFromBase64String(
-                            Utility.base64String(post.value.Image!), 200, 200),
-              )),
+              radius: 80.0,
+              //  borderRadius: BorderRadius.circular(100),
+              child: stringPickImage.value.isNotEmpty
+                  ? Utility.imageFromBase64String(
+                      stringPickImage.value, 200, 200)
+                  : Utility.getImage(
+                      base64StringPh: post.value.Image,
+                      link: post.value.imageOnline,
+                      width: 200,
+                      hight: 200))),
           Positioned(
               bottom: 20.0,
               right: 20.0,

@@ -15,6 +15,9 @@ class PostGrpoup extends GetResponsiveView<GroupController> {
       contents: controller.contents,
       selectContent: controller.selectContent,
       stringPickImage: controller.stringPickImage,
+      generateTap: () async => await controller.getImage(),
+      listImage: controller.listImage,
+      textDescription: controller.textDescription,
       post: controller.newpost,
       onSave: () async {
         await controller.AddPost(false);

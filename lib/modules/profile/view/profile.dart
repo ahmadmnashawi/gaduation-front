@@ -18,459 +18,480 @@ class Profileview extends GetResponsiveView<ProfileController> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(6, 20, 8, 8),
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 2)),
-                height: 150,
-                width: 150,
-                child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Center(
-                        child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: controller.stringPickImage.value.isEmpty
-                          ? controller.userprofile.value.Image == null
-                              ? Image.asset(
-                                  'assets/images/no_image.jpeg',
-                                  width: 200,
-                                  height: 200,
-                                )
-                              : Utility.imageFromBase64String(
-                                  Utility.base64String(
-                                      controller.userprofile.value.Image!),
-                                  200,
-                                  200)
-                          : Utility.imageFromBase64String(
-                              controller.stringPickImage.value, 200, 200),
-                    ))),
-              ),
-            ),
+      child: Obx(() => Column(children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(6, 20, 8, 8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.white, width: 2)),
+                    height: 150,
+                    width: 150,
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Center(
+                            child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: controller.stringPickImage.value.isEmpty
+                              ? controller.userprofile.value.Image == null
+                                  ? Image.asset(
+                                      'assets/images/no_image.jpeg',
+                                      width: 200,
+                                      height: 200,
+                                    )
+                                  : Utility.imageFromBase64String(
+                                      Utility.base64String(
+                                          controller.userprofile.value.Image!),
+                                      200,
+                                      200)
+                              : Utility.imageFromBase64String(
+                                  controller.stringPickImage.value, 200, 200),
+                        ))),
+                  ),
+                ),
+                Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        controller.userprofile.value.Name.toString(),
-                        // 'Mohammad Ahmmad',
-                        style: const TextStyle(
-                          decoration: TextDecoration.none,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 42, 42, 114),
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    Row(
+                    Column(
                       children: [
-                        Text(
-                          controller.userprofile.value.UserName.toString(),
-                          style: const TextStyle(
-                            color: Color.fromARGB(255, 42, 42, 114),
-                            fontSize: 16,
-                            decoration: TextDecoration.none,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            controller.userprofile.value.Name.toString(),
+                            // 'Mohammad Ahmmad',
+                            style: const TextStyle(
+                              decoration: TextDecoration.none,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 42, 42, 114),
+                              fontSize: 20,
+                            ),
                           ),
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            ///////////////////////////////Here Update profile
-                            Get.dialog(EditProfileview());
+                        Row(
+                          children: [
+                            Text(
+                              controller.userprofile.value.UserName.toString(),
+                              style: const TextStyle(
+                                color: Color.fromARGB(255, 42, 42, 114),
+                                fontSize: 16,
+                                decoration: TextDecoration.none,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                ///////////////////////////////Here Update profile
+                                Get.dialog(EditProfileview());
 
-                            // Get.rootDelegate.toNamed(Routes.editProfile);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shadowColor: const Color.fromARGB(255, 42, 42, 114),
-                            shape: const CircleBorder(),
-                          ),
-                          child: const Icon(
-                            Icons.edit,
-                            size: 14,
-                            color: Color.fromARGB(255, 42, 42, 114),
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            controller.GetuserGroup();
-                            Get.dialog(Align(
-                              alignment: Alignment.topRight,
-                              child: Container(
-                                  width: 300,
-                                  height: 900,
-                                  color: Colors.white,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Groups'.tr,
-                                            style: const TextStyle(
-                                                fontSize: 24,
-                                                fontFamily: "Pacifico",
-                                                color: Color.fromARGB(
-                                                    255, 246, 123, 127),
-                                                decoration:
-                                                    TextDecoration.none),
-                                          ),
+                                // Get.rootDelegate.toNamed(Routes.editProfile);
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shadowColor:
+                                    const Color.fromARGB(255, 42, 42, 114),
+                                shape: const CircleBorder(),
+                              ),
+                              child: const Icon(
+                                Icons.edit,
+                                size: 14,
+                                color: Color.fromARGB(255, 42, 42, 114),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                controller.GetuserGroup();
+                                Get.dialog(Align(
+                                  alignment: Alignment.topRight,
+                                  child: Container(
+                                      width: 300,
+                                      height: 900,
+                                      color: Colors.white,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Groups'.tr,
+                                                style: const TextStyle(
+                                                    fontSize: 24,
+                                                    fontFamily: "Pacifico",
+                                                    color: Color.fromARGB(
+                                                        255, 246, 123, 127),
+                                                    decoration:
+                                                        TextDecoration.none),
+                                              ),
+                                            ),
+                                            Obx(() => Column(
+                                                  children: controller
+                                                      .userfollowGroups
+                                                      .map((e) =>
+                                                          shapFolloword(e))
+                                                      .toList(),
+                                                ))
+                                          ],
                                         ),
-                                        Obx(() => Column(
-                                              children: controller
-                                                  .userfollowGroups
-                                                  .map((e) => shapFolloword(e))
-                                                  .toList(),
-                                            ))
-                                      ],
-                                    ),
-                                  )),
-                            ));
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shadowColor: const Color.fromARGB(255, 42, 42, 114),
-                            shape: const CircleBorder(),
-                          ),
-                          child: const Icon(
-                            Icons.group,
-                            size: 14,
-                            color: Color.fromARGB(255, 42, 42, 114),
+                                      )),
+                                ));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shadowColor:
+                                    const Color.fromARGB(255, 42, 42, 114),
+                                shape: const CircleBorder(),
+                              ),
+                              child: const Icon(
+                                Icons.group,
+                                size: 14,
+                                color: Color.fromARGB(255, 42, 42, 114),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shadowColor:
+                                      const Color.fromARGB(255, 42, 42, 114),
+                                  backgroundColor: Colors.white,
+                                ),
+                                onPressed: () {
+                                  controller.GetUserFollow();
+                                  Get.dialog(Align(
+                                    alignment: Alignment.topRight,
+                                    child: Container(
+                                        width: 300,
+                                        height: 900,
+                                        color: Colors.white,
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Follow'.tr,
+                                                  style: const TextStyle(
+                                                      fontSize: 24,
+                                                      fontFamily: "Pacifico",
+                                                      color: Color.fromARGB(
+                                                          255, 246, 123, 127),
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                              ),
+                                              Obx(() => Column(
+                                                    children: controller
+                                                                .UserFollow
+                                                            .map((e) =>
+                                                                shapFollow(e))
+                                                        .toList(),
+                                                  ))
+                                            ],
+                                          ),
+                                        )),
+                                  ));
+                                },
+                                child: Text(
+                                  'Follow'.tr,
+                                  style: const TextStyle(
+                                      color: Color.fromARGB(255, 246, 123, 127),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const SizedBox(width: 3),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  shadowColor:
+                                      const Color.fromARGB(255, 42, 42, 114),
+                                  backgroundColor: Colors.white,
+                                ),
+                                onPressed: () {
+                                  controller.GetFollowuser();
+                                  Get.dialog(Align(
+                                    alignment: Alignment.topRight,
+                                    child: Container(
+                                        width: 300,
+                                        height: 900,
+                                        color: Colors.white,
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Followed'.tr,
+                                                  style: const TextStyle(
+                                                      fontSize: 24,
+                                                      fontFamily: "Pacifico",
+                                                      color: Color.fromARGB(
+                                                          255, 246, 123, 127),
+                                                      decoration:
+                                                          TextDecoration.none),
+                                                ),
+                                              ),
+                                              Obx(() => Column(
+                                                    children: controller
+                                                                .FollowUser
+                                                            .map((e) =>
+                                                                shapFollow(e))
+                                                        .toList(),
+                                                  ))
+                                            ],
+                                          ),
+                                        )),
+                                  ));
+                                },
+                                child: Text(
+                                  'Followed'.tr,
+                                  style: const TextStyle(
+                                      color: Color.fromARGB(255, 246, 123, 127),
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shadowColor:
-                                  const Color.fromARGB(255, 42, 42, 114),
-                              backgroundColor: Colors.white,
-                            ),
-                            onPressed: () {
-                              controller.GetUserFollow();
-                              Get.dialog(Align(
-                                alignment: Alignment.topRight,
-                                child: Container(
-                                    width: 300,
-                                    height: 900,
-                                    color: Colors.white,
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Follow'.tr,
-                                              style: const TextStyle(
-                                                  fontSize: 24,
-                                                  fontFamily: "Pacifico",
-                                                  color: Color.fromARGB(
-                                                      255, 246, 123, 127),
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                          Obx(() => Column(
-                                                children:
-                                                    controller.UserFollow.map(
-                                                            (e) =>
-                                                                shapFollow(e))
-                                                        .toList(),
-                                              ))
-                                        ],
-                                      ),
-                                    )),
-                              ));
-                            },
-                            child: Text(
-                              'Follow'.tr,
-                              style: const TextStyle(
-                                  color: Color.fromARGB(255, 246, 123, 127),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          const SizedBox(width: 3),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shadowColor:
-                                  const Color.fromARGB(255, 42, 42, 114),
-                              backgroundColor: Colors.white,
-                            ),
-                            onPressed: () {
-                              controller.GetFollowuser();
-                              Get.dialog(Align(
-                                alignment: Alignment.topRight,
-                                child: Container(
-                                    width: 300,
-                                    height: 900,
-                                    color: Colors.white,
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Followed'.tr,
-                                              style: const TextStyle(
-                                                  fontSize: 24,
-                                                  fontFamily: "Pacifico",
-                                                  color: Color.fromARGB(
-                                                      255, 246, 123, 127),
-                                                  decoration:
-                                                      TextDecoration.none),
-                                            ),
-                                          ),
-                                          Obx(() => Column(
-                                                children:
-                                                    controller.FollowUser.map(
-                                                            (e) =>
-                                                                shapFollow(e))
-                                                        .toList(),
-                                              ))
-                                        ],
-                                      ),
-                                    )),
-                              ));
-                            },
-                            child: Text(
-                              'Followed'.tr,
-                              style: const TextStyle(
-                                  color: Color.fromARGB(255, 246, 123, 127),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
                 ),
+                const SizedBox()
               ],
             ),
-            const SizedBox()
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
-          child: Align(
-              alignment: Alignment.topLeft,
-              child: Text(
-                'About:'.tr,
-                style: const TextStyle(
-                    decoration: TextDecoration.none,
-                    color: Color.fromARGB(255, 42, 42, 114),
-                    fontSize: 20),
-              )),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(8, 8, 8, 1),
-          child: Row(
-            children: [
-              const SizedBox(
-                width: 16,
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.email,
-                  color: Color.fromARGB(255, 246, 123, 127),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  controller.userprofile.value.Email.toString(),
-                  //'MohmmadAhmad@gmail.com',
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 42, 42, 114),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      decoration: TextDecoration.none),
-                ),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(8, 1, 8, 8),
-          child: Row(
-            children: [
-              const SizedBox(
-                width: 16,
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.cast_for_education,
-                  color: Color.fromARGB(255, 246, 123, 127),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  controller.userprofile.value.Study.toString(),
-                  //  'Information Tecnology',
-                  style: const TextStyle(
-                      color: Color.fromARGB(255, 42, 42, 114),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      decoration: TextDecoration.none),
-                ),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(0.0),
-          child: Card(
-            elevation: 6.0,
-            color: const Color.fromARGB(255, 246, 123, 127),
-            clipBehavior: Clip.hardEdge,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Container(
-              width: 500,
-              margin: const EdgeInsets.only(top: 5),
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 8, 8),
+              child: Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    'About:'.tr,
+                    style: const TextStyle(
+                        decoration: TextDecoration.none,
+                        color: Color.fromARGB(255, 42, 42, 114),
+                        fontSize: 20),
                   )),
-              child: Obx(() => SingleChildScrollView(
-                    child: Column(
-                        children: controller.Listuserpost.map((element) =>
-                            PostView(
-                              postDto: element,
-                              withAction: false,
-                              action: Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () async {
-                                        controller.postidnew.value =
-                                            element.post!;
-                                        if (controller
-                                                .postidnew.value.IdContent !=
-                                            null) {
-                                          await controller.GetAllContent();
-                                          controller.selectContent.value =
-                                              controller.Contents.where((e) =>
-                                                  e.Id ==
-                                                  controller.postidnew.value
-                                                      .IdContent).first;
-                                        }
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 1),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.email,
+                      color: Color.fromARGB(255, 246, 123, 127),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      controller.userprofile.value.Email.toString(),
+                      //'MohmmadAhmad@gmail.com',
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 42, 42, 114),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 1, 8, 8),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.cast_for_education,
+                      color: Color.fromARGB(255, 246, 123, 127),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      controller.userprofile.value.Study.toString(),
+                      //  'Information Tecnology',
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 42, 42, 114),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          decoration: TextDecoration.none),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: Card(
+                elevation: 6.0,
+                color: const Color.fromARGB(255, 246, 123, 127),
+                clipBehavior: Clip.hardEdge,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: Container(
+                  width: 500,
+                  margin: const EdgeInsets.only(top: 5),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      )),
+                  child: Obx(() => SingleChildScrollView(
+                        child: Column(
+                            children: controller.Listuserpost.map((element) =>
+                                PostView(
+                                  postDto: element,
+                                  withAction: false,
+                                  action: Row(
+                                    children: [
+                                      IconButton(
+                                          onPressed: () async {
+                                            controller.postidnew.value =
+                                                element.post!;
+                                            if (controller.postidnew.value
+                                                    .IdContent !=
+                                                null) {
+                                              await controller.GetAllContent();
+                                              controller.selectContent.value =
+                                                  controller.Contents.where(
+                                                      (e) =>
+                                                          e.Id ==
+                                                          controller
+                                                              .postidnew
+                                                              .value
+                                                              .IdContent).first;
+                                            }
 
-                                        Get.dialog(Align(
-                                          alignment: Alignment.center,
-                                          child: PostPage(
-                                            title: "Editpost".tr,
-                                            fromGroup: controller.postidnew
-                                                    .value.IdContent !=
-                                                null,
-                                            contents: controller.Contents,
-                                            selectContent:
-                                                controller.selectContent,
-                                            stringPickImage:
-                                                controller.stringPickImage,
-                                            post: controller.postidnew,
-                                            onSave: () async {
-                                              await controller.UpdatePost();
-                                            },
-                                            pickImage: () {
-                                              controller.pickImage();
-                                            },
-                                          ),
-                                        ));
-                                      },
-                                      icon: const Icon(
-                                        Icons.edit,
-                                        size: 20,
-                                        color: Color.fromARGB(255, 42, 42, 114),
-                                      )),
-                                  IconButton(
-                                      onPressed: () {
-                                        Get.dialog(Material(
-                                          child: Align(
-                                            child: Container(
-                                              height: 200,
-                                              width: 200,
-                                              color: Colors.white,
-                                              // decoration: BoxDecoration(
-                                              //     borderRadius: BorderRadius.circular(12),
-                                              //     border: Border.all(
-                                              //         color: const Color.fromARGB(
-                                              //             255, 42, 42, 114),
-                                              //         width: 2)),
-                                              child: Column(
-                                                children: [
-                                                  Center(
-                                                    child: Text(
-                                                      'AreSureToRemove?'.tr,
-                                                      style: const TextStyle(
-                                                        color: Color.fromARGB(
-                                                            255, 42, 42, 114),
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      TextButton(
-                                                          onPressed: () async {
-                                                            await controller
-                                                                .DeletPost(
-                                                                    element
-                                                                        .post!
-                                                                        .Id!);
-                                                            Get.back();
-                                                          },
-                                                          child: Text(
-                                                            'Yes'.tr,
-                                                          )),
-                                                      TextButton(
-                                                          onPressed: () {
-                                                            Get.back();
-                                                          },
-                                                          child: Text(
-                                                            'No'.tr,
-                                                          ))
-                                                    ],
-                                                  )
-                                                ],
+                                            Get.dialog(Align(
+                                              alignment: Alignment.center,
+                                              child: PostPage(
+                                                title: "Editpost".tr,
+                                                fromGroup: controller.postidnew
+                                                        .value.IdContent !=
+                                                    null,
+                                                contents: controller.Contents,
+                                                selectContent:
+                                                    controller.selectContent,
+                                                stringPickImage:
+                                                    controller.stringPickImage,
+                                                post: controller.postidnew,
+                                                listImage: controller.listImage,
+                                                textDescription:
+                                                    controller.textDescription,
+                                                generateTap: () async =>
+                                                    await controller.getImage(),
+                                                onSave: () async {
+                                                  await controller.UpdatePost();
+                                                },
+                                                pickImage: () {
+                                                  controller.pickImage();
+                                                },
                                               ),
-                                            ),
-                                          ),
-                                        ));
-                                      },
-                                      icon: const Icon(
-                                        Icons.delete,
-                                        color: Colors.red,
-                                        size: 20,
-                                      )),
-                                ],
-                              ),
-                            )).toList()),
-                  )),
+                                            ));
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            size: 20,
+                                            color: Color.fromARGB(
+                                                255, 42, 42, 114),
+                                          )),
+                                      IconButton(
+                                          onPressed: () {
+                                            Get.dialog(Material(
+                                              child: Align(
+                                                child: Container(
+                                                  height: 200,
+                                                  width: 200,
+                                                  color: Colors.white,
+                                                  // decoration: BoxDecoration(
+                                                  //     borderRadius: BorderRadius.circular(12),
+                                                  //     border: Border.all(
+                                                  //         color: const Color.fromARGB(
+                                                  //             255, 42, 42, 114),
+                                                  //         width: 2)),
+                                                  child: Column(
+                                                    children: [
+                                                      Center(
+                                                        child: Text(
+                                                          'AreSureToRemove?'.tr,
+                                                          style:
+                                                              const TextStyle(
+                                                            color:
+                                                                Color.fromARGB(
+                                                                    255,
+                                                                    42,
+                                                                    42,
+                                                                    114),
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          TextButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                await controller
+                                                                    .DeletPost(
+                                                                        element
+                                                                            .post!
+                                                                            .Id!);
+                                                                Get.back();
+                                                              },
+                                                              child: Text(
+                                                                'Yes'.tr,
+                                                              )),
+                                                          TextButton(
+                                                              onPressed: () {
+                                                                Get.back();
+                                                              },
+                                                              child: Text(
+                                                                'No'.tr,
+                                                              ))
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ));
+                                          },
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                            size: 20,
+                                          )),
+                                    ],
+                                  ),
+                                )).toList()),
+                      )),
+                ),
+              ),
             ),
-          ),
-        ),
-        SizedBox(
-          height: 150,
-        )
-      ]),
+            SizedBox(
+              height: 150,
+            )
+          ])),
     );
   }
 

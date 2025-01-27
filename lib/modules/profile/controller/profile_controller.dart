@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graduationproject/app/model/group.dart';
@@ -45,6 +46,9 @@ class ProfileController extends GetxController {
   final formfield = GlobalKey<FormState>();
   final emailcontroller = TextEditingController();
   final passcontroller = TextEditingController();
+  final textDescription = <String>[].obs;
+  final listImage = <String>[].obs;
+
   Uint8List? image;
   @override
   void onInit() {
@@ -84,41 +88,57 @@ class ProfileController extends GetxController {
     }
   }
 
-  // Future <void>UpduteUserInfo()async{
-  // UpdateUser.value.Image = Utility.dataFromBase64String(stringPickImage.value);
-  //   var res=await profileRepo.UpdateProfile(UpdateUser.value, user.value.Id!);
-  //   if(res){
-  //     print('update user');
-  //   }else{
-  //     print('not update user');
-  //   }
-  // }
-  // Future <void> UpdatePostUser(int idpost)async{
-  //     var res=await profileRepo.UpdatePost(idpost,editpost.value);
-  //   if(res){
-  //     print('update user');
-  //   }else{
-  //     print('not update user');
-  //   }
-  // }
-  // Future <void> DeletPost(int idpost)async{
-  //      var res=await profileRepo.DeletePost(idpost);
-  //   if(res){
-  //     GetPostUser();
-  //     print('update user');
+  Future<void> getImage() async {
+    var value = postidnew.value.Description ?? '';
+    var data = await fetchUnsplashImages(value);
+    listImage.assignAll(data);
+  }
 
-  //   }else{
-  //     print('not update user');
-  //   }
-  // }
-  //   Future <void>Getpost(int idpost)async{
-  //  var result=await profileRepo.Getpost(idpost);
-  //  editpost.value=result!;
-  //   }
-  //      Future <void>Updatecontentpost(String content)async{
-  //  var result=await profileRepo.GetIdContent(content);
-  //       newcontent.value=result!;
-  //   }
+  Future<List<String>> fetchUnsplashImages(String query) async {
+    const apiKey = "V83HBiC1FxRJUZMq14Vp4R7TBXo99F_j6vioIfjufgI";
+
+    final response = await Get.find<Dio>().get(
+      "https://api.unsplash.com/search/photos?query=$query",
+      options: Options(headers: {
+        "Authorization": "Client-ID $apiKey",
+      }),
+    );
+    // print('///////////////////${response.data}');
+    if (response.statusCode == 200) {
+      final List<dynamic> results = response.data["results"];
+      final List<String> imageUrls =
+          results.map((item) => (item["urls"]["small"].toString())).toList();
+      var data =
+          results.map((item) => (item["description"].toString())).toList();
+      textDescription.assignAll(data);
+      return imageUrls;
+    } else {
+      throw Exception("Failed to fetch images");
+    }
+  }
+
+  Future<String> generateDescription(String text) async {
+    final apiKey = "e1b992cb-e561-4333-9143-83cd0edd26c6";
+    final url = "https://api.deepai.org/api/text-generator";
+
+    try {
+      final dio = Dio();
+      final response = await dio.post(
+        url,
+        options: Options(headers: {"api-key": apiKey}),
+        data: {"text": text},
+      );
+
+      if (response.statusCode == 200) {
+        return response.data["output"];
+      } else {
+        throw Exception("Failed to generate description");
+      }
+    } catch (e) {
+      throw Exception("Error occurred: $e");
+    }
+  }
+
   Future<void> GetInterActionUser(int idpost) async {
     var data = await profileRepo.InteractionUser(userpost.value, idpost);
     print(data);
@@ -195,7 +215,13 @@ class ProfileController extends GetxController {
     if (data) {
       auth.stroge.deleteDataByKey(KeyData);
       await auth.logIn(userprofile.value.Email!, userprofile.value.Password!);
+      stringPickImage.value = '';
+      Get.back();
+      await GetUser();
+      await GetAllContent();
+      await GetPostUser();
     }
+
     return data;
   }
 
