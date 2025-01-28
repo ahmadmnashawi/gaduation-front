@@ -40,7 +40,9 @@ class Post {
   factory Post.fromJson(Map<String, dynamic> json) => Post(
       Id: json["id"],
       imageOnline: json['imageOnline'],
-      content: json['content'],
+      content: json['content'] == null
+          ? null
+          : Content.fromJson(json['content'] as Map<String, dynamic>),
       IdContent: json['idContent'],
       IdGroup: json['idGroup'],
       group: json['group'],

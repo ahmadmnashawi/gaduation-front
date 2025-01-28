@@ -120,32 +120,8 @@ class Contentpage extends GetResponsiveView<ContentController> {
                                           }
                                         },
                                         onChanged: (value) {
-                                          if (!controller.contents.any(
-                                              (element) =>
-                                                  element.typeName == value)) {
-                                            controller.addcontent.value
-                                                .typeName = value;
-                                          } else {
-                                            Get.snackbar(
-                                              'Error'.tr,
-                                              "anc".tr,
-                                              //  icon: Icon(Icons.person, color: Colors.white),
-                                              snackPosition:
-                                                  SnackPosition.BOTTOM,
-                                              backgroundColor:
-                                                  const Color.fromARGB(
-                                                      255, 209, 143, 143),
-                                              borderRadius: 20,
-                                              margin: const EdgeInsets.all(15),
-                                              colorText: Colors.white,
-                                              duration:
-                                                  const Duration(seconds: 4),
-                                              isDismissible: true,
-                                              //  dismissDirection: SnackDismissDirection.HORIZONTAL,
-                                              forwardAnimationCurve:
-                                                  Curves.easeOutBack,
-                                            );
-                                          }
+                                          controller.addcontent.value.typeName =
+                                              value;
                                         },
                                       ),
                                     ),
@@ -161,13 +137,10 @@ class Contentpage extends GetResponsiveView<ContentController> {
                                         onPressed: () async {
                                           if (_formfield.currentState!
                                               .validate()) {
-                                            print("Data Added Successfully");
-                                            // controller.show.value = true;
-                                            if (!controller.contents.contains(
-                                                controller.addcontent.value)) {
-                                              await controller
-                                                  .addcontentelement(controller
-                                                      .addcontent.value);
+                                            var res = await controller
+                                                .addcontentelement(controller
+                                                    .addcontent.value);
+                                            if (res) {
                                               await Get.snackbar(
                                                 ' Added',
                                                 " The Content Is Added",
@@ -176,6 +149,27 @@ class Contentpage extends GetResponsiveView<ContentController> {
                                                     SnackPosition.BOTTOM,
                                                 backgroundColor: Color.fromARGB(
                                                     255, 246, 123, 127),
+                                                borderRadius: 20,
+                                                margin:
+                                                    const EdgeInsets.all(15),
+                                                colorText: Colors.white,
+                                                duration:
+                                                    const Duration(seconds: 4),
+                                                isDismissible: true,
+                                                //  dismissDirection: SnackDismissDirection.HORIZONTAL,
+                                                forwardAnimationCurve:
+                                                    Curves.easeOutBack,
+                                              );
+                                            } else {
+                                              await Get.snackbar(
+                                                'Error'.tr,
+                                                "the type already Added".tr,
+                                                //  icon: Icon(Icons.person, color: Colors.white),
+                                                snackPosition:
+                                                    SnackPosition.BOTTOM,
+                                                backgroundColor:
+                                                    const Color.fromARGB(
+                                                        255, 209, 143, 143),
                                                 borderRadius: 20,
                                                 margin:
                                                     const EdgeInsets.all(15),

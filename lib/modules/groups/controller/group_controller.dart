@@ -124,6 +124,7 @@ class GroupController extends GetxController {
     var res = await groupRepo.DeleteGroup(idgroup);
     if (res) {
       getAllGroups();
+      Get.back();
     }
   }
 
@@ -211,6 +212,7 @@ class GroupController extends GetxController {
   }
 
   Future<void> AddPost(bool fromGroup) async {
+    newpost.value.IdContent = selectContent.value.Id;
     if (fromGroup) {
       newpost.value.IdGroup = currentGroup.value.Id;
       newpost.value.IdContent = currentGroup.value.IdContent;

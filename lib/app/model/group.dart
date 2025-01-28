@@ -28,7 +28,8 @@ class Group {
     groupName = json['groupName'];
     Description = json['description'];
     IdContent = json['idContent'];
-    content = json['content'];
+    content =
+        json['content'] == null ? null : Content.fromJson(json['content']);
     Image = json['image'] == null
         ? null
         : Uint8List.fromList(List<int>.from(json['image']! as List<dynamic>));

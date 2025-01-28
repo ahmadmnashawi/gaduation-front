@@ -36,6 +36,7 @@ class TestController extends GetxController {
   var SportList = <Question>[].obs;
   var EnglishList = <Question>[].obs;
   var scienceList = <Question>[].obs;
+  final newTest = Test().obs;
   final Listtsst = [
     TestDto(test: Test(test: 'It Test ')),
     TestDto(test: Test(test: 'Scenice Test')),

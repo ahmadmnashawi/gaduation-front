@@ -30,12 +30,14 @@ class ContentController extends GetxController {
     }
   }
 
-  Future<void> addcontentelement(Content content) async {
+  Future<bool> addcontentelement(Content content) async {
     var res = await contRepo.AddContent(content);
+
     if (res) {
       //for refresh
       getAllContent();
-      Get.back();
     }
+    Get.back();
+    return res;
   }
 }

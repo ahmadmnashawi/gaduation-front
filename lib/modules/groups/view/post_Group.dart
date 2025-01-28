@@ -10,7 +10,7 @@ class PostGrpoup extends GetResponsiveView<GroupController> {
   @override
   Widget builder() {
     return PostPage(
-      fromGroup: false,
+      fromGroup: true,
       title: "ad".tr,
       contents: controller.contents,
       selectContent: controller.selectContent,

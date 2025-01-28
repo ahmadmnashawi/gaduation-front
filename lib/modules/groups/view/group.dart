@@ -18,15 +18,108 @@ class GroupView extends GetResponsiveView<GroupController> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
-          InkWell(
-            onTap: () => Get.back(),
-            child: const Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(Icons.arrow_back_ios, size: 20, color: Colors.grey),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () => Get.back(),
+                child: const Align(
+                  alignment: Alignment.topLeft,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.arrow_back_ios,
+                        size: 20, color: Colors.grey),
+                  ),
+                ),
               ),
-            ),
+              controller.auth.isAdmin() || controller.user.value.Id == 2
+                  ? Padding(
+                      padding: const EdgeInsets.all(18),
+                      child: Tooltip(
+                        message: 'deleteGroup'.tr,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shadowColor: const Color.fromARGB(255, 42, 42, 114),
+                            backgroundColor:
+                                const Color.fromARGB(255, 246, 123, 127),
+                          ),
+                          onPressed: () async {
+                            Get.dialog(Align(
+                                alignment: Alignment.center,
+                                child: Container(
+                                    width: 250,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                            color: Colors.blueAccent)),
+                                    child: SingleChildScrollView(
+                                        child: Column(
+                                      children: [
+                                        Text(
+                                          "aresure".tr,
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: "Pacifico",
+                                              color: Colors.blueGrey,
+                                              decoration: TextDecoration.none),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Center(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                TextButton(
+                                                    onPressed: () async {
+                                                      await controller.delGroup(
+                                                          controller
+                                                              .currentGroup
+                                                              .value
+                                                              .Id!);
+                                                    },
+                                                    child: Text(
+                                                      'mm'.tr,
+                                                      style: const TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              245,
+                                                              146,
+                                                              149)),
+                                                    )),
+                                                TextButton(
+                                                    onPressed: () {
+                                                      Get.back();
+                                                    },
+                                                    child: Text(
+                                                      'nn'.tr,
+                                                      style: const TextStyle(
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              245,
+                                                              146,
+                                                              149)),
+                                                    )),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )))));
+                          },
+                          child: Text(
+                            'Delete Group'.tr,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 17),
+                          ),
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -70,42 +163,51 @@ class GroupView extends GetResponsiveView<GroupController> {
                               child: Center(
                                 child: Row(
                                   children: [
-                                    Obx(
-                                      () => Tooltip(
-                                        message: controller.msg.value,
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            shadowColor: Colors.blueGrey,
-                                            backgroundColor:
-                                                // controller.press.value == false
-                                                !controller
-                                                        .personExsisting.value
-                                                    ? const Color.fromARGB(
-                                                        255, 246, 123, 127)
-                                                    : Colors.white,
+                                    controller.auth.isAdmin()
+                                        ? SizedBox()
+                                        : Obx(
+                                            () => Tooltip(
+                                              message: controller.msg.value,
+                                              child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  shadowColor: Colors.blueGrey,
+                                                  backgroundColor:
+                                                      // controller.press.value == false
+                                                      !controller
+                                                              .personExsisting
+                                                              .value
+                                                          ? const Color
+                                                              .fromARGB(255,
+                                                              246, 123, 127)
+                                                          : Colors.white,
+                                                ),
+                                                onPressed: () async {
+                                                  controller.addMember.value
+                                                          .IdGroup =
+                                                      controller.currentGroup
+                                                          .value.Id;
+                                                  controller.addMember.value
+                                                          .IdUser =
+                                                      controller.user.value.Id;
+                                                  await controller.AddMember();
+                                                  await controller
+                                                      .existingMember();
+                                                },
+                                                child: Text(
+                                                  controller.msg.value,
+                                                  style: TextStyle(
+                                                      color: !controller
+                                                              .personExsisting
+                                                              .value
+                                                          ? Colors.white
+                                                          : const Color
+                                                              .fromARGB(255,
+                                                              246, 123, 127),
+                                                      fontSize: 17),
+                                                ),
+                                              ),
+                                            ),
                                           ),
-                                          onPressed: () async {
-                                            controller.addMember.value.IdGroup =
-                                                controller
-                                                    .currentGroup.value.Id;
-                                            controller.addMember.value.IdUser =
-                                                controller.user.value.Id;
-                                            await controller.AddMember();
-                                            await controller.existingMember();
-                                          },
-                                          child: Text(
-                                            controller.msg.value,
-                                            style: TextStyle(
-                                                color: !controller
-                                                        .personExsisting.value
-                                                    ? Colors.white
-                                                    : const Color.fromARGB(
-                                                        255, 246, 123, 127),
-                                                fontSize: 17),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                                     const SizedBox(width: 5),
                                     Tooltip(
                                       message: 'wa'.tr,
@@ -161,12 +263,6 @@ class GroupView extends GetResponsiveView<GroupController> {
                                                               .toList(),
                                                         ),
                                                       )
-                                                      // shapFolloword('ASIA Badnjki',
-                                                      //     'assets/images/girl.gif'),
-                                                      // shapFolloword('HADEEL Dabbas',
-                                                      //     'assets/images/girl.gif'),
-                                                      // shapFolloword('HAYA Ysoufi',
-                                                      //     'assets/images/girl.gif')
                                                     ],
                                                   ),
                                                 )),
@@ -223,6 +319,20 @@ class GroupView extends GetResponsiveView<GroupController> {
                                             .toString()))
                               ],
                             )),
+                        controller.currentGroup.value.content == null
+                            ? SizedBox()
+                            : Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Chip(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 42, 42, 114),
+                                    label: Text(
+                                      controller.currentGroup.value.content!
+                                              .typeName ??
+                                          '',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
                       ],
                     ),
                   )
@@ -239,7 +349,7 @@ class GroupView extends GetResponsiveView<GroupController> {
                   message: 'EditGroup'.tr,
                   child: ElevatedButton(
                     onPressed: controller.auth.isAdmin() ||
-                            controller.user.value.Name == 'Asia Badenjki'
+                            controller.user.value.Id == 2
                         ? () {
                             controller.selectContentGroup.value = controller
                                 .contents
@@ -276,54 +386,59 @@ class GroupView extends GetResponsiveView<GroupController> {
                 alignment: Alignment.center,
                 child: Tooltip(
                   message: 'll'.tr,
-                  child: ElevatedButton(
-                    onPressed: controller.auth.isAdmin() ||
-                            controller.user.value.Name == 'Asia Badenjki'
-                        ? () {
-                            Get.dialog(Align(
-                                alignment: Alignment.center,
-                                child: PostPage(
-                                  contents: null,
-                                  selectContent: null,
-                                  stringPickImage: controller.stringPickImage,
-                                  post: controller.newpost,
-                                  generateTap: () async =>
-                                      await controller.getImage(),
-                                  listImage: controller.listImage,
-                                  textDescription: controller.textDescription,
-                                  onSave: () {
-                                    if (controller.formfield.currentState!
-                                        .validate()) {
-                                      print("DataAdded".tr);
-                                      controller.AddPost(true);
-                                    }
-                                  },
-                                  pickImage: () {
-                                    controller.pickImageFun();
-                                  },
-                                  fromGroup: false,
-                                  title: "Add post : ",
-                                )));
-                          }
-                        : () {
-                            Get.showSnackbar(const GetSnackBar(
-                              duration: Duration(seconds: 2),
-                              title: 'Access',
-                              message: 'You Dont Have Permission',
-                            ));
-                          },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 15, horizontal: 15),
-                      shape: const CircleBorder(),
-                    ),
-                    child: const Icon(
-                      Icons.add,
-                      size: 18,
-                      color: Color.fromARGB(255, 246, 123, 127),
-                    ),
-                  ),
+                  child: !controller.personExsisting.value
+                      ? SizedBox()
+                      : ElevatedButton(
+                          onPressed: controller.auth.isAdmin() ||
+                                  controller.user.value.Id == 2
+                              ? () {
+                                  Get.dialog(Align(
+                                      alignment: Alignment.center,
+                                      child: PostPage(
+                                        contents: null,
+                                        selectContent: null,
+                                        stringPickImage:
+                                            controller.stringPickImage,
+                                        post: controller.newpost,
+                                        generateTap: () async =>
+                                            await controller.getImage(),
+                                        listImage: controller.listImage,
+                                        textDescription:
+                                            controller.textDescription,
+                                        onSave: () {
+                                          if (controller.formfield.currentState!
+                                              .validate()) {
+                                            print("DataAdded".tr);
+                                            controller.AddPost(true);
+                                            Get.back();
+                                          }
+                                        },
+                                        pickImage: () {
+                                          controller.pickImageFun();
+                                        },
+                                        fromGroup: false,
+                                        title: "Add post : ",
+                                      )));
+                                }
+                              : () {
+                                  Get.showSnackbar(const GetSnackBar(
+                                    duration: Duration(seconds: 2),
+                                    title: 'Access',
+                                    message: 'You Dont Have Permission',
+                                  ));
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 15, horizontal: 15),
+                            shape: const CircleBorder(),
+                          ),
+                          child: const Icon(
+                            Icons.add,
+                            size: 18,
+                            color: Color.fromARGB(255, 246, 123, 127),
+                          ),
+                        ),
                 ),
               ),
             ],

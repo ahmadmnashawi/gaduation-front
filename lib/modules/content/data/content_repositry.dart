@@ -31,6 +31,6 @@ class ContentRepository implements IContentRepository {
   Future<bool> AddContent(Content content) async {
     var result = await _dio.post('https://localhost:7252/api/Content/AddType',
         data: content.toJson());
-    return result.statusCode == 200;
+    return result.data as bool;
   }
 }

@@ -115,40 +115,48 @@ class PostView extends StatelessWidget {
                 const SizedBox(
                   height: 5,
                 ),
-                withAction
-                    ? Align(
-                        alignment: Alignment.bottomRight,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const SizedBox(),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                      color: Colors.black,
-                                      hoverColor: const Color.fromARGB(
-                                          255, 248, 150, 153),
-                                      onPressed: onComment,
-                                      icon:
-                                          const Icon(AppIconn.chat, size: 18)),
-                                  IconButton(
-                                      hoverColor: const Color.fromARGB(
-                                          255, 248, 150, 153),
-                                      onPressed: onLike,
-                                      icon: Icon(AppIconn.favorite,
-                                          size: 14,
-                                          color: isAction!
-                                              ? Colors.red
-                                              : Colors.black))
-                                ],
-                              ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    postDto.post!.content == null
+                        ? SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Chip(
+                                backgroundColor:
+                                    Color.fromARGB(255, 42, 42, 114),
+                                label: Text(
+                                  postDto.post!.content!.typeName ?? '',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ),
+                    withAction
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    color: Colors.black,
+                                    hoverColor: const Color.fromARGB(
+                                        255, 248, 150, 153),
+                                    onPressed: onComment,
+                                    icon: const Icon(AppIconn.chat, size: 18)),
+                                Text(postDto.numberLike.toString()),
+                                IconButton(
+                                    hoverColor: const Color.fromARGB(
+                                        255, 248, 150, 153),
+                                    onPressed: onLike,
+                                    icon: Icon(AppIconn.favorite,
+                                        size: 14,
+                                        color: isAction!
+                                            ? Colors.red
+                                            : Colors.black)),
+                              ],
                             ),
-                          ],
-                        ),
-                      )
-                    : const SizedBox()
+                          )
+                        : const SizedBox()
+                  ],
+                )
               ],
             ),
           ),

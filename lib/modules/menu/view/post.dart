@@ -38,6 +38,9 @@ class postPage extends GetResponsiveView<HomeController> {
                     isAction: element.Interaction!,
                   );
                 }).toList())),
+            const SizedBox(
+              height: 50,
+            )
           ],
         ),
       ),

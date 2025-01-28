@@ -320,7 +320,7 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                     onTap: () {
                       controller.auth.stroge.deleteAllKeys();
                       Get.rootDelegate.history.clear();
-                      Get.rootDelegate.offAndToNamed(Routes.signup);
+                      Get.rootDelegate.offAndToNamed(Routes.SignIn);
                     },
                     child: CardSetting("Logout".tr, Icons.exit_to_app),
                   ),

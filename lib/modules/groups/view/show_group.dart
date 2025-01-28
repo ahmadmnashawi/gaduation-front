@@ -49,7 +49,7 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
                     hoverColor: const Color.fromARGB(255, 42, 42, 114),
                     color: const Color.fromARGB(255, 245, 146, 149),
                     onPressed: controller.auth.isAdmin() ||
-                            controller.user.value.Name == 'Asia Badenjki'
+                            controller.user.value.Id == 2
                         ? () async {
                             await controller.getAllContent();
                             controller.addnewGroup.value = Group();
@@ -64,27 +64,16 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
                           },
                     icon: const Padding(
                       padding: EdgeInsets.all(8.0),
-                      child: Icon(Icons.add),
+                      child: Icon(
+                        Icons.add,
+                        size: 30,
+                      ),
                     ))
               ],
             ),
             const SizedBox(
               height: 8,
             ),
-            // Padding(
-            //   padding: EdgeInsets.all(8.0),
-            //   child: SizedBox(
-            //       width: 500,
-            //       child: Material(
-            //           child: SearchTextFeild(
-            //         hintText: 'search'.tr,
-            //         value: '',
-            //         label: 'search'.tr,
-            //       ))),
-            // ),
-            // const SizedBox(
-            //   height: 8,
-            // ),
             Obx(() => SingleChildScrollView(
                   child: Column(
                     children:
@@ -107,67 +96,6 @@ class ShowGroupPageView extends GetResponsiveWidget<GroupController> {
             await controller.existingMember();
             Get.to(GroupView());
           },
-          trailing: InkWell(
-            onTap: () {
-              Get.dialog(Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                      width: 250,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.blueAccent)),
-                      child: SingleChildScrollView(
-                          child: Column(
-                        children: [
-                          Text(
-                            "aresure".tr,
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Pacifico",
-                                color: Colors.blueGrey,
-                                decoration: TextDecoration.none),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  TextButton(
-                                      onPressed: () {
-                                        controller.delGroup(g.Id!);
-                                      },
-                                      child: Text(
-                                        'mm'.tr,
-                                        style: const TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 245, 146, 149)),
-                                      )),
-                                  TextButton(
-                                      onPressed: () {
-                                        Get.back();
-                                      },
-                                      child: Text(
-                                        'nn'.tr,
-                                        style: const TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 245, 146, 149)),
-                                      )),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      )))));
-            },
-            child: const Icon(
-              Icons.close,
-              size: 16,
-            ),
-          ),
           title: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(

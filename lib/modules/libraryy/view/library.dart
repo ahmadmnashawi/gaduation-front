@@ -235,9 +235,8 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                             shape: const CircleBorder(),
                             backgroundColor:
                                 const Color.fromARGB(255, 245, 146, 149)),
-                        onPressed: controller.user.value.Name ==
-                                    'Asia Badenjki' ||
-                                controller.user.value.Name == 'Admin'
+                        onPressed: controller.user.value.Id == 2 ||
+                                controller.auth.isAdmin()
                             ? () async {
                                 await controller.getAllBookType();
                                 controller.selectBookType.value =
@@ -657,23 +656,6 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                 decoration: TextDecoration.none)),
                       ],
                     ),
-                    // controller.auth.isAdmin() ||
-                    //          controller.user.value.Name=='Asia Badenjki'
-                    //       ? () {
-                    //           controller.currentGroup.value.content = controller
-                    //               .contents
-                    //               .where((p0) =>
-                    //                   p0.Id == controller.currentGroup.value.Id)
-                    //               .first;
-                    //           Get.to(EditGrpoup());
-                    //         }
-                    //       : () {
-                    //           Get.showSnackbar(const GetSnackBar(
-                    //             duration: Duration(seconds: 2),
-                    //             title: 'Access',
-                    //             message: 'You Dont Have Permission',
-                    //           ));
-                    //         },
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -681,8 +663,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                         Material(
                             child: IconButton(
                                 onPressed: controller.auth.isAdmin() ||
-                                        controller.user.value.Name ==
-                                            'Asia Badenjki'
+                                        controller.user.value.Id == 2
                                     ? () async {
                                         controller.addOneBook.value = d;
                                         controller.getIdBookWritter(d.id!);
@@ -760,8 +741,7 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                         Material(
                             child: IconButton(
                                 onPressed: controller.auth.isAdmin() ||
-                                        controller.user.value.Name ==
-                                            'Asia Badenjki'
+                                        controller.user.value.Id == 2
                                     ? () {
                                         Get.dialog(Align(
                                             alignment: Alignment.center,

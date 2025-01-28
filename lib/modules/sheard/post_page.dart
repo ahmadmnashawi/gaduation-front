@@ -37,7 +37,7 @@ class PostPage extends StatelessWidget {
     return Material(
       child: Container(
         width: 500,
-        height: Get.height / 2.5,
+        height: Get.height / 2,
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
@@ -169,20 +169,52 @@ class PostPage extends StatelessWidget {
                             ),
                           ],
                         )),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            shadowColor: const Color.fromARGB(255, 42, 42, 114),
-                            backgroundColor:
-                                const Color.fromARGB(255, 42, 42, 114)),
-                        onPressed: onSave,
-                        child: Text(
-                          'Save'.tr,
-                          style: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SizedBox(),
+                        Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shadowColor:
+                                        const Color.fromARGB(255, 42, 42, 114),
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 42, 42, 114)),
+                                onPressed: onSave,
+                                child: Text(
+                                  'Save'.tr,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    shadowColor:
+                                        const Color.fromARGB(255, 42, 42, 114),
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 42, 42, 114)),
+                                onPressed: () {
+                                  post.value = Post();
+                                  Get.back();
+                                },
+                                child: Text(
+                                  'Close'.tr,
+                                  style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),

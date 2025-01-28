@@ -13,6 +13,7 @@ class QuestionPageView extends GetResponsiveView<TestController> {
   Widget builder() {
     return SingleChildScrollView(
       child: Material(
+        color: Colors.white,
         child: Column(
           children: [
             Row(
@@ -29,7 +30,8 @@ class QuestionPageView extends GetResponsiveView<TestController> {
                     ),
                   ),
                 ),
-                Get.find<AuthService>().isAdmin()
+                Get.find<AuthService>().isAdmin() ||
+                        Get.find<AuthService>().getDataFromStorage()!.Id == 2
                     ? Padding(
                         padding: const EdgeInsets.all(4),
                         child: IconButton(

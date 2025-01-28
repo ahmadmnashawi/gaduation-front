@@ -80,7 +80,6 @@ class Profileview extends GetResponsiveView<ProfileController> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                ///////////////////////////////Here Update profile
                                 Get.dialog(EditProfileview());
 
                                 // Get.rootDelegate.toNamed(Routes.editProfile);
@@ -397,6 +396,7 @@ class Profileview extends GetResponsiveView<ProfileController> {
                                                     await controller.getImage(),
                                                 onSave: () async {
                                                   await controller.UpdatePost();
+                                                  Get.back();
                                                 },
                                                 pickImage: () {
                                                   controller.pickImage();
@@ -412,43 +412,58 @@ class Profileview extends GetResponsiveView<ProfileController> {
                                           )),
                                       IconButton(
                                           onPressed: () {
-                                            Get.dialog(Material(
-                                              child: Align(
+                                            Get.dialog(Align(
+                                                alignment: Alignment.center,
                                                 child: Container(
-                                                  height: 200,
-                                                  width: 200,
-                                                  color: Colors.white,
-                                                  // decoration: BoxDecoration(
-                                                  //     borderRadius: BorderRadius.circular(12),
-                                                  //     border: Border.all(
-                                                  //         color: const Color.fromARGB(
-                                                  //             255, 42, 42, 114),
-                                                  //         width: 2)),
-                                                  child: Column(
-                                                    children: [
-                                                      Center(
-                                                        child: Text(
-                                                          'AreSureToRemove?'.tr,
-                                                          style:
-                                                              const TextStyle(
-                                                            color:
-                                                                Color.fromARGB(
-                                                                    255,
-                                                                    42,
-                                                                    42,
-                                                                    114),
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                    width: 280,
+                                                    height: 120,
+                                                    decoration: BoxDecoration(
+                                                        color: Colors.white,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10),
+                                                        border: Border.all(
+                                                            color: Colors
+                                                                .blueAccent)),
+                                                    child: Column(
+                                                      children: [
+                                                        Center(
+                                                          child: Text(
+                                                            'AreYouSureRemove'
+                                                                .tr,
+                                                            style: const TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontFamily:
+                                                                    "Pacifico",
+                                                                color: Color
+                                                                    .fromARGB(
+                                                                        255,
+                                                                        42,
+                                                                        42,
+                                                                        114),
+                                                                decoration:
+                                                                    TextDecoration
+                                                                        .none),
                                                           ),
                                                         ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          TextButton(
+                                                        const SizedBox(
+                                                          height: 20,
+                                                        ),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            GFButton(
+                                                              color: const Color
+                                                                  .fromARGB(
+                                                                  255,
+                                                                  246,
+                                                                  123,
+                                                                  127),
                                                               onPressed:
                                                                   () async {
                                                                 await controller
@@ -458,23 +473,33 @@ class Profileview extends GetResponsiveView<ProfileController> {
                                                                             .Id!);
                                                                 Get.back();
                                                               },
-                                                              child: Text(
-                                                                'Yes'.tr,
-                                                              )),
-                                                          TextButton(
+                                                              text: "Delete".tr,
+                                                              shape:
+                                                                  GFButtonShape
+                                                                      .pills,
+                                                            ),
+                                                            const SizedBox(
+                                                              width: 2,
+                                                            ),
+                                                            GFButton(
+                                                              color: const Color
+                                                                  .fromARGB(
+                                                                  255,
+                                                                  246,
+                                                                  123,
+                                                                  127),
                                                               onPressed: () {
                                                                 Get.back();
                                                               },
-                                                              child: Text(
-                                                                'No'.tr,
-                                                              ))
-                                                        ],
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ));
+                                                              text: "Cancle".tr,
+                                                              shape:
+                                                                  GFButtonShape
+                                                                      .pills,
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ))));
                                           },
                                           icon: const Icon(
                                             Icons.delete,
@@ -488,9 +513,7 @@ class Profileview extends GetResponsiveView<ProfileController> {
                 ),
               ),
             ),
-            SizedBox(
-              height: 150,
-            )
+            const SizedBox(height: 150)
           ])),
     );
   }
@@ -587,9 +610,64 @@ class Profileview extends GetResponsiveView<ProfileController> {
                   alignment: Alignment.bottomRight,
                   child: GFButton(
                     onPressed: () async {
-                      await controller.DelefolloewdGroup(UserGroup(
-                          IdUser: controller.userprofile.value.Id,
-                          IdGroup: group.Id));
+                      Get.dialog(Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                              width: 280,
+                              height: 120,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.blueAccent)),
+                              child: Column(
+                                children: [
+                                  Center(
+                                    child: Text(
+                                      'AreYouSureRemove'.tr,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: "Pacifico",
+                                          color:
+                                              Color.fromARGB(255, 42, 42, 114),
+                                          decoration: TextDecoration.none),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GFButton(
+                                        color: const Color.fromARGB(
+                                            255, 246, 123, 127),
+                                        onPressed: () async {
+                                          await controller.DelefolloewdGroup(
+                                              UserGroup(
+                                                  IdUser: controller
+                                                      .userprofile.value.Id,
+                                                  IdGroup: group.Id));
+                                        },
+                                        text: "Delete".tr,
+                                        shape: GFButtonShape.pills,
+                                      ),
+                                      const SizedBox(
+                                        width: 2,
+                                      ),
+                                      GFButton(
+                                        color: const Color.fromARGB(
+                                            255, 246, 123, 127),
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                        text: "Cancle".tr,
+                                        shape: GFButtonShape.pills,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ))));
                     },
                     text: "remove".tr,
                     textStyle: const TextStyle(color: Colors.black54),
