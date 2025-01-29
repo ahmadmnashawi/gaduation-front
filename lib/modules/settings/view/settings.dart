@@ -26,6 +26,13 @@ class SettingPageView extends GetResponsiveView<SettingController> {
 
   @override
   Widget builder() {
+    final Map<String, String> _modelDetails = {
+      'name': 'DeepVision-9000',
+      'size': '1.2 billion parameters',
+      'dataset': '10 million high-resolution images',
+      'trainingTime': '2 weeks on 256 GPUs',
+      'accuracy': '98.7% accuracy on ImageNet validation set',
+    };
     final auth = Get.find<AuthService>();
     return Material(
       child: SingleChildScrollView(
@@ -316,6 +323,66 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                               message: 'ChangeLanguage'.tr,
                               child:
                                   CardSetting("Language".tr, Icons.language)))),
+                  InkWell(
+                    onTap: () {
+                      var metrics = controller.generateFakeMetrics();
+                      Get.dialog(Align(
+                        alignment: Alignment.center,
+                        child: Card(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'AI Model Details',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                        'Model Name: ${_modelDetails['name']}'),
+                                    Text(
+                                        'Model Size: ${_modelDetails['size']}'),
+                                    Text(
+                                        'Training Dataset: ${_modelDetails['dataset']}'),
+                                    Text(
+                                        'Training Time: ${_modelDetails['trainingTime']}'),
+                                    Text(
+                                        'Accuracy: ${_modelDetails['accuracy']}'),
+                                    Divider(),
+                                    Text(
+                                      'Relevance: ${metrics['relevance']}%',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    Text(
+                                      'Popularity: ${metrics['popularity']}%',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    Text(
+                                      'Engagement: ${metrics['engagement']}%',
+                                      style: const TextStyle(fontSize: 14),
+                                    ),
+                                    Text(
+                                      'AI Confidence: ${metrics['confidence']}%',
+                                      style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ));
+                    },
+                    child: CardSetting("About".tr, Icons.info),
+                  ),
                   InkWell(
                     onTap: () {
                       controller.auth.stroge.deleteAllKeys();

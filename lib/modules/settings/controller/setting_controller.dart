@@ -31,6 +31,23 @@ class SettingController extends GetxController {
     // getUser();
   }
 
+  Map<String, dynamic> generateFakeMetrics() {
+    return {
+      'relevance':
+          (80 + (20 * (DateTime.now().millisecondsSinceEpoch % 10) / 10))
+              .toStringAsFixed(1), // Random relevance score (80-100%)
+      'popularity':
+          (70 + (30 * (DateTime.now().millisecondsSinceEpoch % 10) / 10))
+              .toStringAsFixed(1), // Random popularity score (70-100%)
+      'engagement':
+          (60 + (40 * (DateTime.now().millisecondsSinceEpoch % 10) / 10))
+              .toStringAsFixed(1), // Random engagement score (60-100%)
+      'confidence':
+          (90 + (10 * (DateTime.now().millisecondsSinceEpoch % 10) / 10))
+              .toStringAsFixed(1), // Random confidence score (90-100%)
+    };
+  }
+
   Future<void> getImage() async {
     var data = await fetchUnsplashImages('cat');
     listImage.assignAll(data);
