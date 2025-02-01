@@ -416,30 +416,44 @@ class GiveUserPermission extends GetResponsiveView<PermissionController> {
                           : const SizedBox()
                     ],
                   ),
-                  Wrap(
-                    children: allPram.allType!
-                        .map((e) => Column(
-                              children: [
-                                Text(e.type!),
-                                Column(
-                                  children: e.access!
-                                      .map(
-                                        (q) => SizedBox(
-                                          width: 200,
-                                          child: CheckboxListTile(
-                                              title: Text(
-                                                  q.AccessibilityType ?? ''),
-                                              subtitle: Text(
-                                                  '${e.type!} { ${e.title} }'),
-                                              value: e.check,
-                                              onChanged: (value) {}),
-                                        ),
-                                      )
-                                      .toList(),
-                                )
-                              ],
-                            ))
-                        .toList(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      runAlignment: WrapAlignment.center,
+                      children: allPram.allType!
+                          .map(
+                            (e) => Padding(
+                              padding: const EdgeInsets.all(7),
+                              child: Card(
+                                elevation: 7,
+                                child: Column(
+                                  children: [
+                                    Text(e.type!),
+                                    Column(
+                                      children: e.access!
+                                          .map(
+                                            (q) => SizedBox(
+                                              width: 200,
+                                              child: CheckboxListTile(
+                                                  title: Text(
+                                                      q.AccessibilityType ??
+                                                          ''),
+                                                  subtitle: Text(
+                                                      '${e.type!} { ${e.title} }'),
+                                                  value: e.check,
+                                                  onChanged: (value) {}),
+                                            ),
+                                          )
+                                          .toList(),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
                   )
                 ],
               ),
