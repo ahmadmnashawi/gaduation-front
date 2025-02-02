@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getwidget/getwidget.dart';
 
 import '../controller/serach_controller.dart';
+import 'group_data.dart';
+import 'user_data.dart';
 
 class SearchPage extends GetResponsiveView<SearchPageContrller> {
   SearchPage({super.key});
@@ -79,64 +82,97 @@ class SearchPage extends GetResponsiveView<SearchPageContrller> {
                       .toList(),
                 ),
               )),
-          Obx(() => Column(
-                children: controller.listSearch.map((element) {
-                  controller.getData(element.id!, element.type!);
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      elevation: 10,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Obx(() => controller.isLoading.value
+              ? const Center(child: CircularProgressIndicator())
+              : Column(
+                  children: controller.listSearch
+                      .skipWhile((t) => t.id == controller.idUser)
+                      .map((element) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Card(
+                        elevation: 10,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GFAccordion(
+                            collapsedTitleBackgroundColor: Colors.transparent,
+                            title: element.name ?? 'Data',
+                            contentChild: Column(
                               children: [
-                                Text(element.name ?? '', softWrap: true),
-                                Text(element.type ?? '', softWrap: true)
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      element.type ?? '',
+                                      softWrap: true,
+                                      style: const TextStyle(
+                                        decoration: TextDecoration.none,
+                                        fontWeight: FontWeight.bold,
+                                        color: Color.fromARGB(255, 42, 42, 114),
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    SizedBox(),
+                                  ],
+                                ),
+                                element.type == 'user'
+                                    ? UserData(element.user)
+                                    : element.type == 'group'
+                                        ? GroupData(element.group)
+                                        : Text(element.title ?? '',
+                                            softWrap: true),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextButton(
+                                      onPressed: element.isFollowed == null
+                                          ? null
+                                          : () async {
+                                              if (element.type == 'user') {
+                                                element.isFollowed!
+                                                    ? await controller
+                                                        .deleteUserFollow(
+                                                            element.id!)
+                                                    : await controller
+                                                        .addUserFollow(
+                                                            element.id!);
+                                              } else if (element.type ==
+                                                  'group') {
+                                                element.isFollowed!
+                                                    ? await controller
+                                                        .deleteUserGroup(
+                                                            element.id!)
+                                                    : await controller
+                                                        .addUserGroup(
+                                                            element.id!);
+                                              } else if (element.type ==
+                                                  'refreance') {}
+                                            },
+                                      child: Text(
+                                        element.isFollowed == null
+                                            ? 'No Type Follow Here'
+                                            : !element.isFollowed!
+                                                ? 'UnFollow'
+                                                : 'Follow',
+                                        style: TextStyle(
+                                            decoration: TextDecoration.none,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                            color: element.isFollowed == null
+                                                ? Colors.grey
+                                                : !element.isFollowed!
+                                                    ? Colors.pinkAccent
+                                                    : Colors.green),
+                                      )),
+                                )
                               ],
                             ),
-                            Text(element.title ?? '', softWrap: true),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextButton(
-                                  onPressed: () async {
-                                    if (element.type == 'user') {
-                                      controller.isFolllow.value
-                                          ? await controller
-                                              .deleteUserFollow(element.id!)
-                                          : await controller
-                                              .addUserFollow(element.id!);
-                                    } else if (element.type == 'group') {
-                                      controller.isFolllowGroup.value
-                                          ? await controller
-                                              .deleteUserGroup(element.id!)
-                                          : await controller
-                                              .addUserGroup(element.id!);
-                                    }
-                                  },
-                                  child: Text(
-                                    element.type == 'user'
-                                        ? controller.isFolllow.value
-                                            ? 'UnFollow'
-                                            : 'Follow'
-                                        : element.type == 'group'
-                                            ? controller.isFolllowGroup.value
-                                                ? 'UnFollow'
-                                                : 'Follow'
-                                            : '',
-                                    style: const TextStyle(
-                                        color: Colors.pinkAccent),
-                                  )),
-                            )
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }).toList(),
-              ))
+                    );
+                  }).toList(),
+                ))
         ]),
       ),
     ]));

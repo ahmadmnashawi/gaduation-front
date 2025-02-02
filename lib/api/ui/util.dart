@@ -54,8 +54,8 @@ class Utility {
         child: Image.asset(
           'assets/images/no_image.jpeg',
           fit: BoxFit.cover,
-          width: 40,
-          height: 40,
+          width: width ?? 40,
+          height: hight ?? 40,
         ),
       );
     }

@@ -10,8 +10,10 @@ import '../../../app/model/user.dart';
 class SearchPageContrller extends GetxController {
   final _dio = Get.find<Dio>();
   final listSearch = <GetSearch>[].obs;
+  final isLoading = false.obs;
   final isFolllow = false.obs;
   final isFolllowGroup = false.obs;
+  final idUser = Get.find<AuthService>().getDataFromStorage()!.Id;
   final typeSearch = [
     'All',
     'User',
@@ -27,7 +29,7 @@ class SearchPageContrller extends GetxController {
   Future<void> searchBy(String text) async {
     if (text.isEmpty) return;
     listSearch.clear();
-
+    isLoading.value = true;
     switch (selectType.value) {
       case 'All':
         await searchAll(text);
@@ -59,82 +61,108 @@ class SearchPageContrller extends GetxController {
         break;
       default:
     }
-  }
-
-  Future<void> getData(int id, String elemant) async {
-    if (elemant == 'user') {
-      isFolllow.value = await getUserFollow(id);
-    } else if (elemant == 'group') {
-      isFolllowGroup.value = await getUserGroup(id);
-    }
+    isLoading.value = false;
   }
 
   Future<void> searchAll(String text) async {
-    final id = Get.find<AuthService>().getDataFromStorage()!.Id;
     var result = await _dio.get(
-      'https://localhost:7252/api/Search/Search?search=$text&IdUser=$id',
+      'https://localhost:7252/api/Search/Search?search=$text&IdUser=$idUser',
     );
     var list = <GetSearch>[];
     for (var element in result.data) {
       for (var element1 in element['search']) {
-        list.add(GetSearch(element1['id'], element1[getName(element['type'])],
-            element1[gettitle(element['type'])], element['type']));
+        list.add(GetSearch(
+          element1['searchData']['id'],
+          element1['searchData'][getName(element['type'])],
+          element1['searchData'][gettitle(element['type'])],
+          element['type'],
+          element1['isFollowed'],
+          user: element['type'] == 'user'
+              ? User.fromJson(element1['searchData'])
+              : null,
+          group: element['type'] == 'group'
+              ? Group.fromJson(element1['searchData'])
+              : null,
+        ));
       }
     }
     listSearch.assignAll(list);
+    listSearch.shuffle();
   }
 
   Future<void> searchUser(String text) async {
+    final id = Get.find<AuthService>().getDataFromStorage()!.Id;
     var result = await _dio.get(
-      'https://localhost:7252/api/Search/SearchUsers?search=$text',
+      'https://localhost:7252/api/Search/SearchUsers?search=$text&IdUser=$id',
     );
     var list = <GetSearch>[];
 
     for (var element1 in result.data['search']) {
-      list.add(GetSearch(element1['id'], element1[getName(result.data['type'])],
-          element1[gettitle(result.data['type'])], result.data['type'],
-          user: User.fromJson(element1)));
+      list.add(GetSearch(
+          element1['searchData']['id'],
+          element1['searchData'][getName(result.data['type'])],
+          element1['searchData'][gettitle(result.data['type'])],
+          result.data['type'],
+          element1['isFollowed'],
+          user: User.fromJson(element1['searchData'])));
     }
 
     listSearch.assignAll(list);
   }
 
   Future<void> searchgroup(String text) async {
+    final id = Get.find<AuthService>().getDataFromStorage()!.Id;
     var result = await _dio.get(
-      'https://localhost:7252/api/Search/SearchGroups?search=$text',
+      'https://localhost:7252/api/Search/SearchGroups?search=$text&IdUser=$id',
     );
     var list = <GetSearch>[];
 
     for (var element1 in result.data['search']) {
-      list.add(GetSearch(element1['id'], element1[getName(result.data['type'])],
-          element1[gettitle(result.data['type'])], result.data['type'],
-          group: Group.fromJson(element1)));
+      list.add(GetSearch(
+          element1['searchData']['id'],
+          element1['searchData'][getName(result.data['type'])],
+          element1['searchData'][gettitle(result.data['type'])],
+          result.data['type'],
+          element1['isFollowed'],
+          group: Group.fromJson(element1['searchData'])));
     }
     listSearch.assignAll(list);
   }
 
   Future<void> searchcontent(String text) async {
+    final id = Get.find<AuthService>().getDataFromStorage()!.Id;
     var result = await _dio.get(
-      'https://localhost:7252/api/Search/SearchContent?search=$text',
+      'https://localhost:7252/api/Search/SearchContent?search=$text&IdUser=$id',
     );
     var list = <GetSearch>[];
 
     for (var element1 in result.data['search']) {
-      list.add(GetSearch(element1['id'], element1[getName(result.data['type'])],
-          element1[gettitle(result.data['type'])], result.data['type']));
+      list.add(GetSearch(
+        element1['searchData']['id'],
+        element1['searchData'][getName(result.data['type'])],
+        element1['searchData'][gettitle(result.data['type'])],
+        result.data['type'],
+        element1['isFollowed'],
+      ));
     }
     listSearch.assignAll(list);
   }
 
   Future<void> searchLib(String text) async {
+    final id = Get.find<AuthService>().getDataFromStorage()!.Id;
     var result = await _dio.get(
-      'https://localhost:7252/api/Search/SearchLibrary?search=$text',
+      'https://localhost:7252/api/Search/SearchLibrary?search=$text&IdUser=$id',
     );
     var list = <GetSearch>[];
 
     for (var element1 in result.data['search']) {
-      list.add(GetSearch(element1['id'], element1[getName(result.data['type'])],
-          element1[gettitle(result.data['type'])], result.data['type']));
+      list.add(GetSearch(
+        element1['searchData']['id'],
+        element1['searchData'][getName(result.data['type'])],
+        element1['searchData'][gettitle(result.data['type'])],
+        result.data['type'],
+        element1['isFollowed'],
+      ));
     }
     listSearch.assignAll(list);
   }
@@ -147,47 +175,70 @@ class SearchPageContrller extends GetxController {
     var list = <GetSearch>[];
 
     for (var element1 in result.data['search']) {
-      list.add(GetSearch(element1['id'], element1[getName(result.data['type'])],
-          element1[gettitle(result.data['type'])], result.data['type']));
+      list.add(GetSearch(
+        element1['searchData']['id'],
+        element1['searchData'][getName(result.data['type'])],
+        element1['searchData'][gettitle(result.data['type'])],
+        result.data['type'],
+        element1['isFollowed'],
+      ));
     }
     listSearch.assignAll(list);
   }
 
   Future<void> searchRef(String text) async {
+    final id = Get.find<AuthService>().getDataFromStorage()!.Id;
     var result = await _dio.get(
-      'https://localhost:7252/api/Search/SearchReferance?search=$text',
+      'https://localhost:7252/api/Search/SearchReferance?search=$text&IdUser=$id',
     );
     var list = <GetSearch>[];
 
     for (var element1 in result.data['search']) {
-      list.add(GetSearch(element1['id'], element1[getName(result.data['type'])],
-          element1[gettitle(result.data['type'])], result.data['type']));
+      list.add(GetSearch(
+        element1['searchData']['id'],
+        element1['searchData'][getName(result.data['type'])],
+        element1['searchData'][gettitle(result.data['type'])],
+        result.data['type'],
+        element1['isFollowed'],
+      ));
     }
     listSearch.assignAll(list);
   }
 
   Future<void> searchBook(String text) async {
+    final id = Get.find<AuthService>().getDataFromStorage()!.Id;
     var result = await _dio.get(
-      'https://localhost:7252/api/Search/SearchBook?search=$text',
+      'https://localhost:7252/api/Search/SearchBook?search=$text&IdUser=$id',
     );
     var list = <GetSearch>[];
 
     for (var element1 in result.data['search']) {
-      list.add(GetSearch(element1['id'], element1[getName(result.data['type'])],
-          element1[gettitle(result.data['type'])], result.data['type']));
+      list.add(GetSearch(
+        element1['searchData']['id'],
+        element1['searchData'][getName(result.data['type'])],
+        element1['searchData'][gettitle(result.data['type'])],
+        result.data['type'],
+        element1['isFollowed'],
+      ));
     }
     listSearch.assignAll(list);
   }
 
   Future<void> searchwriter(String text) async {
+    final id = Get.find<AuthService>().getDataFromStorage()!.Id;
     var result = await _dio.get(
-      'https://localhost:7252/api/Search/SearchWriter?search=$text',
+      'https://localhost:7252/api/Search/SearchWriter?search=$text&IdUser=$id',
     );
     var list = <GetSearch>[];
 
     for (var element1 in result.data['search']) {
-      list.add(GetSearch(element1['id'], element1[getName(result.data['type'])],
-          element1[gettitle(result.data['type'])], result.data['type']));
+      list.add(GetSearch(
+        element1['searchData']['id'],
+        element1['searchData'][getName(result.data['type'])],
+        element1['searchData'][gettitle(result.data['type'])],
+        result.data['type'],
+        element1['isFollowed'],
+      ));
     }
     listSearch.assignAll(list);
   }
@@ -326,5 +377,8 @@ class GetSearch {
   String? type;
   User? user;
   Group? group;
-  GetSearch(this.id, this.name, this.title, this.type, {this.group, this.user});
+  bool? isFollowed;
+
+  GetSearch(this.id, this.name, this.title, this.type, this.isFollowed,
+      {this.group, this.user});
 }
