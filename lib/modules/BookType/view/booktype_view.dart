@@ -6,7 +6,6 @@ import 'package:getwidget/shape/gf_button_shape.dart';
 import 'package:getwidget/types/gf_border_type.dart';
 
 import '../../../app/model/book_type.dart';
-import '../../settings/view/settings.dart';
 import '../controller/booktype_controller.dart';
 
 class BookTypePageView extends GetResponsiveView<BookTypeController> {
@@ -28,7 +27,7 @@ class BookTypePageView extends GetResponsiveView<BookTypeController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
-                      onTap: () => Get.to(SettingPageView()),
+                      onTap: () => Get.back(),
                       child: const Align(
                         alignment: Alignment.topLeft,
                         child: Padding(

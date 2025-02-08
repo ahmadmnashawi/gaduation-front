@@ -94,21 +94,25 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                               Icons.content_copy_rounded,
                             ))),
                   ),
-                  Material(
-                    child: InkWell(
-                      onTap: () async {
-                        final groupController = Get.find<GroupController>();
-                        await groupController.getAllContent();
-                        groupController.selectContent.value =
-                            groupController.contents.first;
-                        await Get.dialog(Align(
-                            alignment: Alignment.center, child: PostGrpoup()));
-                      },
-                      child: Tooltip(
-                          message: 'addp',
-                          child: CardSetting("ll".tr, Icons.post_add)),
-                    ),
-                  ),
+                  auth.isAdmin()
+                      ? SizedBox()
+                      : Material(
+                          child: InkWell(
+                            onTap: () async {
+                              final groupController =
+                                  Get.find<GroupController>();
+                              await groupController.getAllContent();
+                              groupController.selectContent.value =
+                                  groupController.contents.first;
+                              await Get.dialog(Align(
+                                  alignment: Alignment.center,
+                                  child: PostGrpoup()));
+                            },
+                            child: Tooltip(
+                                message: 'addp',
+                                child: CardSetting("ll".tr, Icons.post_add)),
+                          ),
+                        ),
                   Material(
                     child: InkWell(
                       onTap: () {

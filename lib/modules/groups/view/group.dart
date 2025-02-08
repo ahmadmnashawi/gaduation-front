@@ -388,57 +388,60 @@ class GroupView extends GetResponsiveView<GroupController> {
                   message: 'll'.tr,
                   child: !controller.personExsisting.value
                       ? SizedBox()
-                      : ElevatedButton(
-                          onPressed: controller.auth.isAdmin() ||
-                                  controller.user.value.Id == 2
-                              ? () {
-                                  Get.dialog(Align(
-                                      alignment: Alignment.center,
-                                      child: PostPage(
-                                        contents: null,
-                                        selectContent: null,
-                                        stringPickImage:
-                                            controller.stringPickImage,
-                                        post: controller.newpost,
-                                        generateTap: () async =>
-                                            await controller.getImage(),
-                                        listImage: controller.listImage,
-                                        textDescription:
-                                            controller.textDescription,
-                                        onSave: () {
-                                          if (controller.formfield.currentState!
-                                              .validate()) {
-                                            print("DataAdded".tr);
-                                            controller.AddPost(true);
-                                            Get.back();
-                                          }
-                                        },
-                                        pickImage: () {
-                                          controller.pickImageFun();
-                                        },
-                                        fromGroup: false,
-                                        title: "Add post : ",
-                                      )));
-                                }
-                              : () {
-                                  Get.showSnackbar(const GetSnackBar(
-                                    duration: Duration(seconds: 2),
-                                    title: 'Access',
-                                    message: 'You Dont Have Permission',
-                                  ));
-                                },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 15, horizontal: 15),
-                            shape: const CircleBorder(),
-                          ),
-                          child: const Icon(
-                            Icons.add,
-                            size: 18,
-                            color: Color.fromARGB(255, 246, 123, 127),
-                          ),
-                        ),
+                      : controller.auth.isAdmin()
+                          ? SizedBox()
+                          : ElevatedButton(
+                              onPressed: controller.personExsisting.value ||
+                                      controller.user.value.Id == 2
+                                  ? () {
+                                      Get.dialog(Align(
+                                          alignment: Alignment.center,
+                                          child: PostPage(
+                                            contents: null,
+                                            selectContent: null,
+                                            stringPickImage:
+                                                controller.stringPickImage,
+                                            post: controller.newpost,
+                                            generateTap: () async =>
+                                                await controller.getImage(),
+                                            listImage: controller.listImage,
+                                            textDescription:
+                                                controller.textDescription,
+                                            onSave: () {
+                                              if (controller
+                                                  .formfield.currentState!
+                                                  .validate()) {
+                                                print("DataAdded".tr);
+                                                controller.AddPost(true);
+                                                Get.back();
+                                              }
+                                            },
+                                            pickImage: () {
+                                              controller.pickImageFun();
+                                            },
+                                            fromGroup: false,
+                                            title: "Add post : ",
+                                          )));
+                                    }
+                                  : () {
+                                      Get.showSnackbar(const GetSnackBar(
+                                        duration: Duration(seconds: 2),
+                                        title: 'Access',
+                                        message: 'You Dont Have Permission',
+                                      ));
+                                    },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 15, horizontal: 15),
+                                shape: const CircleBorder(),
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                size: 18,
+                                color: Color.fromARGB(255, 246, 123, 127),
+                              ),
+                            ),
                 ),
               ),
             ],
