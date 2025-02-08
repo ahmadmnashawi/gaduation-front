@@ -409,7 +409,7 @@ class signupage extends GetResponsiveView<SignUpController> {
                         controller.stringPickImage.value, 200, 200)
                     : image == null
                         ? Image.asset(
-                            'assets/images/boy.gif',
+                            'assets/images/no_image.jpeg',
                             width: 200,
                             height: 200,
                           )

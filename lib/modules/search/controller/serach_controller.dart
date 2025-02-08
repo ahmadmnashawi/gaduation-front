@@ -11,6 +11,7 @@ class SearchPageContrller extends GetxController {
   final _dio = Get.find<Dio>();
   final listSearch = <GetSearch>[].obs;
   final isLoading = false.obs;
+  final searchValue = ''.obs;
   final isFolllow = false.obs;
   final isFolllowGroup = false.obs;
   final idUser = Get.find<AuthService>().getDataFromStorage()!.Id;

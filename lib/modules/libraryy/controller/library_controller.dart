@@ -49,7 +49,7 @@ class LibraryContrller extends GetxController {
   final idbook = 0.obs;
   final buybook = Buybook().obs;
   final writerBook = BookWriter().obs;
-  final updatebookwritter = BookWriter().obs;
+  final updateListWriter = <BookWriter>[].obs;
   final updateBooklibrary = BookLibrary().obs;
   final user = User().obs;
   final auth = Get.find<AuthService>();
@@ -112,7 +112,8 @@ class LibraryContrller extends GetxController {
   Future<void> dellBookLibrary(int idlibrary, int idbook) async {
     var res = await libraryRepo.DeleteBook(idlibrary, idbook);
     if (res) {
-      getAllBook();
+      Get.back();
+      await getAllBook();
     }
   }
 
@@ -125,11 +126,35 @@ class LibraryContrller extends GetxController {
     }
   }
 
-  Future<void> UpdateBook(BookLibrary n) async {
-    var res = await libraryRepo.UpdateBook(n);
+  Future<void> UpdateBook() async {
+    if (stringPickImage.value.isNotEmpty) {
+      addOneBook.value.bookImage =
+          Utility.dataFromBase64String(stringPickImage.value);
+    }
+
+    var res = await libraryRepo.UpdateBookjust(
+        addOneBook.value.id!, addOneBook.value);
+
     if (res) {
-      getAllLibrary();
-      Get.back();
+      for (var element in listWriterToAdd) {
+        if (!updateListWriter.any((e) =>
+            e.IdBook == element.IdBook && e.IdWriter == element.IdWriter)) {
+          print(
+              'true*******************${element.IdBook}*******************${element.IdWriter}');
+          await libraryRepo.UpdateBookwritter(
+              element.IdBook!, element.IdWriter!, true);
+        }
+      }
+      for (var element in updateListWriter) {
+        if (!listWriterToAdd.any((e) =>
+            e.IdBook == element.IdBook && e.IdWriter == element.IdWriter)) {
+          print(
+              'false*******************${element.IdBook}*******************${element.IdWriter}');
+          await libraryRepo.UpdateBookwritter(
+              addOneBook.value.id!, element.IdWriter!, false);
+        }
+      }
+      await getAllBook();
     }
   }
 
@@ -143,13 +168,6 @@ class LibraryContrller extends GetxController {
 
   Future<void> UpdateBookinfo(int id, Book book) async {
     var res = await libraryRepo.UpdateBookjust(id, book);
-    if (res) {
-      Get.back();
-    }
-  }
-
-  Future<void> UpdateBookwriter(BookWriter book) async {
-    var res = await libraryRepo.UpdateBookwritter(book);
     if (res) {
       Get.back();
     }
@@ -180,9 +198,7 @@ class LibraryContrller extends GetxController {
   Future<void> addBookone() async {
     addOneBook.value.bookImage =
         Utility.dataFromBase64String(stringPickImage.value);
-    if (addOneBook.value.id != null) {
-      UpdateBookinfo(addOneBook.value.id!, addOneBook.value);
-    } else {
+    if (addOneBook.value.id == null) {
       var res = await libraryRepo.AddBookone(addOneBook.value);
       print('*******************$res');
       if (res != 0) {
@@ -191,8 +207,7 @@ class LibraryContrller extends GetxController {
         await getAllBook();
         addOneBook.value = Book();
         stringPickImage.value = '';
-
-        Get.back();
+        listWriterToAdd.clear();
       }
     }
   }
@@ -227,7 +242,8 @@ class LibraryContrller extends GetxController {
 
   Future<void> getIdBookWritter(int idbbook) async {
     var data = await libraryRepo.BackIdBookWritter(idbbook);
-    updatebookwritter.value = data!;
+    updateListWriter.assignAll(data);
+    listWriterToAdd.assignAll(data);
   }
 
   Future<void> AddToBuyBooktempority(Book book) async {

@@ -90,8 +90,8 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                         child: Tooltip(
                             message: 'bo'.tr,
                             child: CardSetting(
-                              'bo'.tr, Icons.content_copy_rounded,
-                              // Color.fromARGB(255, 63, 201, 214))
+                              'bo'.tr,
+                              Icons.content_copy_rounded,
                             ))),
                   ),
                   Material(
@@ -101,7 +101,7 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                         await groupController.getAllContent();
                         groupController.selectContent.value =
                             groupController.contents.first;
-                        Get.dialog(Align(
+                        await Get.dialog(Align(
                             alignment: Alignment.center, child: PostGrpoup()));
                       },
                       child: Tooltip(
@@ -308,21 +308,21 @@ class SettingPageView extends GetResponsiveView<SettingController> {
                         child: CardSetting("delete_account".tr,
                             Icons.delete_forever_outlined)),
                   ),
-                  Material(
-                      child: InkWell(
-                          onTap: () {
-                            if (controller.test.value == false) {
-                              controller.test.value = true;
-                              Get.updateLocale(const Locale("ar"));
-                            } else {
-                              controller.test.value = false;
-                              Get.updateLocale(const Locale("en"));
-                            }
-                          },
-                          child: Tooltip(
-                              message: 'ChangeLanguage'.tr,
-                              child:
-                                  CardSetting("Language".tr, Icons.language)))),
+                  // Material(
+                  //     child: InkWell(
+                  //         onTap: () {
+                  //           if (controller.test.value == false) {
+                  //             controller.test.value = true;
+                  //             Get.updateLocale(const Locale("ar"));
+                  //           } else {
+                  //             controller.test.value = false;
+                  //             Get.updateLocale(const Locale("en"));
+                  //           }
+                  //         },
+                  //         child: Tooltip(
+                  //             message: 'ChangeLanguage'.tr,
+                  //             child:
+                  //                 CardSetting("Language".tr, Icons.language)))),
                   InkWell(
                     onTap: () {
                       var metrics = controller.generateFakeMetrics();

@@ -27,9 +27,9 @@ abstract class ILibraryRepository {
   Future<List<Book>> GetAllBookByType(int idlibrary, int idBooktype);
   Future<List<Book>> GetAllBookByWitter(int library, int idwriter);
   Future<int> BackIdBook(String name);
-  Future<BookWriter?> BackIdBookWritter(int idbook);
+  Future<List<BookWriter>> BackIdBookWritter(int idbook);
   Future<bool> Bookwritter(BookWriter book);
-  Future<bool> UpdateBookwritter(BookWriter book);
+  Future<bool> UpdateBookwritter(int Idbook, int Idwriter, bool toDelete);
   Future<int?> BackIdBookLibrary(int idbook, int idlibrary);
   Future<Buybook?> BackBuyBook(int idbooklibrary);
   Future<BookLibrary?> GetBooklibrary(int idBooklibrary);

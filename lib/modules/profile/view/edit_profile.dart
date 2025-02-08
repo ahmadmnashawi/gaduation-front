@@ -261,7 +261,6 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
               onPressed: () async {
                 var result = await controller.Updateprofile();
                 if (result) {
-                  Get.back();
                   Get.snackbar(
                     'Finish'.tr,
                     "UpdatingValues".tr,
@@ -313,17 +312,10 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                 child: controller.stringPickImage.value.isNotEmpty
                     ? Utility.imageFromBase64String(
                         controller.stringPickImage.value, 200, 200)
-                    : controller.userprofile.value.Image == null
-                        ? Image.asset(
-                            'assets/images/boy.gif',
-                            width: 200,
-                            height: 200,
-                          )
-                        : Utility.imageFromBase64String(
-                            Utility.base64String(
-                                controller.userprofile.value.Image!),
-                            200,
-                            200),
+                    : Utility.getImage(
+                        base64StringPh: controller.userprofile.value.Image,
+                        width: 200,
+                        hight: 200),
               )),
           Positioned(
               bottom: 20.0,
@@ -338,7 +330,8 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                   size: 28.0,
                 ),
               )),
-          controller.userprofile.value.Image != null
+          controller.userprofile.value.Image != null &&
+                  controller.userprofile.value.Image!.isNotEmpty
               ? Positioned(
                   top: 0.0,
                   left: 20.0,

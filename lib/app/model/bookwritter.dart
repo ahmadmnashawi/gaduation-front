@@ -19,7 +19,9 @@ class BookWriter {
   BookWriter.fromJson(Map<String, dynamic> json) {
     Id = json['id'];
     IdBook = json['idBook'];
-    book = Book.fromJson(json['book'] as Map<String, dynamic>);
+    book = json['book'] == null
+        ? null
+        : Book.fromJson(json['book'] as Map<String, dynamic>);
     IdWriter = json['idWriter'];
     writer = Writer.fromJson(json['writer'] as Map<String, dynamic>);
   }

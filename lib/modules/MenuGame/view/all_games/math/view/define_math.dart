@@ -113,6 +113,7 @@ class DefineMath extends GetResponsiveView<MenuGameController> {
                 ),
               ],
             ),
+            SizedBox.shrink(),
           ],
         ),
       ],

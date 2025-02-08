@@ -22,7 +22,6 @@ class PostGrpoup extends GetResponsiveView<GroupController> {
       onSave: () async {
         await controller.AddPost(false);
         await controller.addUserPost();
-        Get.back();
       },
       pickImage: () {
         controller.pickImageFun();

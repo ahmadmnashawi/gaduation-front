@@ -34,8 +34,10 @@ class SearchPage extends GetResponsiveView<SearchPageContrller> {
             child: SizedBox(
                 width: 450,
                 child: TextFormField(
-                    onChanged: (value) async =>
-                        await controller.searchBy(value),
+                    onChanged: (value) async {
+                      controller.searchValue.value = value;
+                      await controller.searchBy(value);
+                    },
                     decoration: InputDecoration(
                         labelText: 'Search'.tr,
                         labelStyle: const TextStyle(
@@ -64,8 +66,10 @@ class SearchPage extends GetResponsiveView<SearchPageContrller> {
                 child: Wrap(
                   children: controller.typeSearch
                       .map((element) => InkWell(
-                            onTap: () {
+                            onTap: () async {
                               controller.selectType.value = element;
+                              await controller
+                                  .searchBy(controller.searchValue.value);
                             },
                             child: Card(
                               child: Padding(

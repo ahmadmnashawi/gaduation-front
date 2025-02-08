@@ -33,7 +33,7 @@ class Utility {
       double? width,
       double? hight,
       bool isStratch = true}) {
-    if (base64StringPh != null) {
+    if (base64StringPh != null && base64StringPh.isNotEmpty) {
       var image = base64String(base64StringPh);
       return ClipRRect(
           borderRadius: BorderRadius.circular(25),

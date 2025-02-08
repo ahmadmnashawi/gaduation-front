@@ -674,15 +674,10 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                     (t) => t.id == d.idBookType)
                                                 .first;
                                         await controller.getAllWriter();
-                                        controller.selectWriter.value =
-                                            controller.AllAutour.where((t) =>
-                                                t.id ==
-                                                controller.updatebookwritter
-                                                    .value.Id).first;
                                         Get.dialog(Align(
                                           alignment: Alignment.center,
                                           child: Container(
-                                            width: 350,
+                                            width: 450,
                                             height: 500,
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
@@ -720,7 +715,9 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                         ),
                                                       )),
                                                   Container(
-                                                      child: Addbookpage22()),
+                                                      child: Addbookpage22(
+                                                    isEdit: true,
+                                                  )),
                                                 ],
                                               ),
                                             ),
@@ -790,8 +787,8 @@ class Librarypage extends GetResponsiveView<LibraryContrller> {
                                                           color: const Color
                                                               .fromARGB(255,
                                                               246, 123, 127),
-                                                          onPressed: () {
-                                                            controller
+                                                          onPressed: () async {
+                                                            await controller
                                                                 .dellBookLibrary(
                                                                     controller
                                                                         .IdLibrary

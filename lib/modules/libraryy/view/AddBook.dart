@@ -9,6 +9,8 @@ import '../../../api/ui/util.dart';
 import '../controller/library_controller.dart';
 
 class Addbookpage22 extends GetResponsiveView<LibraryContrller> {
+  final bool isEdit;
+  Addbookpage22({this.isEdit = false});
   final _formfield = GlobalKey<FormState>();
   final RegExp price = new RegExp(r'^[6-9]\d{9}$');
   // Uint8List? image;
@@ -79,8 +81,9 @@ class Addbookpage22 extends GetResponsiveView<LibraryContrller> {
                   onChanged: (value) {
                     controller.addOneBook.value.bookName = value;
                   },
+                  initialValue: controller.addOneBook.value.bookName ?? '',
                   decoration: InputDecoration(
-                    labelText: controller.addOneBook.value.bookName ?? '',
+                    labelText: "Book Name".tr,
                     labelStyle: const TextStyle(
                         color: Colors.black45, fontWeight: FontWeight.bold),
                     hintText: "Book Name".tr,
@@ -104,14 +107,15 @@ class Addbookpage22 extends GetResponsiveView<LibraryContrller> {
                       }
                       return null;
                     },
+                    initialValue: controller.addOneBook.value.bookPrice == null
+                        ? ''
+                        : controller.addOneBook.value.bookPrice.toString(),
                     onChanged: (value) {
                       controller.addOneBook.value.bookPrice =
                           int.parse(value).toInt();
                     },
                     decoration: InputDecoration(
-                      labelText: controller.addOneBook.value.bookPrice == null
-                          ? ''
-                          : controller.addOneBook.value.bookPrice.toString(),
+                      labelText: 'BookPrice'.tr,
                       labelStyle: const TextStyle(
                           color: Colors.black45, fontWeight: FontWeight.bold),
                       hintText: 'BookPrice'.tr,
@@ -130,13 +134,29 @@ class Addbookpage22 extends GetResponsiveView<LibraryContrller> {
                   color: Colors.grey),
             ),
             Obx(() => Wrap(
-                  children: controller.listWriterToAdd
-                      .map((w) => Padding(
-                            padding: const EdgeInsets.all(3),
-                            child:
-                                Chip(label: Text(w.writer!.writerName ?? '')),
-                          ))
-                      .toList(),
+                  children: isEdit
+                      ? controller.updateListWriter
+                          .map((w) => Padding(
+                                padding: const EdgeInsets.all(3),
+                                child: Chip(
+                                  label: Text(w.writer!.writerName ?? ''),
+                                  onDeleted: () {
+                                    controller.updateListWriter.remove(w);
+                                  },
+                                ),
+                              ))
+                          .toList()
+                      : controller.listWriterToAdd
+                          .map((w) => Padding(
+                                padding: const EdgeInsets.all(3),
+                                child: Chip(
+                                  label: Text(w.writer!.writerName ?? ''),
+                                  onDeleted: () {
+                                    controller.listWriterToAdd.remove(w);
+                                  },
+                                ),
+                              ))
+                          .toList(),
                 )),
             Material(
               child: Padding(
@@ -161,11 +181,22 @@ class Addbookpage22 extends GetResponsiveView<LibraryContrller> {
                                             decoration: TextDecoration.none))))
                             .toList(),
                         onChanged: (value) {
-                          if (!controller.listWriterToAdd
-                              .any((r) => r.IdWriter == value!.id)) {
-                            controller.listWriterToAdd.add(BookWriter(
-                                IdWriter: value!.id,
-                                writer: Writer(writerName: value.writerName)));
+                          if (isEdit) {
+                            if (!controller.updateListWriter
+                                .any((r) => r.IdWriter == value!.id)) {
+                              controller.updateListWriter.add(BookWriter(
+                                  IdWriter: value!.id,
+                                  writer:
+                                      Writer(writerName: value.writerName)));
+                            }
+                          } else {
+                            if (!controller.listWriterToAdd
+                                .any((r) => r.IdWriter == value!.id)) {
+                              controller.listWriterToAdd.add(BookWriter(
+                                  IdWriter: value!.id,
+                                  writer:
+                                      Writer(writerName: value.writerName)));
+                            }
                           }
                         }))),
               ),
@@ -173,7 +204,13 @@ class Addbookpage22 extends GetResponsiveView<LibraryContrller> {
             GFButton(
               color: Colors.blueGrey,
               onPressed: () async {
-                await controller.addBookone();
+                if (isEdit) {
+                  await controller.UpdateBook();
+                } else {
+                  await controller.addBookone();
+                }
+
+                Get.back();
                 Get.snackbar(
                   'ok'.tr,
                   "AddeddNewBook".tr,
@@ -215,6 +252,7 @@ class Addbookpage22 extends GetResponsiveView<LibraryContrller> {
                         : Utility.getImage(
                             base64StringPh:
                                 controller.addOneBook.value.bookImage,
+                            link: controller.addOneBook.value.imageOnline,
                             width: 200,
                             hight: 200),
                   ),

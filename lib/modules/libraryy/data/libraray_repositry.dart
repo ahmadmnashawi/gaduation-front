@@ -45,7 +45,7 @@ class LibraryRepository implements ILibraryRepository {
   @override
   Future<bool> DeleteBook(int idlibrary, int idbook) async {
     var result = await _dio.delete(
-      "path",
+      "https://localhost:7252/api/BookLibrary/Delete?IdLibrary=$idlibrary&IdBook=$idbook",
     );
     if (result.statusCode == 200) {
       return true;
@@ -228,9 +228,11 @@ class LibraryRepository implements ILibraryRepository {
   }
 
   @override
-  Future<bool> UpdateBookwritter(BookWriter book) async {
-    var result = await _dio.put('https://localhost:7252/api/BookWritter',
-        data: book.toJson());
+  Future<bool> UpdateBookwritter(
+      int Idbook, int Idwriter, bool toDelete) async {
+    var result = await _dio.put(
+      'https://localhost:7252/api/BookWriter/Put?idBook=$Idbook&IdWriter=$Idwriter&toDelete=$toDelete',
+    );
     if (result.statusCode == 200) {
       return true;
     } else {
@@ -239,15 +241,20 @@ class LibraryRepository implements ILibraryRepository {
   }
 
   @override
-  Future<BookWriter?> BackIdBookWritter(int idbook) async {
+  Future<List<BookWriter>> BackIdBookWritter(int idbook) async {
+    print('*******************************************$idbook');
     var result = await _dio.get(
-        'https://localhost:7252/api/BookWritter/$idbook',
-        queryParameters: {"id": idbook});
+      'https://localhost:7252/api/BookWriter/GetBookAllWriter/$idbook',
+    );
     if (result.statusCode == 200) {
-      var data = BookWriter.fromJson(result.data as Map<String, dynamic>);
+      var data = <BookWriter>[];
+      for (var element in result.data) {
+        data.add(BookWriter.fromJson(element as Map<String, dynamic>));
+      }
+
       return data;
     } else {
-      return null;
+      return [];
     }
   }
 

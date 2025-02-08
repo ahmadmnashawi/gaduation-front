@@ -225,9 +225,10 @@ class GroupController extends GetxController {
     }
     var data = await groupRepo.AddpostUser(newpost.value);
     if (data) {
+      Get.back();
       Get.snackbar(
         'ah'.tr,
-        " aj".tr,
+        "aj".tr,
         //  icon: Icon(Icons.person, color: Colors.white),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: const Color.fromARGB(255, 246, 123, 127),
@@ -266,6 +267,6 @@ class GroupController extends GetxController {
     personExsisting.value = data.any((element) =>
         element.IdUser == user.value.Id &&
         element.IdGroup == currentGroup.value.Id);
-    msg.value = personExsisting.value ? 'z'.tr : 'w'.tr;
+    msg.value = personExsisting.value ? 'w'.tr : 'z'.tr;
   }
 }

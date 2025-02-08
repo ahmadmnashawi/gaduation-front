@@ -35,17 +35,11 @@ class Profileview extends GetResponsiveView<ProfileController> {
                             child: ClipRRect(
                           borderRadius: BorderRadius.circular(100),
                           child: controller.stringPickImage.value.isEmpty
-                              ? controller.userprofile.value.Image == null
-                                  ? Image.asset(
-                                      'assets/images/no_image.jpeg',
-                                      width: 200,
-                                      height: 200,
-                                    )
-                                  : Utility.imageFromBase64String(
-                                      Utility.base64String(
-                                          controller.userprofile.value.Image!),
-                                      200,
-                                      200)
+                              ? Utility.getImage(
+                                  base64StringPh:
+                                      controller.userprofile.value.Image,
+                                  width: 200,
+                                  hight: 200)
                               : Utility.imageFromBase64String(
                                   controller.stringPickImage.value, 200, 200),
                         ))),
@@ -342,174 +336,212 @@ class Profileview extends GetResponsiveView<ProfileController> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
-                child: Container(
-                  width: 500,
-                  margin: const EdgeInsets.only(top: 5),
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(20),
-                      )),
-                  child: Obx(() => SingleChildScrollView(
-                        child: Column(
-                            children: controller.Listuserpost.map((element) =>
-                                PostView(
-                                  postDto: element,
-                                  withAction: false,
-                                  action: Row(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () async {
-                                            controller.postidnew.value =
-                                                element.post!;
-                                            if (controller.postidnew.value
-                                                    .IdContent !=
-                                                null) {
-                                              await controller.GetAllContent();
-                                              controller.selectContent.value =
-                                                  controller.Contents.where(
-                                                      (e) =>
-                                                          e.Id ==
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox.shrink(),
+                        IconButton(
+                            onPressed: () async {
+                              await controller.GetUser();
+                              await controller.GetAllContent();
+                              await controller.GetPostUser();
+                            },
+                            icon: Icon(Icons.refresh_sharp)),
+                      ],
+                    ),
+                    Container(
+                      width: 500,
+                      margin: const EdgeInsets.only(top: 5),
+                      decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20),
+                          )),
+                      child: Obx(() => SingleChildScrollView(
+                            child: Column(
+                                children:
+                                    controller.Listuserpost.map(
+                                        (element) => PostView(
+                                              postDto: element,
+                                              withAction: false,
+                                              action: Row(
+                                                children: [
+                                                  IconButton(
+                                                      onPressed: () async {
+                                                        controller.postidnew
+                                                                .value =
+                                                            element.post!;
+                                                        if (controller
+                                                                .postidnew
+                                                                .value
+                                                                .IdContent !=
+                                                            null) {
+                                                          await controller
+                                                              .GetAllContent();
                                                           controller
-                                                              .postidnew
-                                                              .value
-                                                              .IdContent).first;
-                                            }
+                                                              .selectContent
+                                                              .value = controller
+                                                                  .Contents
+                                                              .where((e) =>
+                                                                  e.Id ==
+                                                                  controller
+                                                                      .postidnew
+                                                                      .value
+                                                                      .IdContent).first;
+                                                        }
 
-                                            Get.dialog(Align(
-                                              alignment: Alignment.center,
-                                              child: PostPage(
-                                                title: "Editpost".tr,
-                                                fromGroup: controller.postidnew
-                                                        .value.IdContent !=
-                                                    null,
-                                                contents: controller.Contents,
-                                                selectContent:
-                                                    controller.selectContent,
-                                                stringPickImage:
-                                                    controller.stringPickImage,
-                                                post: controller.postidnew,
-                                                listImage: controller.listImage,
-                                                textDescription:
-                                                    controller.textDescription,
-                                                generateTap: () async =>
-                                                    await controller.getImage(),
-                                                onSave: () async {
-                                                  await controller.UpdatePost();
-                                                  Get.back();
-                                                },
-                                                pickImage: () {
-                                                  controller.pickImage();
-                                                },
-                                              ),
-                                            ));
-                                          },
-                                          icon: const Icon(
-                                            Icons.edit,
-                                            size: 20,
-                                            color: Color.fromARGB(
-                                                255, 42, 42, 114),
-                                          )),
-                                      IconButton(
-                                          onPressed: () {
-                                            Get.dialog(Align(
-                                                alignment: Alignment.center,
-                                                child: Container(
-                                                    width: 280,
-                                                    height: 120,
-                                                    decoration: BoxDecoration(
-                                                        color: Colors.white,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        border: Border.all(
-                                                            color: Colors
-                                                                .blueAccent)),
-                                                    child: Column(
-                                                      children: [
-                                                        Center(
-                                                          child: Text(
-                                                            'AreYouSureRemove'
-                                                                .tr,
-                                                            style: const TextStyle(
-                                                                fontSize: 18,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
-                                                                fontFamily:
-                                                                    "Pacifico",
-                                                                color: Color
-                                                                    .fromARGB(
-                                                                        255,
-                                                                        42,
-                                                                        42,
-                                                                        114),
-                                                                decoration:
-                                                                    TextDecoration
-                                                                        .none),
-                                                          ),
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 20,
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            GFButton(
-                                                              color: const Color
-                                                                  .fromARGB(
-                                                                  255,
-                                                                  246,
-                                                                  123,
-                                                                  127),
-                                                              onPressed:
-                                                                  () async {
+                                                        Get.dialog(Align(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: PostPage(
+                                                            title:
+                                                                "Editpost".tr,
+                                                            fromGroup: controller
+                                                                    .postidnew
+                                                                    .value
+                                                                    .IdContent !=
+                                                                null,
+                                                            contents: controller
+                                                                .Contents,
+                                                            selectContent:
+                                                                controller
+                                                                    .selectContent,
+                                                            stringPickImage:
+                                                                controller
+                                                                    .stringPickImage,
+                                                            post: controller
+                                                                .postidnew,
+                                                            listImage:
+                                                                controller
+                                                                    .listImage,
+                                                            textDescription:
+                                                                controller
+                                                                    .textDescription,
+                                                            generateTap: () async =>
                                                                 await controller
-                                                                    .DeletPost(
-                                                                        element
-                                                                            .post!
-                                                                            .Id!);
-                                                                Get.back();
-                                                              },
-                                                              text: "Delete".tr,
-                                                              shape:
-                                                                  GFButtonShape
-                                                                      .pills,
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 2,
-                                                            ),
-                                                            GFButton(
-                                                              color: const Color
-                                                                  .fromARGB(
-                                                                  255,
-                                                                  246,
-                                                                  123,
-                                                                  127),
-                                                              onPressed: () {
-                                                                Get.back();
-                                                              },
-                                                              text: "Cancle".tr,
-                                                              shape:
-                                                                  GFButtonShape
-                                                                      .pills,
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ))));
-                                          },
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                            size: 20,
-                                          )),
-                                    ],
-                                  ),
-                                )).toList()),
-                      )),
+                                                                    .getImage(),
+                                                            onSave: () async {
+                                                              await controller
+                                                                  .UpdatePost();
+                                                              Get.back();
+                                                            },
+                                                            pickImage: () {
+                                                              controller
+                                                                  .pickImage();
+                                                            },
+                                                          ),
+                                                        ));
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.edit,
+                                                        size: 20,
+                                                        color: Color.fromARGB(
+                                                            255, 42, 42, 114),
+                                                      )),
+                                                  IconButton(
+                                                      onPressed: () {
+                                                        Get.dialog(Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child: Container(
+                                                                width: 280,
+                                                                height: 120,
+                                                                decoration: BoxDecoration(
+                                                                    color: Colors
+                                                                        .white,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    border: Border.all(
+                                                                        color: Colors
+                                                                            .blueAccent)),
+                                                                child: Column(
+                                                                  children: [
+                                                                    Center(
+                                                                      child:
+                                                                          Text(
+                                                                        'AreYouSureRemove'
+                                                                            .tr,
+                                                                        style: const TextStyle(
+                                                                            fontSize:
+                                                                                18,
+                                                                            fontWeight: FontWeight
+                                                                                .bold,
+                                                                            fontFamily:
+                                                                                "Pacifico",
+                                                                            color: Color.fromARGB(
+                                                                                255,
+                                                                                42,
+                                                                                42,
+                                                                                114),
+                                                                            decoration:
+                                                                                TextDecoration.none),
+                                                                      ),
+                                                                    ),
+                                                                    const SizedBox(
+                                                                      height:
+                                                                          20,
+                                                                    ),
+                                                                    Row(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        GFButton(
+                                                                          color: const Color
+                                                                              .fromARGB(
+                                                                              255,
+                                                                              246,
+                                                                              123,
+                                                                              127),
+                                                                          onPressed:
+                                                                              () async {
+                                                                            await controller.DeletPost(element.post!.Id!);
+                                                                            Get.back();
+                                                                          },
+                                                                          text:
+                                                                              "Delete".tr,
+                                                                          shape:
+                                                                              GFButtonShape.pills,
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          width:
+                                                                              2,
+                                                                        ),
+                                                                        GFButton(
+                                                                          color: const Color
+                                                                              .fromARGB(
+                                                                              255,
+                                                                              246,
+                                                                              123,
+                                                                              127),
+                                                                          onPressed:
+                                                                              () {
+                                                                            Get.back();
+                                                                          },
+                                                                          text:
+                                                                              "Cancle".tr,
+                                                                          shape:
+                                                                              GFButtonShape.pills,
+                                                                        ),
+                                                                      ],
+                                                                    )
+                                                                  ],
+                                                                ))));
+                                                      },
+                                                      icon: const Icon(
+                                                        Icons.delete,
+                                                        color: Colors.red,
+                                                        size: 20,
+                                                      )),
+                                                ],
+                                              ),
+                                            )).toList()),
+                          )),
+                    ),
+                  ],
                 ),
               ),
             ),
