@@ -81,7 +81,8 @@ class ShowLibraryspage extends GetResponsiveView<LibraryContrller> {
         ]),
       )),
       floatingActionButton: FloatingActionButton(
-          onPressed: controller.auth.isAdmin()
+          onPressed: controller.auth.isAdmin() ||
+                  controller.auth.getDataFromStorage()!.Id == 2
               ? () {
                   Get.dialog(Align(
                       alignment: Alignment.center,

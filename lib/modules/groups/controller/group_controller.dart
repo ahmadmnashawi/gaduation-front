@@ -153,7 +153,6 @@ class GroupController extends GetxController {
     if (res) {
       await getAllGroups();
       Get.back();
-      Get.back();
     }
   }
 

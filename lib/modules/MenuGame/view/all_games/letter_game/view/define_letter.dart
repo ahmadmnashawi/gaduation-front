@@ -68,6 +68,7 @@ class splashscreenLetter extends GetResponsiveView<MenuGameController> {
               ),
             ],
           ),
+          const SizedBox()
         ],
       ),
     );

@@ -330,8 +330,9 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                   size: 28.0,
                 ),
               )),
-          controller.userprofile.value.Image != null &&
-                  controller.userprofile.value.Image!.isNotEmpty
+          Obx(() => controller.userprofile.value.Image != null &&
+                      controller.userprofile.value.Image!.isNotEmpty ||
+                  controller.stringPickImage.value.isNotEmpty
               ? Positioned(
                   top: 0.0,
                   left: 20.0,
@@ -352,7 +353,7 @@ class EditProfileview extends GetResponsiveView<ProfileController> {
                       ),
                     ),
                   ))
-              : const SizedBox()
+              : const SizedBox())
         ],
       ),
     );

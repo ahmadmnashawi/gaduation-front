@@ -247,6 +247,7 @@ class LibraryContrller extends GetxController {
   }
 
   Future<void> AddToBuyBooktempority(Book book) async {
+    if (wishListBuyBook.any((t) => t.bookLibrary!.IdBook == book.id)) return;
     buybook.value.bookLibrary = BookLibrary(
       IdBook: book.id,
       book: book,

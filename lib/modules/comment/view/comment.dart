@@ -17,86 +17,89 @@ class CommentPageView extends GetResponsiveView<CommentController> {
     return Material(
       child: SizedBox(
         height: Get.height / 2,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const SizedBox(
-                  width: 2,
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.to(HomePage());
-                  },
-                  child: const Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Icon(Icons.arrow_back_ios,
-                          size: 20, color: Colors.grey),
-                    ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  const SizedBox(
+                    width: 2,
                   ),
-                ),
-                const SizedBox(
-                  width: 130,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      'Comments'.tr,
-                      style: const TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black54),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            SingleChildScrollView(
-              child: Obx(
-                () => Column(
-                    children: comments.map((e) => commentShp(e)).toList()),
-              ),
-            ),
-            Container(
-                padding: const EdgeInsets.symmetric(vertical: 3.0),
-                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: textfield,
-                        onChanged: (val) {
-                          controller.textfield.value = val;
-                        },
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          // labelText: "Write Your Comment",
-                          hintText: "WriteYourr".tr,
-                          labelStyle: const TextStyle(
-                              fontSize: 20.0, color: Colors.white),
-                          fillColor: Colors.blueGrey,
-                          border: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blueGrey)),
-                        ),
+                  InkWell(
+                    onTap: () {
+                      Get.to(HomePage());
+                    },
+                    child: const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Icon(Icons.arrow_back_ios,
+                            size: 20, color: Colors.grey),
                       ),
                     ),
                   ),
-                  // Second child is button
-                  IconButton(
-                    icon: const Icon(Icons.send),
-                    iconSize: 20.0,
-                    onPressed: () async {
-                      await controller
-                          .putComment(comments.first.comment!.idPost!);
-                      textfield.text = '';
-                      Get.back();
-                    },
+                  const SizedBox(
+                    width: 130,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        'Comments'.tr,
+                        style: const TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54),
+                      ),
+                    ),
                   )
-                ])),
-          ],
+                ],
+              ),
+              SingleChildScrollView(
+                child: Obx(
+                  () => Column(
+                      children: comments.map((e) => commentShp(e)).toList()),
+                ),
+              ),
+              Container(
+                  padding: const EdgeInsets.symmetric(vertical: 3.0),
+                  child:
+                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextFormField(
+                          controller: textfield,
+                          onChanged: (val) {
+                            controller.textfield.value = val;
+                          },
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                            // labelText: "Write Your Comment",
+                            hintText: "WriteYourr".tr,
+                            labelStyle: const TextStyle(
+                                fontSize: 20.0, color: Colors.white),
+                            fillColor: Colors.blueGrey,
+                            border: const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.blueGrey)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Second child is button
+                    IconButton(
+                      icon: const Icon(Icons.send),
+                      iconSize: 20.0,
+                      onPressed: () async {
+                        await controller
+                            .putComment(comments.first.comment!.idPost!);
+                        textfield.text = '';
+                        Get.back();
+                      },
+                    )
+                  ])),
+            ],
+          ),
         ),
       ),
     );
