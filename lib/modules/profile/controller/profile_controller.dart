@@ -76,6 +76,7 @@ class ProfileController extends GetxController {
     var data = await profileRepo.GetUserPost(userprofile.value.Id!);
 
     Listuserpost.assignAll(data);
+    Listuserpost.shuffle();
   }
 
   Future pickImage() async {
