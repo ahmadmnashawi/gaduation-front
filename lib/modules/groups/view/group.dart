@@ -408,13 +408,30 @@ class GroupView extends GetResponsiveView<GroupController> {
                                             textDescription:
                                                 controller.textDescription,
                                             onSave: () {
-                                              if (controller
-                                                  .formfield.currentState!
-                                                  .validate()) {
+                                              if (controller.newpost.value
+                                                          .Description ==
+                                                      null ||
+                                                  controller.newpost.value
+                                                      .Description!
+                                                      .trim()
+                                                      .isEmpty) {
+                                                Get.showSnackbar(
+                                                    const GetSnackBar(
+                                                  duration:
+                                                      Duration(seconds: 2),
+                                                  title: 'Error',
+                                                  message: 'Enter value',
+                                                  backgroundColor:
+                                                      Color.fromARGB(
+                                                          255, 246, 123, 127),
+                                                ));
+                                                return;
+                                              } else {
                                                 print("DataAdded".tr);
                                                 controller.AddPost(true);
-                                                Get.back();
                                               }
+
+                                              Get.back();
                                             },
                                             pickImage: () {
                                               controller.pickImageFun();

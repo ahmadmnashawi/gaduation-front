@@ -57,6 +57,7 @@ class Post {
   Map<String, dynamic> toJson() => {
         "id": Id ?? 0,
         "description": Description,
+        'imageOnline': imageOnline,
         "dateTime": dateTime == null ? null : dateTime!.toIso8601String(),
         "idGroup": IdGroup,
         "idContent": IdContent,

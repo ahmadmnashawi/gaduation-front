@@ -223,6 +223,7 @@ class GroupController extends GetxController {
       newpost.value.Image = Utility.dataFromBase64String(stringPickImage.value);
     }
     var data = await groupRepo.AddpostUser(newpost.value);
+    newpost.value = Post();
     if (data) {
       Get.back();
       Get.snackbar(
