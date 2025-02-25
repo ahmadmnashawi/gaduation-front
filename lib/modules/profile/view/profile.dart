@@ -425,7 +425,6 @@ class Profileview extends GetResponsiveView<ProfileController> {
                                                             onSave: () async {
                                                               await controller
                                                                   .UpdatePost();
-                                                              Get.back();
                                                             },
                                                             pickImage: () {
                                                               controller

@@ -207,7 +207,8 @@ class LibraryRepository implements ILibraryRepository {
 
   @override
   Future<bool> Bookwritter(BookWriter book) async {
-    var result = await _dio.post('https://localhost:7252/api/BookWriter',
+    var result = await _dio.post(
+        'https://localhost:7252/api/BookWriter/AddBookWriter',
         data: book.toJson());
     if (result.statusCode == 200) {
       return true;
